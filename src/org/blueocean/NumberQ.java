@@ -1,6 +1,52 @@
 package org.blueocean;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeSet;
+
 public class NumberQ {
+	
+	public static void printNumbersInOrder(int[] nums){
+		Set<Integer> s = new TreeSet<Integer>();
+		
+		for(int i=0; i< nums.length; i++)
+			s.add(nums[i]);
+		
+		//for(Integer i : s)
+			//System.out.println(i+"");
+		
+		Integer[] result = s.toArray(new Integer[s.size()]);
+		for(int k=0; k<result.length; k++)
+			System.out.println(result[k]);
+		
+	}
+	
+	public static boolean ifZeroSumExit(int[] nums){
+		Set<Integer> s = new TreeSet<Integer>();		
+		for(int i=0; i< nums.length; i++)
+			s.add(nums[i]);	
+		
+		Integer[] result = s.toArray(new Integer[1]);
+		
+		for(int k=0; k<result.length; k++){
+			int l = k+1;
+			int m = result.length-1;
+			
+			while(l<m){
+				int sum = result[k] + result[l] + result[m] ;
+				if(sum == 0)
+					return true;
+				
+				if(sum > 0) 
+					m--; 
+				else	
+					l++;
+			}			
+		}				
+		return false;
+	}
+	
+	
 	public static int reverseNum(int num){
 		assert(num<=0);		
 		int result = 0;

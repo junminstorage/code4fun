@@ -1,8 +1,10 @@
 package org.blueocean;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 
 public class SearchAndSort {
@@ -78,5 +80,38 @@ public class SearchAndSort {
 		
 		return a;
 	}
-
+	
+	
+	public static List findKMins(List<Integer> a1, List<Integer> a2, int k){
+		assert(k>0);
+		assert(a1!=null && a2!=null);	
+		List result = new ArrayList();	
+		
+		findKMins(a1, a2, k, result, 0, 0);		
+		return result;
+	}
+		
+	public static void findKMins(List<Integer> a1, List<Integer> a2, int k, List result, int p1, int p2){				
+		int min = Integer.MAX_VALUE;
+		
+		if(k==0)
+			return;
+		
+		if((a1!=null && p1>=a1.size()) && (a2!=null && p2>=a2.size()))
+			return;
+		
+		if(a1!=null && p1<a1.size())
+			min = a1.get(p1);
+		
+		if((a2!=null && p2<a2.size()) && a2.get(p2) <= min){
+			min = a2.get(p2);
+			p2++;
+		}else{
+			p1++;
+		}
+		k--;
+		result.add(min);		
+		findKMins(a1, a2, k, result, p1, p2);	
+	} 
+	
 }

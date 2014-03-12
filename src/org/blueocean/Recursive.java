@@ -75,7 +75,9 @@ public class Recursive {
 	}
 
 	private int colPos[] = new int[8];
-	
+	/**
+	 * place 8 queens in 8*8 board
+	 */
 	public void solve(){
 		placeRow(0);
 	}
