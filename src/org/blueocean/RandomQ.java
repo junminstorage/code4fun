@@ -115,6 +115,15 @@ public class RandomQ {
 		}			
 	}
 	
+	/**
+	 * always RIGHT!
+	 * @param x
+	 * @param y
+	 * @param k
+	 * @param x1
+	 * @param x2
+	 * @return
+	 */
 	public int median(int[]x, int[]y, int k, int x1, int x2){
 		int m2 = (x1+x2)/2;
 		int n2 = k-m2;
@@ -143,5 +152,42 @@ public class RandomQ {
 		return median(x, y, k, 0, x.length-1);
 		
 	}
+	
+	/*
+	 * implement the MIT solution
+	 * http://www2.myoops.org/course_material/mit/NR/rdonlyres/Electrical-Engineering-and-Computer-Science/6-046JFall-2005/30C68118-E436-4FE3-8C79-6BAFBB07D935/0/ps9sol.pdf
+	 */
+	public static int findMedianMit(int[] x, int[] y){
+		assert(x!=null && y!=null);		
+		/**
+		 * find kth and kth+1 min 
+		 */		
+		return median(x, y, 0, x.length-1);		
+	}
+
+	private static int median(int[] x, int[] y, int l, int r) {
+		int m = x.length;
+		int n = y.length;
+		
+		if(l>r)
+			return median(y, x, Math.max(0,(m+n)/2-l), Math.min(n-1, (m+n)/2-l));
+
+		
+		int i = (l+r)/2;
+		int j = (m+n)/2 - i-1;
+		
+		int yL = j<0?Integer.MIN_VALUE : y[j];
+		int yR = (j+1)>n-1?Integer.MAX_VALUE : y[j+1];
+		
+		if(x[i] >= yL && x[i] <= yR)// NEED TO HANDLE EVEN/ODD CASES
+			return x[i];
+		else if(x[i] < yL)
+			return median(x, y, i+1, r);
+		else
+			return median(x, y, l, i-1);
+	
+	}
+	
+	
 
 }
