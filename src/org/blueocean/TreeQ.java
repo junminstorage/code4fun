@@ -91,6 +91,16 @@ public class TreeQ {
 			return false;		
 	}
 	
+	public static boolean isBST3(Node root, int min, int max){
+		if(root==null)
+			return true;
+		
+		return 
+				isBST3(root.left, min, root.data) &&
+				 (root.data > min && root.data < max) &&
+				 isBST3(root.right, root.data, max);				 						
+	}
+	
 	public static void treeToList(Node root, List list){
 		if(root==null)
 			return;
