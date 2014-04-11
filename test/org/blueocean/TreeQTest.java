@@ -31,13 +31,13 @@ public class TreeQTest extends TestCase {
 		Node left2 = new Node();
 		left2.data = 8;
 		
-		left1.left = left2;
+		//left1.left = left2;
 		left2.parent = left1;
 		
 		Node right2 = new Node();
 		right2.data = 10;
 		
-		left1.right = right2;
+		//left1.right = right2;
 		right2.parent = left1;
 		
 		Node left3 = new Node();
@@ -48,7 +48,7 @@ public class TreeQTest extends TestCase {
 		Node right3 = new Node();
 		right3.data = 15;
 		
-		right1.right = right3;
+		//right1.right = right3;
 		
 		Node right4 = new Node();
 		right4.data = 18;
@@ -63,6 +63,14 @@ public class TreeQTest extends TestCase {
 		return root;
 	}
 	
+	
+	public void testFindMinDepth(){
+		TreeQ.Node root = createBST();
+		
+		System.out.println(TreeQ.findMinDepth(root, 1));
+		System.out.println(TreeQ.findMinDepth2(root));
+		
+	}
 	public void testTreeToList(){
 		TreeQ.Node root = createBST();
 		List<TreeQ.Node> list = new ArrayList<TreeQ.Node>();
