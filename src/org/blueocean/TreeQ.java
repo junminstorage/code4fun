@@ -2,6 +2,7 @@ package org.blueocean;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -31,28 +32,77 @@ public class TreeQ {
 		right1.data = 14;
 		
 		root.left = left1;
-		root.right = right1;
+		//root.right = right1;
 		
 		Node left2 = new Node();
 		left2.data = 8;
 		
-		left1.left = left2;
+		//left1.left = left2;
 		
 		Node right2 = new Node();
 		right2.data = 10;
 		
-		left1.right = right2;
+		//left1.right = right2;
 		
 		Node left3 = new Node();
 		left3.data = 13;
 		
-		right1.left = left3;
+		//right1.left = left3;
 				
 		Node right3 = new Node();
 		right3.data = 15;
 		
-		right1.right = right3;
+		//right1.right = right3;
 		return root;
+	}
+	/*
+	 * make sure the depth is passed down recursively
+	 */
+	public static int findMinDepth(Node root, int depth){
+		assert(root!=null);
+		
+		if(root==null)
+			return Integer.MAX_VALUE;
+		
+		if(root.left == null  && root.right == null)
+			return depth;
+		
+		int left = findMinDepth(root.left, depth+1);
+		int right = findMinDepth(root.right, depth+1);
+
+		return Math.min(left, right);
+	}
+	
+	/*
+	 * iteratively 
+	 */
+	public static int findMinDepth2(Node root){
+		assert(root!=null);
+		
+		Deque<Node> q = new ArrayDeque<Node>();
+		q.add(root);
+		int level = 0;
+				
+		while(!q.isEmpty()){
+			Deque<Node> t = new ArrayDeque<Node>();
+			level++;
+			while(!q.isEmpty()){			
+				Node n = q.remove();							
+				if(n.left==null && n.right==null)
+					return level;
+
+				if(n.left!=null){
+					t.add(n.left);
+				}
+
+				if(n.right!=null){
+					t.add(n.right);
+				}
+			}			
+			q = t;			
+		}			
+		
+		return level;
 	}
 	
 	/**
