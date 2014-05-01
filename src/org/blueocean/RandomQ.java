@@ -3,8 +3,74 @@ package org.blueocean;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class RandomQ {
+	
+	public static List<String> allWordsFromPhonePad(int number){
+		HashMap<Integer, String > h = new HashMap<Integer, String>(){{
+	        put(1,"");
+	        put(2, "ABC");
+	        put(3, "DEF");
+	        put(4, "GHI");
+	        put(5, "JKL");
+	        put(6, "MNO");
+	        put(7, "PQRS");
+	        put(8, "TUV");
+	        put(9, "WXYZ");
+	        put(0, "");
+	    }};
+		
+	    List<String> result = new ArrayList<String>();
+	    result.add("");
+	    while(number>0){
+	    	int last = number%10;
+	    	List<String> temp = new ArrayList<String>();
+		    
+	    	for(String s: result){
+	    		String map = h.get(last);
+	    		for(char c : map.toCharArray()){
+	    			temp.add(String.valueOf(c) + s);
+	    		}
+	    	}	    	
+	    	number = (number-last)/10;
+	    	if(!temp.isEmpty())
+	    		result = temp;
+	    }
+	    
+	    return result;
+	}
+	
+	public static void allParenthesis(int k){
+		Map<String, Integer> list = new HashMap<String, Integer>();
+		list.put("(", 1);
+		
+		for(int i = 1 ; i < k*2; i++){
+			Map<String, Integer> temp = new HashMap<String, Integer>();
+			
+			for(String s : list.keySet()){					
+				
+				int left = list.get(s);
+				int right = s.length() - left;
+				
+				if(left<k){						
+					temp.put(s + "(", left+1); 
+				}
+				if(left>right){
+					temp.put(s + ")", left);
+				}				
+			}			
+			list = temp;		
+		}
+		
+		for(String s: list.keySet())
+			System.out.println(s);
+		
+	}
+	
+	
 	/**
 	 * check if two squres overlap
 	 * @param a1 square1 top left 

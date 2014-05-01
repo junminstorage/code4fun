@@ -19,6 +19,7 @@ public class TreeQ {
 		Node left;
 		Node right;
 		Node parent;
+		Node next;
 	}
 	
 	public static Node createBST(){
@@ -151,6 +152,27 @@ public class TreeQ {
 				 isBST3(root.right, root.data, max);				 						
 	}
 	
+	public static boolean isBST4(Node root){
+		if(root==null)
+			return false;
+		Node pre = null;
+		Node curr = root;
+		Stack<Node> s = new Stack<Node>();		
+		while(s.isEmpty() || curr!=null){
+			if(curr!=null){
+				s.add(curr);
+				curr = curr.left;
+			}else{
+				curr = s.pop();
+				if(pre!=null && pre.data>curr.data)
+					return false;				
+				pre = curr;
+				curr = curr.right;				
+			}		
+		}
+		return true;				 						
+	}
+	
 	public static void treeToList(Node root, List list){
 		if(root==null)
 			return;
@@ -174,6 +196,38 @@ public class TreeQ {
 		
 		treeToDLList(root.right);				
 	}
+	
+	public static Node isBSTAndTreeToDLL(Node root){
+		if(root==null)
+			return null;		
+		Stack<Node> s = new Stack<Node>();		
+		Node head = null;
+		Node n = root;
+		Node pre = null;
+		while(!s.isEmpty() || n!=null){					
+			if(n!=null){
+				s.push(n);
+				n = n.left;
+			}
+			else{
+				Node p = s.pop();				
+				//this is the left most node
+				if(head == null)
+					head = p;				
+				if(pre!=null){
+					pre.right = p;
+					p.left = pre;
+				}				
+				pre=p;				
+				n = p.right;
+			}							
+		}		
+		//handle the last node
+		pre.right = head;
+		head.left = pre;
+		return head;
+	}
+	
 	
 	public static Node buildTreeFromOrderedList(List<Integer> input){
 		assert(input!=null && !input.isEmpty());
@@ -222,16 +276,51 @@ public class TreeQ {
 		}		
 	}
 	
+	
+	public static void zigZag2(Node root){
+		Stack<Node> s = new Stack<Node>();
+		s.add(root);
+		int level = 0;
+		Node pre = null;
+		while(!s.isEmpty()){
+			Stack<Node> t = new Stack<Node>();
+			while(!s.isEmpty()){
+				Node curr = s.pop();
+				if(pre==null)
+					pre = curr;
+				else{
+					pre.next = curr;
+					pre = curr;
+				}
+				if(level%2==0){
+					if(curr.left!=null)
+						t.add(curr.left);
+					if(curr.right!=null)
+						t.add(curr.right);					
+				}else{
+					if(curr.right!=null)
+						t.add(curr.right);
+					if(curr.left!=null)
+						t.add(curr.left);
+				}			
+			}			
+			s = t;
+			level++;
+		}
+	}
+	
+	
 	public static void zigZag(Node root){
 		Stack<Node> current = new Stack<Node>();
-		Stack<Node> next = new Stack<Node>();		
 		current.add(root);
 		
 		int level = 0;		
 		while(!current.isEmpty()){
+			Stack<Node> next = new Stack<Node>();		
+			
 			while(!current.isEmpty()){
 				Node node = current.pop();
-				System.out.print(node+" ");
+				System.out.print(node.data+" ");
 				if(level%2==0){
 					if(node.left!=null)
 						next.add(node.left);
@@ -245,10 +334,10 @@ public class TreeQ {
 				}
 			}
 			System.out.println("");
-			if(!next.isEmpty()){
-				current = next;
-				level++;
-			}
+			
+			current = next;
+			level++;
+			
 		}		
 	}
 	

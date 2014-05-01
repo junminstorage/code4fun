@@ -12,6 +12,7 @@ public class TreeQ {
 	class Node{
 		Node left;
 		Node right;
+		Node next;
 		Object data;
 		
 		boolean isLeft;
@@ -181,6 +182,7 @@ public class TreeQ {
 		}					
 		return true;
 	}
+	
 	
 
 	public void flattenTree(Node root){		
