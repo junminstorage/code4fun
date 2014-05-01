@@ -1,8 +1,21 @@
 package org.blueocean;
 
+import java.util.List;
+
 import junit.framework.TestCase;
 
 public class RandomQTest extends TestCase {
+	public void testallWordsFromPhonePad(){
+		List<String> result = RandomQ.allWordsFromPhonePad(234);
+		
+		for(String s: result)
+			System.out.println(s);
+	}
+	
+	public void testAallParenthesis(){
+		RandomQ.allParenthesis(1);
+	}
+	
 	public void testkthMin(){
 		int[] x = {2, 4, 5, 7, 8};
 		int[] y = {3, 6, 9, 10, 11};

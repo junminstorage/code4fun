@@ -9,6 +9,94 @@ import junit.framework.TestCase;
 
 public class NumberQTest extends TestCase {
 	
+	public void testTest(){
+		// int[] data = { 1, 3, 4, 5, 6, 2, 7, 8, 9, 10, 11, 13, 14, 15 };
+
+		//new NumberQ().test(data, 15);
+		
+		int[] nums = {-3, -1, -2,  -4, 5, 8};
+		
+		new NumberQ().test(nums, 0);
+	}
+	
+	public void testPrintAllZeroSum(){
+		int[] nums = {-1, -2, -3, -4, 5, 8};
+		
+		NumberQ.AllSubSetSum(nums, 0);
+	
+	}
+	public void testFindMaxOnes(){
+		int[][] nums = {{0,0,1,1}, {0,1,1,1},{0,0,0,1}, {1,1,1,1}};
+		
+		System.out.println(NumberQ.findMaxOnes(nums));
+	}
+	
+	public void testOrderByZero(){
+		int[] nums = {1, 2,  3, 4, 5, 8};
+		NumberQ.orderByZero(nums);
+		System.out.println(Arrays.toString(nums));
+		
+		int[] nums2 = {1, 2, 0, 3, 4, 5, 8};
+		NumberQ.orderByZero(nums2);
+		System.out.println(Arrays.toString(nums2));
+		
+		int[] nums3 = {1, 2, 0, -1, 3, 4, 5, 8};
+		NumberQ.orderByZero(nums3);
+		System.out.println(Arrays.toString(nums3));
+		
+	}
+	
+	public void testOrderByZero2(){
+		int[] nums = {1, 2,  3, 4, 5, 8};
+		NumberQ.orderByZero2(nums);
+		System.out.println(Arrays.toString(nums));
+		
+		int[] nums2 = {1, 2, 0, 3, 4, 5, 8};
+		NumberQ.orderByZero2(nums2);
+		System.out.println(Arrays.toString(nums2));
+		
+		int[] nums3 = {1, 2, 0, -1, 3, 4, 5, 8};
+		NumberQ.orderByZero2(nums3);
+		System.out.println(Arrays.toString(nums3));
+		
+		int[] nums4 = {1, 2, 0, -1, -2, 3, 4, -4, 5, 8};
+		NumberQ.orderByZero2(nums4);
+		System.out.println(Arrays.toString(nums4));
+		
+	}
+	
+	public void testIsPrimary(){
+		assertTrue(NumberQ.isPrimary(3));
+		assertTrue(NumberQ.isPrimary(2));
+		assertTrue(NumberQ.isPrimary(5));
+		
+		assertFalse(NumberQ.isPrimary(4));
+		assertFalse(NumberQ.isPrimary(6));
+		assertTrue(NumberQ.isPrimary(23));
+		assertFalse(NumberQ.isPrimary(24));
+		assertFalse(NumberQ.isPrimary(25));
+		
+	}
+	
+	public void testFindKNearest(){
+		int[] nums = {1, 2,  3, 4, 5, 8};
+		
+		System.out.println(NumberQ.findKNearest(nums, 6, 4));
+		System.out.println(NumberQ.findKNearest(nums, 1, 4));
+		System.out.println(NumberQ.findKNearest(nums, 100, 4));
+		System.out.println(NumberQ.findKNearest(nums, 1, 40));
+		System.out.println(NumberQ.findKNearest(nums, 6, 1));
+			
+	}
+	
+	public void testfindCol(){
+		System.out.println(NumberQ.findCol(1));
+		System.out.println(NumberQ.findCol(26));
+		
+		System.out.println(NumberQ.findCol(52));
+		
+		System.out.println(NumberQ.findCol(26*27));
+	}
 	
 	public void testFindMaxArithmeticsSeq(){
 		int[] nums = {1, 2, 5, 3, 4, 8, 5};

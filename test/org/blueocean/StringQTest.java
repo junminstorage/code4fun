@@ -4,6 +4,21 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 public class StringQTest extends TestCase {
+	
+	public void testLCS(){
+		
+		System.out.println(StringQ.findLongestCommonSubsequence("ABCDGH", "AEDFHR"));
+		System.out.println(StringQ.findLongestCommonSubsequence("AGGTAB", "GXTXAYB"));
+		
+	}
+	
+	public void testLCS2(){
+		
+		System.out.println(StringQ.findLongestCommonSubsequence2("ABCDGH", "AEDFHR"));
+		System.out.println(StringQ.findLongestCommonSubsequence2("AGGTAB", "GXTXAYB"));
+		
+	}
+	
 	public void testToChar(){
 		String s = "afs";
 		char[] chars= s.toCharArray();

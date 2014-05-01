@@ -31,24 +31,24 @@ public class TreeQTest extends TestCase {
 		Node left2 = new Node();
 		left2.data = 8;
 		
-		//left1.left = left2;
+		left1.left = left2;
 		left2.parent = left1;
 		
 		Node right2 = new Node();
 		right2.data = 10;
 		
-		//left1.right = right2;
+		left1.right = right2;
 		right2.parent = left1;
 		
 		Node left3 = new Node();
 		left3.data = 13;
 		
-		//right1.left = left3;
+		right1.left = left3;
 				
 		Node right3 = new Node();
 		right3.data = 15;
 		
-		//right1.right = right3;
+		right1.right = right3;
 		
 		Node right4 = new Node();
 		right4.data = 18;
@@ -63,7 +63,23 @@ public class TreeQTest extends TestCase {
 		return root;
 	}
 	
+	public void testZigZag2(){
+		TreeQ.Node root = createBST();
+		TreeQ.zigZag2(root);
+		
+		Node curr = root;
+		while(curr!=null){
+			System.out.println(curr.data);
+			curr = curr.next;
+		}
+	}
 	
+	public void testZigZag(){
+		TreeQ.Node root = createBST();
+		TreeQ.zigZag(root);
+		
+		
+	}
 	public void testFindMinDepth(){
 		TreeQ.Node root = createBST();
 		
@@ -95,6 +111,18 @@ public class TreeQTest extends TestCase {
 		while(node!=null){
 			System.out.println(node.data);
 			node = node.left;
+		}		
+	}
+	
+	public void testIsBSTAndTreeToDLL(){
+		TreeQ.Node root = createBST();
+		
+		Node node = TreeQ.isBSTAndTreeToDLL(root);;
+		int counter = 0;
+		while(node!=null&& counter<10){
+			System.out.println(node.data);
+			node = node.right;
+			counter++;
 		}		
 	}
 	
