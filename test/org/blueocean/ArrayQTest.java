@@ -15,6 +15,43 @@ public class ArrayQTest extends TestCase {
 		test = Arrays.asList(input);
 	}*/
 	
+	public void testbinarySearch(){
+		int[] nums = new int[]{2, 4, 6, 8, 9, 10, 12};
+		System.out.println(ArrayQ.binarySearch(nums, 7, 0, nums.length-1));
+		System.out.println(ArrayQ.binarySearch(nums, 8, 0, nums.length-1));
+		System.out.println(ArrayQ.binarySearch(nums, 2, 0, nums.length-1));
+		
+	}
+	
+	public void testfindInRotatedSorted(){
+		int[] nums = new int[]{10, 12, 2, 4, 6, 8, 9};
+		System.out.println(ArrayQ.findInRotatedSorted(nums, 7, 0, nums.length-1));
+		System.out.println(ArrayQ.findInRotatedSorted(nums, 8, 0, nums.length-1));
+		System.out.println(ArrayQ.findInRotatedSorted(nums, 12, 0, nums.length-1));
+		System.out.println(ArrayQ.findInRotatedSorted(nums, 9, 0, nums.length-1));
+		
+	}
+	
+	public void testfindMaxCostPath(){
+		int[][] nums = new int[][]{{1, 4, 5}, {13, 4, 6}, {13, 2, 1}};
+		
+		System.out.println(ArrayQ.findMaxCostPath(nums));
+	}
+	
+	public void testPrintPathInAGrid(){
+		System.out.println(ArrayQ.printPathInAGrid(1, 2));		
+		System.out.println(ArrayQ.printPathInAGrid(2, 3));		
+	}
+	
+	public void testnumberOfPathInAGrid(){
+		System.out.println(ArrayQ.numberOfPathInAGrid(1, 2));
+		
+		System.out.println(ArrayQ.numberOfPathInAGrid(3, 4));
+		
+		System.out.println(ArrayQ.numberOfPathInAGrid(4, 5));
+		
+	}
+	
 	public void testFindNLE(){
 		Integer[] input = {3, 5, 8, 1, 9};
 		test = Arrays.asList(input);

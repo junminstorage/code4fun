@@ -13,6 +13,34 @@ import junit.framework.TestCase;
 
 public class TreeQTest extends TestCase {
 	
+	
+	public Node createBST2(){
+		Node root = new Node();
+		root.data = 9;
+		
+		Node left1 = new Node();
+		left1.data = 8;
+		
+		Node right1 = new Node();
+		right1.data = 12;
+		
+		root.left = left1;
+		root.right = right1;
+		
+		
+		Node left2 = new Node();
+		left2.data = 10;
+		
+		right1.left = left2;
+		
+		Node right2 = new Node();
+		right2.data = 14;
+		
+		right1.right = right2;
+		
+		return root;
+	}
+	
 	public Node createBST(){
 		Node root = new Node();
 		root.data = 12;
@@ -28,8 +56,14 @@ public class TreeQTest extends TestCase {
 		left1.parent = root;
 		right1.parent = root;
 		
+		
 		Node left2 = new Node();
 		left2.data = 8;
+		
+		//Node left21 = new Node();
+		//left21.data = 38;
+		
+		//left2.left = left21;
 		
 		left1.left = left2;
 		left2.parent = left1;
@@ -38,29 +72,122 @@ public class TreeQTest extends TestCase {
 		right2.data = 10;
 		
 		left1.right = right2;
-		right2.parent = left1;
+		
 		
 		Node left3 = new Node();
-		left3.data = 13;
+		left3.data = 11;
+		
+		left1.right = left3;
+		
+		right2.parent = left1;
+		/*
+		Node left3 = new Node();
+		left3.data = 995;
 		
 		right1.left = left3;
 				
 		Node right3 = new Node();
-		right3.data = 15;
+		right3.data = 995;
 		
 		right1.right = right3;
 		
 		Node right4 = new Node();
-		right4.data = 18;
+		right4.data = 0;
 		
 		right3.right = right4;
 		
 		Node right5 = new Node();
-		right5.data = 20;
+		right5.data = -20;
 		
 		right4.right = right5;
-		
+		*/
 		return root;
+	}
+	
+	public void testisCousin(){
+		TreeQ.Node root1 = createBST();
+		System.out.println(TreeQ.isCousin(root1, 8, 11));
+	}
+	
+	public void testLevel(){
+		TreeQ.Node root1 = createBST();
+		System.out.println(TreeQ.level(root1, 8));
+	}
+	
+	public void testPrintBTLevelOrderTraversalBottomUp(){
+		TreeQ.Node root1 = createBST();
+		
+		TreeQ.printBTLevelOrderTraversalBottomUp(root1);
+	}
+	
+	public void testFlattenABinaryTreetoLinkedListPostOrder(){
+		TreeQ.Node root1 = createBST();
+		
+		TreeQ.FlattenABinaryTreetoLinkedListPostOrder(root1);
+	}
+	
+	public void testEqual(){
+		TreeQ.Node root1 = createBST();
+		TreeQ.Node root2 = createBST2();
+		
+		System.out.println(TreeQ.equal(root1, root2));
+	}
+	public void testBuildBSTFromInOrder(){
+		Node n = TreeQ.buildBSTFromInOrder(new int[]{3,  2,  1, 5, 4}, new int[]{0}, Integer.MIN_VALUE, Integer.MAX_VALUE);
+	}
+	
+	public void testPrintVerticalSum(){
+		TreeQ.Node root = createBST();
+		TreeQ.printVerticalSums(root, 2);
+	}
+	
+	public void testPrintPathSum(){
+		TreeQ.Node root = createBST();
+		TreeQ.printPathSum(root, 1021, new ArrayList());
+	}
+	
+	public void testOutputTreeString(){
+		TreeQ.Node root = createBST();
+		StringBuilder sb = new StringBuilder();
+		TreeQ.outputTreeString(root, sb);
+		
+		System.out.println(sb.toString());
+	}
+	
+	public void testMirrorTreeInPlace(){
+		TreeQ.Node root = createBST();
+		StringBuilder sb = new StringBuilder();
+		TreeQ.outputTreeString(root, sb);	
+		System.out.println(sb.toString());
+		sb = new StringBuilder();
+		TreeQ.mirrorTreeInPlace(root);
+		TreeQ.outputTreeString(root, sb);	
+		System.out.println(sb.toString());
+		
+		TreeQ.Node root2 = createBST();
+		TreeQ.mirrorTreeInPlace2(root2);
+		sb = new StringBuilder();
+		TreeQ.outputTreeString(root2, sb);	
+		System.out.println(sb.toString());
+	}
+	
+	public void testPruneTree(){
+		TreeQ.Node root = createBST();
+		TreeQ.pruneTree(root, 4);
+	}
+	
+	public void testmaxSumFromRoot(){
+		TreeQ.Node root = createBST();
+		System.out.println(TreeQ.maxSumFromRoot(root));
+	}
+	
+	public void testfindLeaveWithMaxSumFromRoot(){
+		TreeQ.Node root = createBST();
+		TreeQ.findLeaveWithMaxSumFromRoot(root, 0);
+		
+		System.out.println(TreeQ.max_sum);
+		System.out.println(TreeQ.maxNode.data);
+		
 	}
 	
 	public void testZigZag2(){
@@ -164,8 +291,21 @@ public class TreeQTest extends TestCase {
 		
 		n = TreeQ.findNextInOrderSuccessor(root.left.right);
 		Assert.assertEquals(12, n.data);
+			
+	}
+	
+	public void testConstructTree(){
+		TreeQ.Node n = TreeQ.constructTree("ABDECF", "DBEAFC");
 		
+		System.out.println(n.v);
 		
+		System.out.println(n.left.v);
+		
+		System.out.println(n.left.left.v);
+		
+		System.out.println(n.right.v);
+		
+		System.out.println(n.right.left.v);
 		
 		
 		

@@ -64,6 +64,7 @@ public class ListQ {
 			}
 			else{
 				tail.next = n;
+				tail = n;
 			}
 					
 			spare = spare/10;				

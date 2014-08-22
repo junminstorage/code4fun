@@ -97,44 +97,37 @@ public class StringQ {
 	 * public static String longestPalindrome1(String s) {
 	 */
 	public static String longestPalindrome(String s){
-		
 		char[] chars = s.toCharArray();
 		String result = "";
 		for(int current = 0; current<s.length();current++){
-			int copy = current;
 			int pre = current;
-			int post = current;
-		
+			int post = current;	
 			while(pre>=0 && post<s.length() && chars[pre] ==  chars[post]){
 				--pre;++post;
 			}
-			pre++;post--;
-			if(post-pre+1>result.length())
-				result = s.substring(pre, post+1);
-			current = copy;
+			pre++;post--;	
+			if( result.length() <= s.substring(pre, post+1).length()){
+				result = s.substring(pre, post+1);	
+			}
 		}
 		
 		for(int current = 0; current<s.length()-1;current++){
-			int copy = current;
 			int pre = current;
 			int post = current+1;
-			boolean flag = false;
 			while(pre>=0 && post<s.length() && chars[pre] ==  chars[post]){
-				--pre;++post;flag=true;
-			}
-			if(flag){
-				pre++;post--;
-			}
-			if(post-pre+1>result.length())
-				result = s.substring(pre, post+1);
-			current = copy;
+				--pre;++post;
+			}			
+			pre++;post--;
+			if( result.length() <= s.substring(pre, post+1).length()){
+				result = s.substring(pre, post+1);	
+			}		
 		}
 		return result;
 	}
 	
 	/*
-	 * “abcbbbbcccbdddadacb”, the longest substring that 
-	 * contains 2 unique character is “bcbbbbcccb”.
+	 * ï¿½abcbbbbcccbdddadacbï¿½, the longest substring that 
+	 * contains 2 unique character is ï¿½bcbbbbcccbï¿½.
 	 * 
 	 */
 	public static String longestSubStrWithTwoChars(String s){

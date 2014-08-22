@@ -65,8 +65,8 @@ public class RandomQ {
 			list = temp;		
 		}
 		
-		for(String s: list.keySet())
-			System.out.println(s);
+		//for(String s: list.keySet())
+			System.out.println(list.size());
 		
 	}
 	

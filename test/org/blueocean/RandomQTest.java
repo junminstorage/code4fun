@@ -13,7 +13,11 @@ public class RandomQTest extends TestCase {
 	}
 	
 	public void testAallParenthesis(){
-		RandomQ.allParenthesis(1);
+		RandomQ.allParenthesis(2);
+		RandomQ.allParenthesis(3);  
+		RandomQ.allParenthesis(4);
+		RandomQ.allParenthesis(5);
+		RandomQ.allParenthesis(6);
 	}
 	
 	public void testkthMin(){
