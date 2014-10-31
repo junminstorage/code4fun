@@ -8,6 +8,84 @@ import java.util.List;
 import java.util.Map;
 
 public class RandomQ {
+
+	/*
+	 * http://www.geeksforgeeks.org/shuffle-a-given-array/
+	 * Fisher–Yates shuffle Algorithm
+	 */
+	public static void reservoir(int[] numbers){
+		for(int i=numbers.length-1; i>0; i--){//no need to choose first
+			int pick = (int)Math.random()*(i+1);
+			int t = numbers[i];
+			numbers[i] = numbers[pick];
+			numbers[pick] = t;
+		}
+	}
+	
+	/*
+	 * reservoir sampling
+	 */
+	public static int[] reservoir(int k, int[] numbers){
+		assert(k>0);
+		int[] result = new int[k];
+		for(int i=0;i<k;i++)
+			result[i] = numbers[i];
+		
+		for(int i=k; i<numbers.length; i++){
+			int j = (int) (Math.random()*(i+1));
+			if(j<k)
+				result[j] = numbers[i];
+		}
+		
+		return result;
+	}
+	
+	/*
+	 * Given a function bool Zoo(int x) and its called for y times ,
+	 *  how you will generate the true with probability x/y times .
+	 */
+	static int counter = 0;;
+	public boolean generate(int x){		
+		
+		
+		if(counter++<x)
+			return true;
+		else
+			return false;
+	}
+	
+	public int y;
+	public boolean zoo(int x){		
+		int r = (int) (Math.random()*y+1);
+		System.out.println(r + "-" + y);
+		if(r<=x)
+			return true;
+		else
+			return false;
+		
+	}
+	
+	/*
+	 * http://www.geeksforgeeks.org/print-all-combinations-of-balanced-parentheses/
+	 */
+	public static void printAllParentheses(int num){
+		printAllParentheses("", 0, num);
+	}
+	public static void printAllParentheses(String pre, int numOfLeft, int num){
+		if(pre.isEmpty()){
+			printAllParentheses("(", 1, num);
+		}
+		else if(pre.length()==num*2)
+			System.out.println(pre);
+		else{
+			int numOfRight = pre.length() - numOfLeft;
+			if(numOfLeft>numOfRight)
+				printAllParentheses(pre+")", numOfLeft, num);
+			
+			if(numOfLeft<num)
+				printAllParentheses(pre+"(", numOfLeft+1, num);
+		}
+	}
 	
 	public static List<String> allWordsFromPhonePad(int number){
 		HashMap<Integer, String > h = new HashMap<Integer, String>(){{

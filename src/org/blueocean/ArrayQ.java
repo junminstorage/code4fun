@@ -12,6 +12,98 @@ import java.util.Stack;
 
 public class ArrayQ {
 	
+	/*
+	 * http://www.geeksforgeeks.org/print-matrix-diagonally/
+	 */
+	public static void printMatrixDiagonally(int[][] numbers){
+		for(int sum = 0; sum <= numbers.length + numbers[0].length-2; sum++){
+			System.out.println();
+			for(int row = Math.min(numbers.length-1, sum); row>=0; row--){
+				int col = sum - row;
+				if(col<=numbers[0].length-1)
+					System.out.print(numbers[row][col] + "\t");
+			}			
+		}		
+	}
+	
+	/*
+	 * http://www.geeksforgeeks.org/given-n-x-n-square-matrix-find-sum-sub-squares-size-k-x-k/
+	 */
+	public static void findSumSubSquare(int[][] numbers, int k){
+		for(int i=0; i<=numbers.length-k; i++){
+			for(int j=0; j<=numbers[0].length-k; j++){
+				
+				int sum = 0;
+				for(int n = 0; n<k; n++){
+					for(int m=0; m<k; m++)
+						sum = sum + numbers[i+n][j+m];
+				}				
+				System.out.println(sum);
+			}
+		}	
+	}
+	
+	public static void findSumSubSquare2(int[][] numbers, int k){
+		int[][] sum2 = new int[numbers.length-k+1][numbers.length-k+1];
+		
+		for(int n = 0; n<k; n++){
+			for(int m=0; m<k; m++)
+				sum2[0][0] = sum2[0][0] + numbers[n][m];
+		}
+		
+		for(int row = 1; row<=numbers.length-k; row++){
+			sum2[row][0] = sum2[row-1][0];
+			for(int m=0; m<k; m++)
+				sum2[row][0] = sum2[row][0] + numbers[row+k-1][m] - numbers[row-1][m];			
+		}
+		
+		for(int i=0; i<=numbers.length-k; i++){
+			for(int j=1; j<=numbers[0].length-k; j++){			
+				sum2[i][j] = sum2[i][j-1];				
+				for(int n = 0; n<k; n++){
+						sum2[i][j] = sum2[i][j] + numbers[i+n][j+k-1] - numbers[i+n][j-1];
+				}				
+			}
+		}	
+		
+		for(int i=0; i<=numbers.length-k; i++){
+			for(int j=0; j<=numbers[0].length-k; j++){	
+				System.out.println(sum2[i][j]);
+			}
+		}
+	}
+	
+	
+	/*
+	 * http://www.geeksforgeeks.org/print-a-given-matrix-in-spiral-form/
+	 */
+	public static void print2DArraySpiral(int[][] numbers){
+		int starti=0, endi=numbers.length-1, startj=0, endj=numbers[0].length-1;
+		while(starti<=endi && startj<=endj){
+			
+			for(int j=startj; j<=endj; j++)
+				System.out.println(numbers[starti][j]);
+			
+			starti++;
+			
+			for(int i=starti; i<=endi; i++)
+				System.out.println(numbers[i][endj]);
+			
+			endj--;
+			
+			for(int j=endj; j>=startj; j--)
+				System.out.println(numbers[endi][j]);
+			
+			endi--;
+			
+			for(int i=endi; i>=starti; i--)
+				System.out.println(numbers[i][startj]);
+			
+			startj++;
+		}
+	}
+	
+	
 	public static int findInRotatedSorted(int[] num, int k, int start, int end){
 		if(start<0 || end >=num.length)
 			return -1;

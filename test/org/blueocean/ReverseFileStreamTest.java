@@ -36,10 +36,32 @@ public class ReverseFileStreamTest extends TestCase {
 		BufferedReader in
 	   = new BufferedReader(new InputStreamReader(new ReverseFileStream(new File("foo.out"))));
 		
+		BufferedReader in2
+		   = new BufferedReader(new InputStreamReader(new ReverseFileStream(new File("foo.out"))));
+		
+		/*
+		 * For file-based I/O using binary data, always use a BufferedInputStream 
+		 * or BufferedOutputStream to wrap the underlying file stream. 
+		 * For file-based I/O using character (string) data, always 
+		 * wrap the underlying stream with a BufferedReader or BufferedWriter.
+
+		 */
+		/*
+		 * In complex applications (particularly application servers) with multiple classloaders, making those class loaders parallel-capable can solve issues where they are bottlenecked on the system or bootclass classloader.
+Applications that do a lot of classloading through a single classloader in a single thread may benefit from disabling the parallel-capable feature of Java 7.
+		 */
+		/*
+		 * Java’s default Random class is expensive to initialize, but once initialized, it can be reused.
+In muti-threaded code, the ThreadLocalRandom class is preferred.
+The SecureRandom class will show arbitrary, completely random performance. Performance tests on code using that class must be carefully planned.
+		 */
 		try {
+			
 			String line = in.readLine();
+			
 			while(line!=null){
 				out.println(line);
+				out.println(in2.readLine());
 				line = in.readLine();
 			}
 		} catch (IOException e) {

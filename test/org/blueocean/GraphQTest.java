@@ -6,6 +6,15 @@ import junit.framework.TestCase;
 
 public class GraphQTest extends TestCase {
 	
+	public void testFindMinPath(){
+		GraphQ.createTestGraph();
+		GraphQ.minPath(GraphQ.findNode(5), GraphQ.findNode(1));
+	}
+	public void testTopSort(){
+		GraphQ.createTestGraph();
+		GraphQ.topologicalSort(GraphQ.graph);
+	}
+	
 	public void testisEulerian(){
 		String[] words = {"ds","ssdd"};
 		LinkedListNode[] n = new GraphQ().createGraph(words);

@@ -1,6 +1,7 @@
 package org.blueocean;
 
 import java.nio.CharBuffer;
+import java.util.Arrays;
 
 import org.blueocean.Trie.TrieNode;
 
@@ -8,6 +9,69 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 public class StringQTest extends TestCase {
+	
+	public void testgroupAnagrams(){
+		System.out.println(StringQ.groupAnagrams(new String[]{"star", "astr", "car", "rac", "st"}));
+	}
+	
+	public void testSplitBySpaces(){
+		System.out.println(Arrays.asList(StringQ.splitBySpaces(" sdfs sdsd  ssd ")));
+	}
+	
+	public void testHasAnagram(){
+		System.out.println(StringQ.hasAnagrams(new String[]{"abc", "adc"}));
+		System.out.println(StringQ.hasAnagrams(new String[]{"abc", "adc", "cab"}));
+	}
+	
+	public void testOneEditApart(){
+		System.out.println(StringQ.OneEditApart("abc", "cab"));
+		System.out.println(StringQ.OneEditApart("abc", "ab"));
+		System.out.println(StringQ.OneEditApart("abc", "adc"));
+		System.out.println(StringQ.OneEditApart("abc", "abcd"));
+		System.out.println(StringQ.OneEditApart("abc", "dabc"));
+		System.out.println(StringQ.OneEditApart("abc", "abccc"));
+		System.out.println(StringQ.OneEditApart("at", "cat"));
+	}
+
+	public void testreverseStringFacebook(){
+		System.out.println(StringQ.reverseStringFacebook("the boy ran"));
+		System.out.println(StringQ.reverseStringFacebook(" the boy rannn"));
+		System.out.println(StringQ.reverseStringFacebook("theboyrannn"));
+		
+	}
+	public void testQSort(){
+		char[] t = "ddloyc".toCharArray();
+		StringQ.quickSort(t, 0, t.length-1, "odl");
+		
+		System.out.println(t);
+	}
+	
+	public void testvalidateParenthesis(){
+		Assert.assertTrue(StringQ.validateParenthesis("((alf)ls) "));
+		Assert.assertFalse(StringQ.validateParenthesis(")(dkk)()  "));
+	}
+	public void testrotateString(){
+		StringQ.rotateString("abcdefg", 2);		
+		StringQ.rotateString2("abcdefg".toCharArray(), 2);	
+		StringQ.rotateString3("abcdefg".toCharArray(), 2);
+		
+	}
+	
+	public void testfindNonRepeastSubString(){
+		System.out.println(StringQ.findNonRepeastSubString("abcabcbb"));
+		System.out.println(StringQ.findNonRepeastSubString("abcadbeabbefghi"));
+		System.out.println(StringQ.findNonRepeastSubString("aa"));
+		System.out.println(StringQ.findNonRepeastSubString("bbefghi"));
+	}
+	
+	public void teststringReplace(){
+		StringQ.stringReplace("aabcabcb", "abc");
+	}
+	
+	public void testprintCombinationsOf(){
+		System.out.println(StringQ.printCombinationsOf("ab"));
+		System.out.println(StringQ.printCombinationsOf("abc"));
+	}
 	
 	public void testlongestSubstringWithoutRepeatingCharacters(){
 		System.out.println(StringQ.longestSubstringWithoutRepeatingCharacters("dsdsdsdsbdah"));

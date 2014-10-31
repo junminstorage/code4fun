@@ -7,11 +7,190 @@ public class LinkedListQ {
 	class LinkedListNode{
 		Object data;
 		LinkedListNode next;
+		LinkedListNode random;
+		
+		public LinkedListNode clone(){
+			LinkedListNode copy = new LinkedListNode();
+			copy.data = this.data;
+			copy.next = this.next;
+			return copy;
+		}
 	}
 	
-	class SortedListNode{
+	/*
+	 * http://www.careercup.com/question?id=5691288624037888
+	 * We have one single linked list. How we’ll travers it that we 
+	 * reach till second last (n-1) node. If we want to reach till (n\2) node.
+	 */
+	public LinkedListNode getKthNodeByPacer(LinkedListNode head, int k){
+		LinkedListNode p1 = head;
+		for(int i=0; i<k; i++)
+			p1 = p1.next;
+		
+		if(p1==null)
+			return null;
+		
+		LinkedListNode p2 = head;
+		while(p1.next!=null){
+			p1 = p1.next;
+			p2 = p2.next;
+		}
+		return p2;
+	}
+	
+	public LinkedListNode getMiddle(LinkedListNode head){
+		LinkedListNode p1 = head;
+		LinkedListNode p2 = head;
+		
+		while(p1!=null && p1.next!=null){
+			p1 = p1.next.next;
+			p2 = p2.next;
+		}
+		return p2;
+	}
+	
+	
+	
+	public LinkedListNode getKthNode(LinkedListNode head, int k){
+		return getKthNodeRecursive(head, 1, k);
+	}
+	
+	public LinkedListNode getKthNodeRecursive(LinkedListNode current, int currentPos, int k){
+		if(current==null)
+			return null;
+		if(currentPos==k)
+			return current;
+		else
+			return getKthNodeRecursive(current.next, currentPos++, k);
+	}
+	
+	
+	/*
+	 * How to detect loop in LL
+	 */
+	public static boolean hasLoop(LinkedListNode head){
+		if(head==null)
+			return false;
+		
+		LinkedListNode p1 = head;
+		LinkedListNode p2 = head;
+		
+		while(p1!=null && p2!=null && p2.next!=null && p1!=p2){
+			p1 = p1.next;
+			p2 = p2.next.next;
+		}
+		
+		if(p1!=null && p2!=null && p1==p2){
+			p1 = head;
+			while(p1!=p2){
+				p1 = p1.next;
+				p2 = p2.next;
+			}
+			return true;
+		}
+		
+		return false;
+		
+	}
+	
+	/*
+	 *  How to find if nodes in LL are odd or even
+	 */
+	public static boolean isEven(LinkedListNode head){
+		LinkedListNode current = head;
+		while(current!=null && current.next!=null){
+			current = current.next.next;
+		}
+		
+		if(current==null)
+			return true;
+		
+		return true;
+		
+	}
+	
+	
+	/*
+	 * http://www.geeksforgeeks.org/a-linked-list-with-next-and-arbit-pointer/
+	 */
+	public static LinkedListNode cloneLLWithRandomP(LinkedListNode head){
+		LinkedListNode current = head;
+		LinkedListNode newList = null;
+		//first loop: clone the list and insert clone between the current and next node
+		while(current !=null){
+			LinkedListNode copy = current.clone();
+			current.next = copy;
+			if(newList==null)
+				newList = copy;
+			current = copy.next;
+		}
+		
+		//second iteration to populate the random pointer for the clone list
+		current = head;
+		while(current!=null){
+			current.next.random = current.random.next;
+			current = current.next.next;
+		}
+		
+		//third iteration to disconnect list and its clone
+		current = head;
+		while(current!=null){
+			LinkedListNode copy = current.next;
+			current.next = copy.next;
+			current = copy.next;
+			if(current!=null)
+				copy.next = current.next;
+		}
+		
+		return newList;
+		
+	}
+	
+	
+	static class SortedListNode{
 		int v;
 		SortedListNode next;
+	}
+	
+	/*
+	 * http://www.geeksforgeeks.org/design-a-stack-with-find-middle-operation/
+	 */
+	
+	/*
+	Q4 – Insert an element into a sorted link list which is having loop somewhere and duplicate elements as well.
+	*/
+	public static void insertNode(SortedListNode head, int value){
+		//find the looping Node
+		SortedListNode loopingNode; 
+		SortedListNode current = head;
+		SortedListNode previous = null;
+		boolean reached = false;
+		while(current!=null && current.v < value){
+			if(current.v<previous.v){
+				//reach the looping point
+				reached = true;
+				break;
+				
+			}
+			previous = current;
+			current = current.next;
+		}
+		
+		SortedListNode newNode = new SortedListNode();
+		newNode.v = value;
+		
+		
+		if(reached){
+			previous.next = newNode;
+			newNode.next = current;
+		}
+		else{
+			newNode.next = current;
+			if(previous!=null)
+				previous.next = newNode;
+			else
+				head = newNode;
+		}
 	}
 	
 	/**
@@ -146,4 +325,40 @@ public class LinkedListQ {
 				
 	}
 
+	public static LinkedListNode reverseEveryK(LinkedListNode head, int k){
+		if(head==null)
+			return null;	
+		return  reverseEveryKHelper(head, k);
+		
+	}
+	
+	/*
+	 * start with a Node head, reverse k node, and return the head
+	 */
+	public static LinkedListNode reverseEveryKHelper(LinkedListNode head, int k){
+		if(head==null)
+			return null;
+		
+		LinkedListNode current = head;
+		LinkedListNode next = null;
+		int i = 0;
+		
+		while(i<k && current!=null){
+			i++;
+			next = current.next;
+			LinkedListNode temp = null;
+			if(next!=null){
+				temp = next.next;
+				next.next = current;
+				current = next;
+				next = temp;				
+			}			
+		}
+		//at this moment head became tail, so set its next to next head
+		head.next = reverseEveryKHelper(next, k);		
+		//current is current head now
+		return current;
+		
+	}
+	
 }

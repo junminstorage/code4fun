@@ -2,10 +2,464 @@ package org.blueocean;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Stack;
+import java.util.TreeSet;
 
 public class StringQ {
+	
+	/*
+	 * Group Anagrams 
+input = ["star, astr, car, rac, st"] 
+output = [["star, astr"],["car","rac"],["st"]);
+hash("abr") = (97 × 1012) + (98 × 1011) + (114 × 1010) = 999,509 
+int primes[] = {2, 3, 5, 7, ...} // can be auto generated with a simple code
+
+inline int prime_map(char c) {
+    // check c is in legal char set bounds
+    return primes[c - first_char];
+}
+
+	 */
+	
+	public static Collection<List<String>> groupAnagrams(String[] strings){
+		
+		HashMap<String, List<String>> result = new HashMap<String, List<String>>();
+		for(String s : strings){
+			char[] chars = s.toCharArray();
+			Arrays.sort(chars);
+			String anagram = String.valueOf(chars);
+			if(!result.containsKey(anagram)){
+				List<String> list = new ArrayList<String>();
+				list.add(s);
+				result.put(anagram, list);
+			}else{
+				result.get(anagram).add(s);
+			}
+		}
+		
+		return result.values();
+	}
+	
+	private boolean isAnagram(String string, String s) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	/*
+	 * split string into strings based on empty spaces
+	 * http://java-performance.info/regexp-related-methods-of-string/#more-60
+	 * Always (or nearly always) replace String.matches, split, replaceAll, replaceFirst methods with Matcher and Pattern methods.
+	 * In all other simple cases consider handwriting parsing methods for simple situations in the time-critical code. 
+	 * You can easily gain 10 times speedup by replacing Pattern methods with handcrafted methods.
+	 */
+	public static String[] splitBySpaces(String input){
+		List<String> result = new ArrayList<String>();
+		
+		for(int i=0; i<input.length(); i++){
+			if(input.charAt(i)<=' '){
+				if(i==0)
+					result.add("");
+			}else{
+				int start = i;
+				while(start<input.length() && input.charAt(start)>' ')
+					start++;
+				result.add(String.valueOf(input.substring(i, start)));
+				i = start;
+			}			
+		}
+		
+		return result.toArray(new String[result.size()]);
+	}
+	
+	/*
+	 * http://www.careercup.com/question?id=5654505932718080
+	 * Given an array of words, write a method that determines 
+	 * whether there are any words in this array that are anagrams of each other. 
+	 */
+	public static boolean hasAnagrams(String[] input){
+		Set<String> seen = new HashSet<String>(); //sorted string
+		for(String s : input){
+			String a = anagram(s);
+			if(seen.contains(a))
+				return true;
+			else
+				seen.add(a);
+		}
+		
+		return false;
+	}
+	
+	public static String anagram(String input){
+		char[] chars = input.toCharArray();
+		Arrays.sort(chars);
+		return String.valueOf(chars);
+	}
+	
+	/*
+	 * http://www.careercup.com/question?id=4793416529477632
+	 * Implement a function OneEditApart with the following signature: 
+	 * bool OneEditApart(string s1, string s2) 
+	 */
+	public static boolean OneEditApart(String s1, String s2) {
+		if(s1==null || s1 ==null)
+			return false;
+		if(Math.abs(s1.length()-s2.length())>1)
+			return false;
+		
+		int diff = 0;
+		
+		if(s1.length() == s2.length()){
+			for(int i=0;i<s1.length(); i++){
+				if(s1.charAt(i) != s2.charAt(i)){
+					diff++;
+					if(diff==2)
+						return false;
+				}
+			}
+		}else{
+			if(s1.length()>s2.length()){
+				String t = s1;
+				s1 = s2;
+				s2 = t;
+			}
+				
+			for(int i=0;i<s1.length(); i++){
+				if(s1.charAt(i) != s2.charAt(i+diff)){
+					diff++;
+					if(diff==2)
+						return false;
+				}
+			}
+		}
+		
+		return true;
+	}
+	
+	public static int distance(String s1, String s2){
+		int[][] edits = new int[s1.length()][s2.length()];
+		edits[0][0] = 0;
+		for(int i=1; i<=edits.length; i++)
+			edits[i][0] = 1;
+		for(int j =1; j<=edits[0].length; j++)
+			edits[0][j] = 1;
+		
+		for(int i=1;i<=edits.length;i++){
+			for(int j=1;j<=edits[0].length;j++){
+				if(s1.charAt(i-1)==s2.charAt(j-1))
+					edits[i][j] = edits[i-1][j-1];
+				else
+					edits[i][j] = Math.min(edits[i][j-1]+1,Math.min(edits[i-1][j-1]  + 1, edits[i-1][j]+1));
+			}
+		}
+		
+		return edits[s1.length()][s2.length()];
+		
+	}
+	
+	/*
+	 * Code a function that receives a string composed by words separated by spaces and returns a string where words appear in the same order but than the original string, but every word is inverted. 
+	Example, for this input string
+	http://www.careercup.com/question?id=5106757177180160
+	 */
+	public static String reverseStringFacebook(String str){
+		int start = 0;
+		char[] chars = str.toCharArray();
+		while(start<str.length()){
+			if(str.charAt(start)==' '){
+				start++;
+			}
+			else{	
+				int end = start;
+
+				while(end<str.length() && str.charAt(end)!=' ')
+					end++;
+				
+				for(int p1=start,p2= end-1; p1<=p2; p1++,p2--){
+					char temp = chars[p1];
+					chars[p1] = chars[p2];
+					chars[p2] = temp;
+				}
+				start = end+1;
+			}
+		}
+		
+		return String.valueOf(chars);
+		
+	}
+	
+	/*
+	 * Two strings are given. One of them is the initial string 
+	 * and other string contains characters as per their priority. 
+	 */
+	public static void quickSort(char[] target, int start, int end, String p){
+		if(start>=end)
+			return;
+
+		int pivotal = (start + end)/2;
+		char pC = target[pivotal];
+
+		//sort around pivotal
+		swap(target, pivotal, end);
+		int p1 = start;
+		int p2 = start;
+		while(p1<end){
+			if(compare(target[p1],  pC, p)<0){				
+				swap(target, p1, p2);
+				p2++;
+			}
+			p1++;
+		}
+		swap(target, p2, end);
+
+		quickSort(target, start, p2-1, p);
+		quickSort(target, p2+1, end, p);
+		
+	}
+	
+	public static int compare(char a, char b, String p){
+		if(p.indexOf(a)>-1 && p.indexOf(b)>-1)
+			return p.indexOf(a) - p.indexOf(b);
+		else if(p.indexOf(a)>-1){
+			return -1;
+		}else if(p.indexOf(b)>-1){
+			return 1;
+		}else{
+			return a - b;
+		}
+		
+	}
+	public static void swap(char[] target, int a, int b){
+		char t = target[a];
+		target[a] = target[b];
+		target[b] = t;
+	}
+	
+	
+	/*
+	 * http://www.geeksforgeeks.org/amazon-interview-set-51-campus-sdet/
+	 * A string consists of parenthesis and letters. 
+	 * Write a program to validate all the parenthesis. Ignore the letters.
+	 */
+	public static boolean validateParenthesis(String s){
+		Stack<Character> stack = new Stack<Character>();
+		
+		for(int i=0; i<s.length(); i++){
+			if(s.charAt(i)=='(')
+				stack.push('(');
+			
+			if(s.charAt(i) ==')'){
+				if(stack.empty())
+					return false;
+				else{
+					stack.pop();
+				}
+			}
+		}
+		
+		return stack.empty();
+	}
+	
+	/*
+	 * Q1. A string of length n and an integer m was given, 
+	 * give an algo. to rotate the string counter clockwise by m. 
+	 * I was asked to give all the check conditions for input m.
+	 */
+	//solution 1: using extra temp array
+	public static void rotateString(String s, int m){
+		if(m<=0)
+			return;
+		if(m>=s.length())
+			return;
+		
+		char[] string = s.toCharArray();
+		
+		String tempS = s.substring(0, m);
+		
+		int p1=0;
+		
+		while(p1+m<s.length()){
+			char tempC = string[p1];
+			string[p1] = string[p1+m];
+			string[p1+m] = tempC;
+			p1++;
+		}
+		
+		while(p1<s.length()){
+			string[p1] = tempS.charAt(p1+m-s.length());
+			p1++;
+		}
+		
+		System.out.println(string);
+	}
+	
+	//solution 2: left shift one by one
+	public static void rotateString2(char[] string, int m){
+		for(int i=0; i<m; i++)
+			leftShiftByOnePos(string);
+		System.out.println(string);
+	}
+	
+	public static void leftShiftByOnePos(char[] string){
+		if(string==null || string.length == 0)
+			return;
+		char temp = string[0];
+		int pos;
+		for(pos = 0; pos < string.length-1; pos++){
+			string[pos] = string[pos+1];
+		}
+		string[pos] = temp;
+	}
+	//solution 3. global replace
+	public static void rotateString3(char[] string, int m){
+		if(string==null || string.length == 0)
+			return;
+		
+		int original = 0;
+		char temp = string[original];
+		int target  = original;
+		while(target<string.length){
+			int replace = target + m;
+			if(replace>=string.length)
+				replace = replace - string.length;		
+			if(replace == original) {
+				string[target] = temp;
+				break;
+			}else{
+				string[target] = string[replace];
+				
+			}
+			target = replace;
+		}
+		
+		System.out.println(string);
+	}
+	
+	/*
+	 * Q1. Given a string find the length of longest substring which has none of its character repeated?
+	 * http://www.geeksforgeeks.org/length-of-the-longest-substring-without-repeating-characters/
+	 */
+	public static int findNonRepeastSubString(String target){
+		Map<Character, Integer> char2pos = new HashMap<Character, Integer>();
+		
+		int start = 0;
+		int end = -1;
+		int max = 0;
+		for(int i=0; i< target.length(); i++){
+			end++;
+			if(char2pos.containsKey(target.charAt(i))){			
+				//only move start when the repeat is after start, discard any char before start
+				if(char2pos.get(target.charAt(i))>=start)	
+					start = char2pos.get(target.charAt(i)) + 1;					
+			}
+			//update the new pos to i					
+			char2pos.put(target.charAt(i), i);
+			if(end-start>max){
+				max = end-start;
+			}
+		}				
+		return max + 1;
+	}
+	
+	/*
+	 * Q3 – Write an efficient function that takes two strings 
+	 * as arguments and removes the second string from first string (in place). (Shifting not allowed)
+	 */
+	public static void stringReplace(String s, String t){
+		char[] sChar = s.toCharArray();
+		char[] tChar = t.toCharArray();
+		
+		boolean[][] found = new boolean[s.length()][t.length()];
+		//find index which have t	
+		found[1][2] = true;
+		found[4][2] = true;
+		for(int i=0; i<found.length; i++){
+			if(found[i][t.length()-1]){
+				int start = i;
+				int end = start+t.length()-1;
+				for(int r=start; r<=end; r++){
+					sChar[r] = '\0';
+				}								
+			}
+		}		
+		for(int i=0; i<s.length(); i++){
+			if(sChar[i]=='\0'){
+				int replace = i+1;
+				while(replace<s.length() && sChar[replace]=='\0')
+					replace++;
+				if(replace<s.length()){
+					sChar[i] = sChar[replace];
+					sChar[replace] = '\0';
+				}else
+					break;
+			}
+		}
+		
+		System.out.println(sChar);
+	}
+	
+	/*
+	 * Given a string having no spaces, and a dictionary.Problem was to find if that string can be splitted in multiple strings such that all the splitted
+	 *  strings are in dictionary. I was provided a function search(string str) which will tell if a particular string str is in the dictionary or not.
+	 */
+	public boolean stringSplittable(String s){
+		boolean[][] store = new boolean[s.length()][s.length()];
+		
+		for(int i=0; i<s.length()-1; i++)
+			store[i][i] = search(s.substring(i, i+1));
+		
+		for(int step =1; step<s.length(); step++){
+			for(int start = 0; start<s.length()-step && start+step<s.length(); start++){
+				for(int i=0;i<step;i++){
+					if(search(s.substring(start, start+i)) && store[start+i][start+step]){
+						store[start][start+step] = true;
+						break;
+					}
+				}
+			}
+		}
+		
+		return store[0][s.length()-1];
+	}
+	
+	private boolean search(String str){
+		return true;
+	}
+	
+	/*
+	 * Write a code to print all 
+	 * possible combinations(order matters) of characters of string in lexicographical order.
+	 */
+	
+	public static Set<String> printCombinationsOf(String s){
+		Set<String> result = new TreeSet<String>();
+		result.add(String.valueOf(s.charAt(0)));
+		for(int i=1; i<s.length(); i++){
+			Set<String> temp = printCombinationsOfHelper(s, result, i);
+			result = temp;
+		}
+		return result;
+	}
+	
+	public static Set<String> printCombinationsOfHelper(String s, Set<String> pre, int index){
+		Set<String> result = new TreeSet<String>(pre);
+		
+		for(String st : pre){
+			for(int i=0; i<st.length(); i++){
+				result.add(st.substring(0, i) + s.charAt(index) + st.substring(i, st.length()));
+			}
+			result.add(st + s.charAt(index));
+		}
+		result.add(String.valueOf(s.charAt(index)));
+		return result;
+	}
 	
 	public static int longestSubstringWithoutRepeatingCharacters(String target){
 		if(target==null || target.isEmpty())

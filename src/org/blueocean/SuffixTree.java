@@ -10,6 +10,7 @@ public class SuffixTree {
 	class STNode {
 		int data ;
 		STNode[] edges;
+		boolean isLeaf;
 		
 		STNode(int d){
 			data = d;
@@ -38,7 +39,7 @@ public class SuffixTree {
 			current = current.edges[pos];
 			index++;
 		}
-		
+		current.isLeaf = true;
 		current.data = data; //leaf store the position
 		return root;
 	}
@@ -47,6 +48,32 @@ public class SuffixTree {
 		for(int i=0;i<s.length();i++){
 			this.addString(s.substring(i), i);
 		}
+	}
+	
+	/*
+	 * You're given a dictionary of strings, and a key. Check if the key is composed of an arbitrary number of concatenations of strings from the dictionary. For example: 
+
+dictionary: "world", "hello", "super", "hell" 
+key: "helloworld" --> return true 
+key: "superman" --> return false 
+key: "hellohello" --> return true
+http://www.careercup.com/question?id=5705581721550848
+	 */
+	
+	public boolean containsWord(String word){
+		if(word==null)
+			return false;
+		return containsWord(root, word, 0);
+	}
+	
+	public boolean containsWord(STNode current, String word, int start){
+		if(start==word.length()){
+			return current.isLeaf || current == root;				
+		}
+		
+		return (current.isLeaf&&containsWord(root, word, start)) || 			
+				(current.edges!=null && current.edges[word.charAt(start)-'a']!=null && containsWord(current.edges[word.charAt(start)-'a'], word, start+1));
+		
 	}
 
 	public String findLongestRepeatSub(String s){

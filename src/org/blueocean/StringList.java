@@ -39,6 +39,7 @@ public class StringList implements Serializable{
 			Entry v = (Entry) is.readObject();
 			pre.next = v;
 			v.previous = pre;
+			pre = v;
 		}
 	}
 

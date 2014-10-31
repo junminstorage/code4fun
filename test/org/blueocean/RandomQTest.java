@@ -1,10 +1,39 @@
 package org.blueocean;
 
+import java.util.Arrays;
 import java.util.List;
 
 import junit.framework.TestCase;
 
 public class RandomQTest extends TestCase {
+	public void testZoo(){
+		
+		Integer[] numbers = new Integer[4];
+		List re = Arrays.asList(numbers);
+		
+		System.out.println(re.size());
+		
+		re.add(new Integer(1));
+		
+		/*RandomQ q = new RandomQ();
+		q.y = 100;
+		
+		int counter = 0;
+		for(int i = 0; i<q.y; i++){
+		   if(q.zoo(3))
+			   counter++;
+		}
+		*/
+		//System.out.println(counter);
+		
+	}
+	
+	public void testprintAllParentheses(){
+		RandomQ.printAllParentheses(1);
+		RandomQ.printAllParentheses(2);
+		RandomQ.printAllParentheses(3);
+	}
+	
 	public void testallWordsFromPhonePad(){
 		List<String> result = RandomQ.allWordsFromPhonePad(234);
 		

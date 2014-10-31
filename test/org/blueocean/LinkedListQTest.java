@@ -9,6 +9,20 @@ public class LinkedListQTest extends TestCase{
 	public void setUp(){
 			
 	}
+	
+	public void testgetKthNodeByPacer(){
+		LinkedListQ q = new LinkedListQ();
+		LinkedListQ.LinkedListNode n = q.new LinkedListNode();
+		
+		LinkedListQ.LinkedListNode n2 = q.new LinkedListNode();	
+		LinkedListQ.LinkedListNode n3 = q.new LinkedListNode();
+		n.next = n2;
+		n2.next = n3;
+		n3.next = null;	
+	
+		LinkedListQ.LinkedListNode result = q.getKthNodeByPacer(n, 1);
+	}
+	
 	public void testReverseR(){
 		LinkedListQ q = new LinkedListQ();
 		LinkedListQ.LinkedListNode n = q.new LinkedListNode();

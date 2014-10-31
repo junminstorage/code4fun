@@ -15,6 +15,25 @@ public class ArrayQTest extends TestCase {
 		test = Arrays.asList(input);
 	}*/
 	
+	public void testprintMatrixDiagonally(){
+		int[][] nums = new int[][]{{1, 4, 5}, {13, 4, 6}, {13, 2, 1}};
+		ArrayQ.printMatrixDiagonally(nums);
+		
+	} 
+	
+	public void testfindSumSubSquare(){
+		int[][] nums = new int[][]{{1, 4, 5}, {13, 4, 6}, {13, 2, 1}};
+		ArrayQ.findSumSubSquare(nums, 2);
+		ArrayQ.findSumSubSquare2(nums, 2);
+	}
+	
+	public void testprint2DArraySpiral(){
+		int[][] nums = new int[][]{{1, 4, 5}, {13, 4, 6}, {13, 2, 1}};
+		ArrayQ.print2DArraySpiral(nums);
+		
+		int[][] nums2 = new int[][]{{1, 4, 5}, {13, 4, 6}};
+		ArrayQ.print2DArraySpiral(nums2);
+	}
 	public void testbinarySearch(){
 		int[] nums = new int[]{2, 4, 6, 8, 9, 10, 12};
 		System.out.println(ArrayQ.binarySearch(nums, 7, 0, nums.length-1));

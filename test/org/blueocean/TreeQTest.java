@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.blueocean.TreeQ.DLinkedList;
 import org.blueocean.TreeQ.Node;
 import org.junit.Assert;
 
@@ -77,15 +78,15 @@ public class TreeQTest extends TestCase {
 		Node left3 = new Node();
 		left3.data = 11;
 		
-		left1.right = left3;
+		right2.right = left3;
 		
-		right2.parent = left1;
-		/*
-		Node left3 = new Node();
-		left3.data = 995;
+		//right2.parent = left1;
 		
-		right1.left = left3;
-				
+		Node left4 = new Node();
+		left4.data = 13;
+		
+		right1.left = left4;
+		/*		
 		Node right3 = new Node();
 		right3.data = 995;
 		
@@ -101,9 +102,163 @@ public class TreeQTest extends TestCase {
 		
 		right4.right = right5;
 		*/
+		
+		//Node t = TreeQ.findNextInOrderSuccessor2(root, left4);
+		//Node t1 = TreeQ.findNextInOrderSuccessor3(root, left4);
 		return root;
 	}
 	
+	public void testlevelTraveseTreeRec(){
+		TreeQ.Node root1 = createBST();
+		TreeQ.levelTraveseTreeRec(root1);
+	}
+	
+	public void testlevelTraveseTree(){
+		TreeQ.Node root1 = createBST();
+		TreeQ.levelTraveseTree(root1);
+	}
+	
+	public void testrevertTreet(){
+		Node root = new Node();
+		root.data = 1;
+		
+		Node left1 = new Node();
+		left1.data = 2;
+		
+		Node right1 = new Node();
+		right1.data = 3;
+		
+		root.left = left1;
+		root.right = right1;
+		
+		Node left2 = new Node();
+		left2.data = 4;
+		
+		Node right2 = new Node();
+		right2.data = 5;
+		
+		left1.left = left2;
+		left1.right = right2;
+		
+		Node n = TreeQ.revertTree(root);
+		
+		System.out.println(n.toString());
+		
+	}
+	
+	public void testNickFormatToTree(){
+		TreeQ.Node n = TreeQ.nickFormatToTree("12 ( 9 ( 8 ( # # ) 10 ( # 11 ( # # ) ) ) 14 ( 13 ( # # ) # ) )");
+		
+		TreeQ.printNickFormat(n);
+		
+	}
+	public void testprintNickFormat(){
+		TreeQ.Node root1 = createBST();
+		TreeQ.printNickFormat(root1);
+		
+	}
+	
+	public void testPrintAllPath(){
+		TreeQ.Node root1 = createBST();
+		TreeQ.printAllPath(root1);
+	}
+	public void testupdateTreeWithSumUtil(){
+		TreeQ.Node root1 = createBST();
+		TreeQ.updateTreeWithSumUtil(root1);
+	}
+	public void testupdateTreeWithSum(){
+		TreeQ.Node root1 = createBST();
+		TreeQ.updateTreeWithSum(root1);
+	}
+	public void testToDLL(){
+		TreeQ.Node root1 = createBST();
+		DLinkedList[] result  = TreeQ.toDLL(root1);
+		DLinkedList head = result[0];
+		while(head!=null){
+			System.out.println(head.data.data);
+			head = head.next;
+		}
+		
+		DLinkedList tail = result[1];
+		while(tail!=null){
+			System.out.println(tail.data.data);
+			tail = tail.pre;
+		}
+		
+	}
+	
+	public void testToDLL2(){
+		TreeQ.Node root1 = createBST();
+		DLinkedList[] result  = TreeQ.toDLLInorder(root1);
+		DLinkedList head = result[0];
+		while(head!=null){
+			System.out.println(head.data.data);
+			head = head.next;
+		}
+		
+		DLinkedList tail = result[1];
+		while(tail!=null){
+			System.out.println(tail.data.data);
+			tail = tail.pre;
+		}		
+	}
+	
+	public void testverticalZigZag(){
+		TreeQ.Node root1 = createBST();
+		TreeQ.verticalZigZag(root1);
+	}
+	
+	
+	public void testCreateTree(){
+		Node t = TreeQ.createTree( new int[]{1, 4, 7, 8, 2, 6, 4}, new int[]{7, 8, 4, 1, 6, 2, 4});
+		System.out.println(t.data);
+		
+		TreeQ.postOrder(t);
+	}
+	
+	public void testrotateIterative(){
+		TreeQ.Node root1 = createBST();
+		TreeQ.rotateIterative(root1);
+	}
+	public void testfindKthMax(){
+		TreeQ.Node root1 = createBST();
+		System.out.println(TreeQ.findKthMax(root1, 1));
+		System.out.println(TreeQ.findKthMax(root1, 2));
+		System.out.println(TreeQ.findKthMax(root1, 3));
+		System.out.println(TreeQ.findKthMax(root1, 4));
+		System.out.println(TreeQ.findKthMax(root1, 5));
+		System.out.println(TreeQ.findKthMax(root1, 6));
+		System.out.println(TreeQ.findKthMax(root1, 7));
+	}
+	
+	public void testfindKthMin(){
+		TreeQ.Node root1 = createBST();
+		System.out.println(TreeQ.findKthMin(root1, 1));
+		System.out.println(TreeQ.findKthMin(root1, 2));
+		System.out.println(TreeQ.findKthMin(root1, 3));
+		System.out.println(TreeQ.findKthMin(root1, 4));
+		System.out.println(TreeQ.findKthMin(root1, 5));
+		System.out.println(TreeQ.findKthMin(root1, 6));
+		System.out.println(TreeQ.findKthMin(root1, 7));
+	}
+	
+	public void testHDistance(){
+		TreeQ.Node root1 = createBST();
+		int[] result = new int[1];
+		System.out.println(TreeQ.hDistance(root1, 9, 0, result));
+		System.out.println(result[0]);
+		
+		System.out.println(TreeQ.hDistance(root1, 8, 0, result));
+		System.out.println(result[0]);
+		
+		System.out.println(TreeQ.hDistance(root1, 14, 0, result));
+		System.out.println(result[0]);
+	}
+	
+	public void testprintPairSum(){
+		TreeQ.Node root1 = createBST();
+		TreeQ.printPairSum(root1, 22);
+	}
 	public void testisCousin(){
 		TreeQ.Node root1 = createBST();
 		System.out.println(TreeQ.isCousin(root1, 8, 11));

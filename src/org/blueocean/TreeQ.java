@@ -3,6 +3,8 @@ package org.blueocean;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.ObjectStreamConstants;
+import java.io.PrintStream;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,6 +17,7 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
+import java.util.StringTokenizer;
 import java.util.TreeSet;
 
 import org.blueocean.LinkedListQ.SortedListNode;
@@ -23,10 +26,14 @@ public class TreeQ {
 	static class Node {
 		char v;
 		int data;
+		List<Node> children;
+		boolean visited;
+		
 		Node left;
 		Node right;
 		Node parent;
 		Node next;
+		int level;
 		public Node(char c){
 			v = c;
 		}
@@ -36,8 +43,7 @@ public class TreeQ {
 
 		public Node(int v2) {
 			data = v2;
-		}
-		
+		}		
 	}
 	
 	public static Node createBST(){
@@ -51,12 +57,12 @@ public class TreeQ {
 		right1.data = 14;
 		
 		root.left = left1;
-		//root.right = right1;
+		root.right = right1;
 		
 		Node left2 = new Node();
 		left2.data = 8;
 		
-		//left1.left = left2;
+		left1.left = left2;
 		
 		Node right2 = new Node();
 		right2.data = 10;
@@ -73,6 +79,1068 @@ public class TreeQ {
 		
 		//right1.right = right3;
 		return root;
+	}
+	
+	/*
+	 * http://www.careercup.com/question?id=6215580004646912
+	 * Print a tree in Level Order with a newline after each depth
+	 */
+	public static void levelTraveseTree(Node tree){
+		Deque<Node> q = new ArrayDeque<Node>();
+		q.add(tree);
+
+		while(!q.isEmpty()){
+			StringBuilder sb = new StringBuilder();
+			Deque<Node> temp = new ArrayDeque<Node>();
+			while(!q.isEmpty()){
+				Node c = q.removeFirst();
+				if(c.left!=null)
+					temp.addLast(c.left);
+				if(c.right!=null)
+					temp.addLast(c.right);
+				sb.append(c.data);
+			}
+			System.out.println(sb.toString());			
+			q = temp;
+		}
+		
+	}
+	
+	public static void levelTraveseTreeRec(Node head){
+		if(head==null)
+			return;
+		Deque<Node> temp = new ArrayDeque<Node>();
+		temp.addFirst(head);
+		levelTraveseTreeRec(temp);
+	}
+	
+	public static void levelTraveseTreeRec(Deque<Node> preLevel){
+		if(preLevel.isEmpty())
+			return;
+
+		StringBuilder sb = new StringBuilder();
+		Deque<Node> temp = new ArrayDeque<Node>();
+		while(!preLevel.isEmpty()){
+			Node c = preLevel.removeFirst();
+			if(c.left!=null)
+				temp.addLast(c.left);
+			if(c.right!=null)
+				temp.addLast(c.right);
+			sb.append(c.data);
+		}
+		System.out.println(sb.toString());			
+		levelTraveseTreeRec(temp);
+		
+	}
+	
+	/*
+	 * http://www.careercup.com/question?id=6266917077647360
+	 */
+	//bottom up
+	public static Node revertTree(Node tree){
+		if(tree==null)
+			return null;
+		
+		if(tree.left==null && tree.right==null)
+			return tree;
+		
+		Node left = tree.left;
+		Node pre = revertTree(tree.left);
+		
+		left.right = tree;
+		left.left = tree.right;
+		tree.left = null;
+		tree.right = null;
+		
+		return pre;
+		
+	}
+	
+	//top down
+	public static Node revertTreeTD(Node head){
+		Node h = revertTreeTDUtil(head);
+		head.left = null;
+		head.right = null;
+		return h;
+	}
+	public static Node revertTreeTDUtil(Node tree){
+		if(tree.left==null)
+			return tree;
+		
+		Node left = tree.left;
+		
+		left.right = tree;
+		left.left = tree.right;
+		
+		return revertTree(tree.left);
+		
+	}
+	
+	/*
+	 * http://www.careercup.com/question?id=5735068173598720
+	 */
+	public static int maxDepth(Node tree){
+		if(tree==null)
+			return 0;
+		int[] max = new int[1];
+		maxDepthRecur(tree, 0, max);
+		return max[0];
+	}
+	
+	private static void maxDepthRecur(Node node, int currDepth, int[] max){
+		if(node==null){
+			if(currDepth>max[0])
+				max[0] = currDepth;
+			return;
+		}else{
+			currDepth++;
+			maxDepthRecur(node.left, currDepth, max);
+			maxDepthRecur(node.right, currDepth, max);
+		}
+				
+	}
+	//solution 2
+	public static int maxDepth2(Node tree){
+		if(tree==null)
+			return 0;
+		return 1+ Math.max(maxDepth2(tree.left), maxDepth2(tree.right));
+	}
+	
+	/*
+	 * Print all paths of a binary tree from root to leaf. 
+	 */
+	public static void printAllPath(Node tree){
+		if(tree==null)
+			return;
+		List<Integer> path = new ArrayList<Integer>();
+		printAllPath(tree, path);
+	}
+	
+	public static void printAllPath(Node tree, List<Integer> path){
+		path.add(tree.data);
+		if(tree.left==null&&tree.right==null){	
+			System.out.println(path);
+			return;
+		}
+		
+		if(tree.left!=null)
+			printAllPath(tree.left, new ArrayList<Integer>(path));
+		if(tree.right!=null)
+			printAllPath(tree.right, new ArrayList<Integer>(path));			
+		
+	}
+	
+	
+	/*
+	 * Are two Binary Trees mirror image of each other?
+	 */
+	public static boolean isMirror(Node tree1, Node tree2){
+		if(tree1==null && tree2==null)
+			return true;
+		if(tree1==null || tree2==null)
+			return false;
+		
+		return tree1.data == tree2.data && isMirror(tree1.left, tree2.right) 
+				&& isMirror(tree1.right, tree2.left); 
+	}
+	
+	
+	/*
+	 * findNextInOrderSuccessor with a stack
+	 */
+	public static Node findNextInOrderSuccessor2(Node tree, Node target){
+		if(target==null || tree==null)
+			return null;
+		Stack<Node> s = new Stack<Node>();
+		Node current = tree;
+		Node pre = null;
+		while(!s.isEmpty() || current!=null){
+			if(current!=null){
+				s.add(current);
+				current = current.left;
+			}else{
+				Node p = s.pop();				
+				if(pre!=null && pre == target)
+					return p;
+				pre = p;
+				current = p.right;	
+			}
+		}		
+		return null;
+	}
+	
+	
+	/*
+	 * findNextInOrderSuccessor with morris traversal
+	 * Node current = root;
+		while(current!=null){			
+			if(current.left==null){
+				System.out.println(current.data);
+				current = current.right;
+			}else{
+				
+				Node pre = current.left;
+				Node temp = findRightMostNode(current.left);
+				
+				if(temp==pre){//go up
+					pre.right = null;
+					System.out.println(current.data);
+					current = current.right;//this will either go up to its parent or go down to its child
+				}else{//go down to left	
+					temp.right = current;
+					current = current.left;
+				}
+			}
+			
+		}
+	 */
+	public static Node findNextInOrderSuccessor3(Node tree, Node target){
+		Node current = tree;
+		Node pre = null;
+		Node found = null;
+		while(current!=null){
+			if(current.left==null){
+				System.out.println(current.data);
+				if(pre!=null && pre == target)
+					found = current;
+				pre = current;
+				current = current.right;//may follow the thread -- go up
+			}else{
+				Node left = current.left;		
+				Node temp = findRightMostNode(left, current);
+				
+				if(temp==pre){//check if it is going up
+					System.out.println(current.data);
+					if(pre!=null && pre == target)
+						found = current;
+					pre = current;
+					current = current.right;					
+					temp.right = null;
+				}else{
+					temp.right = current;//threaded
+					current = left;//go down left
+				}	
+			}				
+		}
+		
+		return found;
+	}
+	
+	private static Node findRightMostNode(Node left, Node current) {
+		while(left.right!=null && left.right!= current)
+			left = left.right;
+		return left;
+		
+	}
+	
+	
+	
+	/*
+	 * 3. Given a bst, update the value of every node 
+	 * with sum of value of all nodes greater than and equal to the value of current node.
+	 */
+	public static void updateTreeWithSum(Node root){
+		if(root==null)
+			return;		
+		int[] sum = new int[1];
+		updateTreeWithSumUtil(root, sum);		
+		return;
+	}
+	
+	//reverse in-order traversal recursively
+	public static void updateTreeWithSumUtil(Node root, int[] sum){
+		if(root == null)
+			return;				
+		updateTreeWithSumUtil(root.right, sum);		
+		root.data = root.data + sum[0];		
+		sum[0] = root.data;		
+		updateTreeWithSumUtil(root.left, sum);		
+	}
+	//reverse in-order traversal iteratively
+	public static void updateTreeWithSumUtil(Node root){
+		Stack<Node> s = new Stack<Node>();
+		Node current = root;
+		int sum = 0;
+		
+		while(!s.isEmpty() || current!=null){
+			if(current!=null){
+				s.add(current);
+				current = current.right;
+			}else{
+				Node p = s.pop();
+				p.data = p.data + sum;
+				sum = p.data;
+				current = p.left;
+			}
+		}
+		
+		return;
+	}
+	
+	
+	/*
+	 * convert a binary tree in a doubly link list.
+	 */
+	public static class  DLinkedList{
+		public Node data;
+		public DLinkedList pre;
+		public DLinkedList next;	
+	}
+	
+	//solution 1 return head and tail, do it recursively
+	public static DLinkedList[] toDLL(Node root){
+		if(root==null){
+			DLinkedList[] list = new DLinkedList[2];
+			return list;
+		}
+				
+		DLinkedList[] left = toDLL(root.left);
+		DLinkedList[] right = toDLL(root.right);
+		
+		DLinkedList current = new DLinkedList();
+		current.data = root;
+		
+		if(left[1]!=null)
+			left[1].next = current;
+		
+		current.pre = left[1];
+		current.next = right[0];
+		
+		if(right[0]!=null)
+			right[0].pre = current;
+		
+		DLinkedList[] list = new DLinkedList[2];
+		list[0] = left[0]==null?current:left[0];
+		list[1] = right[1]==null?current:right[1];
+		return list;
+	}
+	
+	public static DLinkedList[] toDLLInorder(Node root){
+		Stack<Node> s = new Stack<Node>();
+		DLinkedList head = null;
+		Node current = root;
+		DLinkedList pre = null;
+		while(!s.isEmpty() || current!=null){
+			if(current!=null){
+				s.add(current);
+				current = current.left;
+			}else{
+				Node p = s.pop();
+				DLinkedList c = new DLinkedList();
+				c.data = p;
+				if(head==null){
+					head = c;
+					pre = c;
+				}else{
+					pre.next = c;
+					c.pre = pre;
+					pre = c;
+					current = p.right;
+				}				
+			}				
+		}
+		DLinkedList[] list = new DLinkedList[2];
+		list[0] = head;
+		list[1] = pre;
+		return list;
+	}
+	
+	/*
+	 * Given a binary tree. I need to print the nodes in vertical line zigzag manner.
+	 */
+	public static void verticalZigZag(Node root){
+		Map<Integer, Stack<Node>> map = new HashMap<Integer, Stack<Node>>();
+		int[] minL = new int[1];
+		int[] maxL = new int[1];
+		
+		PreOrderTraversal(root, map, 0, minL, maxL);
+		
+		for(int l=minL[0]; l<=maxL[0]; l++){
+			Stack<Node> s = map.get(l);
+			while(!s.isEmpty())
+				System.out.println(s.pop().data);
+		}
+		
+		for(int l=0; l<=maxL[0]-minL[0]; l++){
+			verticalZigZagUtil(root, 0-minL[0], l);			
+		}
+		
+	}
+	
+	
+	public static void verticalZigZagUtil(Node root, int vLevel, int target){
+		if(root==null)
+			return;
+		if(vLevel==target){
+			if(target%2==0){
+				System.out.println(root.data);
+				verticalZigZagUtil(root.left, vLevel-1, target);
+				verticalZigZagUtil(root.right, vLevel+1, target);
+			}else{
+				verticalZigZagUtil(root.left, vLevel-1, target);
+				verticalZigZagUtil(root.right, vLevel+1, target);
+				System.out.println(root.data);
+			}
+		}else{
+			verticalZigZagUtil(root.left, vLevel-1, target);
+			verticalZigZagUtil(root.right, vLevel+1, target);
+		}
+	}
+	
+	
+	public static void PreOrderTraversal(Node root, Map<Integer, Stack<Node>> map, int vLevel, int[] minL, int[]maxL){
+		if(root==null)
+			return;
+		
+		if(map.containsKey(vLevel)){
+			map.get(vLevel).add(root);
+		}else{
+			Stack<Node> s = new Stack<Node>();
+			s.add(root);
+			map.put(vLevel, s);
+		}
+		
+		minL[0] = minL[0]>vLevel?vLevel:minL[0];
+		maxL[0] = maxL[0]<vLevel?vLevel:maxL[0];
+		
+		PreOrderTraversal(root.left, map, vLevel-1, minL, maxL);
+		PreOrderTraversal(root.right, map, vLevel+1, minL, maxL);
+		
+	}
+	
+	/*
+	 * http://www.geeksforgeeks.org/amazon-interview-set-70-on-campus/
+	 */
+	public static Node createTree(int[] pre, int[] in){
+		return createTreeUtil(pre, 0, pre.length-1, in, 0, in.length-1 );
+	}
+	
+	public static Node createTreeUtil(int[] pre, int preStart, int preEnd, int[] in, int inStart, int inEnd){
+		if(preStart==-1 || inStart==-1 || preStart>preEnd || inStart>inEnd)
+			return null;
+		Node root = new Node(pre[preStart]);
+		
+		int rootIndex = findIndex(in, inStart, inEnd, pre[preStart]);
+		
+		if(rootIndex!=-1){
+			root.left =  createTreeUtil(pre, preStart+1, preStart+rootIndex-inStart, in, inStart, rootIndex-1);		
+			root.right = createTreeUtil(pre, preStart+rootIndex-inStart+1, preEnd, in, rootIndex+1, inEnd);
+		}
+		return root;
+	}
+	
+	public static int findIndex(int[] list, int start, int end, int k){
+		for(int i=start; i<=end; i++){
+			if(list[i] == k)
+				return i;
+		}
+		
+		return -1;
+	}
+	
+	public static void postOrder(Node root){
+		if(root==null)
+			return;
+		postOrder(root.left);
+		postOrder(root.right);
+		
+		System.out.println(root.data);
+	}
+	
+	/*
+	 * http://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/
+	 */
+	public static void morrisTraveral(Node root){
+		Node current = root;
+		Node pre = null;
+		while(current!=null){			
+			if(current.left==null){
+				System.out.println(current.data);
+				pre = current;
+				current = current.right;
+			}else{
+				
+				Node temp = findRightMostNode(current.left);
+				
+				if(pre!=null && temp==pre){//go up
+					pre.right = null;
+					System.out.println(current.data);
+					current = current.right;//this will either go up to its parent or go down to its child
+				}else{//go down to left	
+					temp.right = current;
+					current = current.left;
+				}
+			}
+			
+		}
+	}
+	
+	private static Node findRightMostNode(Node left) {
+		while(left.right!=null)
+			left = left.right;
+		return left;
+		
+	}
+
+	/*
+	 * http://www.geeksforgeeks.org/amazon-interview-set-125-on-campus-for-internship/
+	 * Q3 – Reverse level order traversal.
+	 */
+	public static void reverseLevelTraversal(Deque<Node> queue){
+		if(queue.isEmpty())
+			return;
+		Deque<Node> nextQueue = new ArrayDeque<Node>();
+		StringBuffer sb = new StringBuffer();
+		while(!queue.isEmpty()){
+			Node n = queue.remove();
+			sb.append(n.data + " ");
+			if(n.right!=null)
+				nextQueue.add(n.right);
+			if(n.left!=null)
+				nextQueue.add(n.left);
+		}
+		
+		reverseLevelTraversal(nextQueue);		
+		System.out.println(sb.toString());		
+	}
+	
+	/*
+	 * http://www.geeksforgeeks.org/amazon-interview-set-125-on-campus-for-internship/
+	 */
+	public static void rotateAlternate(Node root, int level){
+		if(root==null)
+			return;
+		rotateAlternate(root.left, level+1);
+		rotateAlternate(root.right, level+1);
+		
+		if(level%2==0){
+			Node temp = root.left;
+			root.left = root.right;
+			root.right = temp;
+		}
+	}
+	
+	public static void rotate(Node root){
+		if(root==null)
+			return;
+		rotate(root.left);
+		rotate(root.right);
+		
+		Node temp = root.left;
+		root.left = root.right;
+		root.right = temp;
+	}
+		
+	public static void rotateIterative(Node root){
+		Deque<Node> q = new ArrayDeque<Node>();
+		q.add(root);
+		
+		while(!q.isEmpty()){
+			Node current = q.remove();
+			
+			if(current.left!=null)
+				q.add(current.left);
+			if(current.right!=null)
+				q.add(current.right);
+			
+			Node temp = current.left;
+			current.left = current.right;
+			current.right = temp;			
+		}		
+	}
+	
+	/*
+	 * http://www.geeksforgeeks.org/level-order-tree-traversal/
+	 */
+	public static void levelOrderBTreeTraversal(Node root){
+		Deque<Node> q = new ArrayDeque<Node>();
+		q.add(root);
+
+		while(!q.isEmpty()){
+			Node current = q.remove();
+			System.out.println(current.data);
+			if(current.left!=null)
+				q.add(current.left);
+			if(current.right!=null)
+				q.add(current.right);
+		}			
+
+	}
+
+	
+	/*
+	 * http://www.geeksforgeeks.org/connect-nodes-at-same-level/
+	 */
+	public static void connectBTreeBy1Q(Node root){
+		Deque<Node> q = new ArrayDeque<Node>();
+		root.level = 0;
+		q.add(root);
+		Node previous = null;
+		while(!q.isEmpty()){
+			Node current = q.remove();		
+			if(previous==null)
+				previous = current;
+			else{
+				if(previous.level == current.level)
+					previous.next = current;
+				previous = current;									
+			}			
+			if(current.left!=null){
+				current.left.level = current.level+1;
+				q.add(current.left);
+			}
+			if(current.right!=null){
+				current.right.level = current.level+1;
+				q.add(current.right);
+			}
+		}	
+		
+	}
+	public static void connectBTreeBy2Q(Node root){
+		Deque<Node> q = new ArrayDeque<Node>();
+		q.add(root);
+		while(!q.isEmpty()){
+			Deque<Node> temp = new ArrayDeque<Node>();
+			Node previous = null;
+			while(!q.isEmpty()){
+				Node current = q.remove();
+				if(previous==null)
+					previous = current;
+				else{
+					previous.next = current;
+					previous = current;
+				}
+				if(current.left!=null)
+					temp.add(current.left);
+				if(current.right!=null)
+					temp.add(current.right);
+			}			
+			q = temp;
+		}
+	}
+	
+	/*
+	 * http://www.geeksforgeeks.org/connect-nodes-at-same-level/
+	 */
+	public static void connectCompleteTree(Node root){
+		if(root==null)
+			return;
+		
+		connectCompleteTreeHelper(root.left, root);
+		connectCompleteTreeHelper(root.right, root);
+	}
+	
+	/*
+	 * http://www.geeksforgeeks.org/connect-nodes-at-same-level/
+	 */
+	public static void connectCompleteTreeHelper(Node root, Node parent){
+		if(root==null)
+			return;
+		
+		if(parent.left == root){
+			root.next = parent.right;
+		}else{
+			root.next = parent.next.left;
+		}
+		
+		connectCompleteTreeHelper(root.left, root);
+		connectCompleteTreeHelper(root.right, root);
+	}
+	
+	public static int findKthMin(Node root, int k){
+		Stack<Node> s = new Stack<Node>();
+		Node current = root;
+		Node previous = null;
+		int i = 0;
+		int result = Integer.MIN_VALUE;
+		while(!s.isEmpty() || current!=null){
+			if(current!=null){
+				s.add(current);
+				current = current.left;
+			}else{
+				Node n = s.pop();
+				i++;
+				if(i==k){
+					result =  n.data;
+					break;
+				}
+				current = n.right;				 
+			}
+		}		
+		return result;
+	}
+	
+	public static int findKthMax(Node root, int k){
+		Stack<Node> s = new Stack<Node>();
+		Node current = root;
+		Node previous = null;
+		int i = 0;
+		int result = Integer.MIN_VALUE;
+		while(!s.isEmpty() || current!=null){
+			if(current!=null){
+				s.add(current);
+				current = current.right;
+			}else{
+				Node n = s.pop();
+				i++;
+				if(i==k){
+					result =  n.data;
+					break;
+				}
+				current = n.left;				 
+			}
+		}		
+		return result;
+	}
+	
+	/*
+	 * http://www.geeksforgeeks.org/amazon-interview-set-122-campus-internship/#comment-1564648138
+	 * F2F Q1
+	 */
+	public static int findNumberOfIteration(Node root){
+		Stack<Node> s = new Stack<Node>();
+
+		root.visited = true;
+		s.add(root);	
+		int i = 0;
+
+		while(!s.isEmpty()){
+			Stack<Node> temp = new Stack<Node>();
+			i++;
+			while(!s.isEmpty()){				
+				Node n = s.pop();
+				for(Node c : n.children){
+					if(!c.visited){
+						c.visited = true;
+						temp.add(c);
+						temp.add(n);
+						break;
+					}
+				}		
+			}		
+			s = temp;
+		}
+		
+		return i;
+	}
+	
+	public static boolean isSymmertrc(Node root1, Node root2){
+		if(root1==null || root2==null )
+			return root1==null && root2==null;
+		
+		return isSymmertrc(root1.left, root2.right) && isSymmertrc(root1.right, root2.left);
+				
+	}
+	
+	public static boolean hDistance(Node root, int target, int d, int[] result){
+		if(root==null)
+			return false;
+		
+		if(root.data==target){
+			result[0] = d;
+			return true;
+		}
+		 
+		return hDistance(root.left, target, d-1, result) || hDistance(root.right, target, d+1, result);
+		
+	}
+	
+	
+	/**
+	 * Given a Binary Tree where every node has following structure. struct node { int key; struct node *left,*right,*random; }
+	 * The random pointer points to any random node of 
+	 * the binary tree and can even point to NULL, clone the given binary tree.
+	 * @param root
+	 */
+	public static void travelTree2(Node root){
+		if(root==null)
+			return;
+		
+		Node clone = root.next;
+		Node rootNext = root.next.next;
+		Node cloneNext = clone.next.next;
+		
+		travelTree2(root.left);
+		travelTree2(root.right);
+		
+		root.next = rootNext;
+		clone.next = cloneNext;
+	}
+	
+	public static void cloneTreeWithRandomPointer(Node root){
+		Map<Node, Node> toClone = new HashMap<Node, Node>();
+		Node clone = cloneTreeInit(root, toClone);
+		
+		travelTree(root, toClone);
+	}
+	
+	public static void travelTree(Node root, Map<Node, Node> toClone){
+		if(root==null)
+			return;
+		
+		Node clone = root.next;
+		
+		root.next = root.next.next;
+		clone.next = toClone.get(root.next);
+		
+		travelTree(root.left, toClone);
+		travelTree(root.right, toClone);
+	}
+	/*
+	 * clone the tree from top to down
+	 * then store the mapping from original node to clone
+	 */
+	public static Node cloneTreeInit(Node root, Map<Node, Node> toClone){
+		if(root==null)
+			return null;
+		
+		Node clone = new Node();
+		clone.data = root.data;
+		
+		clone.next = root.next;
+		root.next = clone;
+		
+		toClone.put(root, clone);
+		cloneTree(root.left, clone, true, toClone);
+		cloneTree(root.right, clone, false, toClone);
+		return clone;
+	}
+	
+	public static void cloneTree(Node root, Node parent, boolean isLeft, Map<Node, Node> toClone){
+		if(root==null)
+			return;
+		else{
+			Node clone = new Node();
+			clone.data = root.data;
+			
+			clone.next = root.next;
+			root.next = clone;
+			
+			toClone.put(root, clone);
+			if(isLeft)
+				parent.left = clone;
+			else
+				parent.right=clone;
+			cloneTree(root.left, clone, true, toClone);
+			cloneTree(root.right, clone, false, toClone);
+		}
+	}
+	
+	/*
+	 * http://www.geeksforgeeks.org/vertical-sum-in-a-given-binary-tree/
+	 */
+	public static void printVerticalSum(Node root){
+		int[] min = new int[0];
+		int[] max = new int[0];
+		findVLevelMinMax(root, min, max, 0);
+		//index + min[0] -> vlevel 
+		int[] sum = new int[max[0]-min[0]+1];
+		printVerticalSumHelper(root, sum, 0, min);
+		for(int i : sum){
+			System.out.println(i);
+		}
+	}
+	
+	private static void printVerticalSumHelper(Node root, int[] sum, int vlevel, int min[]){
+		if(root==null)
+			return;
+		sum[vlevel-min[0]] = sum[vlevel-min[0]] + root.data;
+		printVerticalSumHelper(root.left, sum, vlevel-1, min);
+		printVerticalSumHelper(root.right, sum, vlevel+1, min);
+	}
+	
+	/*
+	 * 
+	 */
+	public static void printNode(Node root){
+		int height = 0;
+		int width = 0;
+		boolean left = true;
+		
+		for(int i=0; i<height; i++){
+			for(int j=0; j<width; j++){
+				printNodeHelper(root, 0, 0, i, j, left);
+				left = !left;
+			}
+		}
+	}
+	/**
+	 * 
+	 * @param root
+	 * @param hlevel
+	 * @param vlevel
+	 * @param left
+	 */
+	public static void printNodeHelper(Node root, int currhlevel, int currvlevel, int hlevel, int vlevel, boolean left){
+		if(root==null)
+			return;
+		if(currhlevel == hlevel && currvlevel == vlevel){
+			
+		}else{
+			printNodeHelper(root.left, currhlevel++, currvlevel--, hlevel, vlevel, left);
+			printNodeHelper(root.right, currhlevel++, currvlevel++, hlevel, vlevel, left);
+		}
+		
+	}
+	
+	/*
+	 * Print a Binary Tree in Vertical Order 
+	 */
+	public static void printBTVertically(Node root){
+		
+		int[] min = new int[0];
+		int[] max = new int[0];
+		findVLevelMinMax(root, min, max, 0);
+		
+		for(int i = min[0]; i<=max[0]; i++){
+			printVLevel(root, 0, i);
+		}
+		
+	}
+	
+
+	/*
+	 * Print a Binary Tree in Vertical Order 
+	 */
+	public static void printBTVerticallyOnEachLevel(Node root, int level){
+		
+		int[] min = new int[0];
+		int[] max = new int[0];
+		findVLevelMinMax(root, min, max, 0);
+		
+		int start = min[0]; 
+		int end = max[0];
+		boolean left = true;
+		while(start < end ){
+			if(left){
+				//left, level, start, hash[start]
+				
+				//if the beginning or hash[start]<2
+				//start = start + 2;				
+			}else{
+				//left, level, end, hash[end]
+				
+				//if the end or hash[end]<2
+				//end = end - 2;
+			}
+			left = !left;
+			
+		}
+		
+	}
+	
+	public static void findVLevelMinMax(Node root, int[] min, int[] max, int level){
+		if(root==null)
+			return;
+		if(level>max[0])
+			max[0] = level;
+		if(level<min[0])
+			min[0] = level;
+		
+		findVLevelMinMax(root.left, min, max, level-1);
+		findVLevelMinMax(root.right, min, max, level+1);
+	}
+	
+	public static void printVLevel(Node root, int current, int level){
+		if(root==null)
+			return;
+		if(current==level){
+			System.out.println(root.data);	
+		}
+		printVLevel(root.left, current-1, level);
+		printVLevel(root.right, current+1, level);
+	}
+	
+	/*
+	 * Then there were 3-4 coding questions. She just discussed approach.
+-Update all nodes in a bst to be sum of all elements greater than or equal to it.
+- Stock problem/ Given an array ‘arr’ find maximum difference between two elements (max(arr[i]-arr[j]) where i>=j).
+	 */
+	/*
+	 * print pair of number with sum in BST
+	 */
+	public static void printPairSum2(Node root, int sum){
+		if(root==null)
+			return;
+		BSTSearch(root, sum - root.data);
+		
+		printPairSum2(root.left, sum);
+		printPairSum2(root.right, sum);
+		
+	}
+	
+	public static void BSTSearch(Node root, int k){
+		
+	}
+	
+	public static void printPairSum(Node root, int sum){
+		if(root==null)
+			return;
+		
+		Stack<Node> left = new Stack<Node>();
+		Node leftP = root;
+		while(leftP!=null){
+			left.add(leftP);
+			leftP = leftP.left;
+		}
+		
+		Stack<Node> right = new Stack<Node>();
+		Node rightP = root;
+		while(rightP!=null){
+			right.add(rightP);
+			rightP = rightP.right;
+		}
+		boolean shiftRight = true;
+		boolean shiftLeft = true;
+		while((leftP==null && rightP==null) || (leftP!=null && rightP!=null && leftP.data <= rightP.data)){
+			if(leftP!=null && shiftRight){
+				left.add(leftP);
+				leftP = leftP.left;
+			}else if(rightP!=null && shiftLeft){
+				right.add(rightP);
+				rightP = rightP.right;
+			}else{
+				leftP = left.pop();
+				rightP = right.pop();
+				
+				if(leftP.data + rightP.data==sum){
+					System.out.println(leftP.data + "" + rightP.data);
+					leftP = leftP.right;	
+					rightP = rightP.left;
+				}else if(leftP.data + rightP.data>sum){
+					leftP = leftP.right;	
+					shiftLeft = false;
+					shiftRight = true;
+				}else{
+					rightP = rightP.left;
+					shiftRight = false;
+					shiftLeft = true;
+				}
+			}
+		}
+	}
+	
+	/**
+	 * connect to next node
+	 * @param root
+	 */
+	public static void connectNext(Node current, Node parent){
+		if(current!=parent.right)
+			current.next = parent.right;
+		else
+			current.next = parent.next.left;		
+		connectNext(current.left, current);
+		connectNext(current.right, current);	
+	}
+	
+	public static void printLevel(Node current){
+		if(current!=null){
+			printLevel(current.left);
+			//doing actual printing
+			while(current!=null){
+				current = current.next;
+			}
+		}
 	}
 	
 	public static int level(Node root, int n1){
@@ -179,7 +1247,7 @@ public class TreeQ {
 			}else{
 
 				Node n = s.peek();
-				if(n.right!=null && n.right!=pre){
+				if(n.right!=null && n.right!=pre){//n.right == pre mean it goes up from right
 					c = n.right;
 				}else{
 					n = s.pop();
@@ -280,6 +1348,60 @@ public class TreeQ {
 		return null;
 	}
 	
+	/*
+	 * serialize and deserialize tree using nick format
+	 */
+	public static void printNickFormat(Node root){
+		if(root==null)
+			return;
+		StringBuilder sb = new StringBuilder();
+		/*sb.append(root.data);
+		sb.append("(");
+		printNickFormat(root.left, sb);
+		printNickFormat(root.right, sb);
+		sb.append(")");*/
+		printNickFormat(root, sb);
+		System.out.println(sb.toString());
+	}
+	
+	public static void printNickFormat(Node root, StringBuilder sb){
+		if(root==null){
+			sb.append("#");
+			return;
+		}
+		
+		sb.append(root.data);
+		sb.append("(");
+		printNickFormat(root.left, sb);
+		printNickFormat(root.right, sb);
+		sb.append(")");
+	}
+	
+	public static Node nickFormatToTree(String nick){
+		StringTokenizer st = new StringTokenizer(nick);
+		
+		return nickFormatToTree(st);
+	}
+	
+	public static Node nickFormatToTree(StringTokenizer st){
+		if(st.hasMoreTokens()){
+			String input = st.nextToken();
+			if(input.equals("#"))
+				return null;
+			else{
+				Node t = new Node();
+				t.data = Integer.valueOf(input);
+				st.nextToken();//eat (
+				t.left = nickFormatToTree(st);
+				t.right = nickFormatToTree(st);
+				st.nextToken();//eat )
+				return t;
+			}			
+		}else
+			return null;
+	}
+	
+	
 	
 	public static void serilization(Node root, ObjectOutputStream os) throws IOException{
 		if(root==null){			
@@ -293,17 +1415,21 @@ public class TreeQ {
 		}					
 	}
 	
-	public static void deserilization(Node root, ObjectInputStream is) throws IOException, ClassNotFoundException{
-		Node n = (Node) is.readObject();
-		
-		if(n.v=='\0'){			
+	public static void deserilization(Node root, boolean isLeft, ObjectInputStream is) throws IOException, ClassNotFoundException{
+		if(is.available()>0){		
+		Node n = (Node) is.readObject();	
+		if(n.v=='\0'){//is leaf object, return			
 			return;
 		}
 		else{
-			root = n;
-			deserilization(root.left, is);
-			deserilization(root.right, is);
+			if(isLeft)
+				root.left = n;
+			else
+				root.right = n;
+			deserilization(n, true, is);
+			deserilization(n, false, is);
 		}					
+		}
 	}
 	
 	public static boolean isTreeEqualRecursively(Node r1, Node r2){
@@ -653,6 +1779,21 @@ public class TreeQ {
 		int right = findMinDepth(root.right, depth+1);
 
 		return Math.min(left, right);
+	}
+	
+	/*
+	 * bottom-up approach
+	 */
+	public static int findMinDepthRec(Node root){
+		assert(root!=null);
+		
+		if(root==null)
+			return 0;
+		
+		int left = findMinDepthRec(root.left);
+		int right = findMinDepthRec(root.right);
+
+		return Math.min(left, right)+1;
 	}
 	
 	/*

@@ -10,6 +10,81 @@ import java.util.concurrent.LinkedBlockingDeque;
 
 public class Recursive {
 	
+	/*
+	 * 3. There is a particular sequence only uses the numbers 1, 2, 3, 4 and no two adjacent numbers are the same.
+Write a program that given n1 1s, n2 2s, n3 3s, n4 4s will output the number of such sequences using all these numbers.
+	 */
+	public static int numberOfSeq(int n1, int n2, int n3, int n4){
+		int[] result = new int[1];
+		result[0]++;
+		numberOfSeqUtil(n1, n2, n3, n4, 1, 0, 0, 0, 1, result);
+		result[0]++;
+		numberOfSeqUtil(n1, n2, n3, n4, 0, 1, 0, 0, 2, result);
+		result[0]++;
+		numberOfSeqUtil(n1, n2, n3, n4, 0, 0, 1, 0, 3, result);
+		result[0]++;
+		numberOfSeqUtil(n1, n2, n3, n4, 0, 0, 0, 1, 4, result);
+		return result[0];
+	}
+	
+	private static void numberOfSeqUtil(int n1, int n2, int n3, int n4, int k1, int k2, int k3, int k4, int lastDigit, int[] result){
+		 if(lastDigit==1){
+			if(k2<n2){
+			result[0]++;
+			numberOfSeqUtil(n1, n2, n3, n4, k1, k2+1, k3, k4, 2, result);
+			}
+			if(k3<n3){
+			result[0]++;
+			numberOfSeqUtil(n1, n2, n3, n4, k1, k2, k3+1, k4, 3, result);
+			}
+			if(k4<n4){
+			result[0]++;
+			numberOfSeqUtil(n1, n2, n3, n4, k1, k2, k3, k4+1, 4, result);
+			}
+		}else if(lastDigit==2){
+			if(k1<n1){
+			result[0]++;
+			numberOfSeqUtil(n1, n2, n3, n4, k1+1, k2, k3, k4, 1, result);
+			}
+			if(k3<n3){
+			result[0]++;
+			numberOfSeqUtil(n1, n2, n3, n4, k1, k2, k3+1, k4, 3, result);
+			}
+			if(k4<n4){
+			result[0]++;
+			numberOfSeqUtil(n1, n2, n3, n4, k1, k2, k3, k4+1, 4, result);
+			}
+		}else if(lastDigit==3){
+			if(k1<n1){
+			result[0]++;
+			numberOfSeqUtil(n1, n2, n3, n4, k1+1, k2, k3, k4, 1, result);
+			}
+			if(k2<n2){
+			result[0]++;
+			numberOfSeqUtil(n1, n2, n3, n4, k1, k2+1, k3, k4, 2, result);
+			}
+			if(k4<n4){
+			result[0]++;
+			numberOfSeqUtil(n1, n2, n3, n4, k1, k2, k3, k4+1, 4, result);
+			}
+		}else{
+			if(k1<n1){
+				result[0]++;
+				numberOfSeqUtil(n1, n2, n3, n4, k1+1, k2, k3, k4, 1, result);
+			}
+			if(k2<n2){
+				result[0]++;
+				numberOfSeqUtil(n1, n2, n3, n4, k1, k2+1, k3, k4, 2, result);
+			}
+			if(k3<n3){
+				result[0]++;
+				numberOfSeqUtil(n1, n2, n3, n4, k1, k2, k3+1, k4, 3, result);
+			}
+		}
+		
+		
+	}
+	
 	/**
 	 * Towers of Hanoi
 	 * @author junminliu
