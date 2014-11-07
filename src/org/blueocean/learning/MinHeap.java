@@ -14,11 +14,13 @@ public class MinHeap {
 	}
 	
 	Node[] list;
+	int size;
 	/*
 	 * populate MinHeap with the first row
 	 */
 	public MinHeap(int[] sorted){
 		list = new Node[sorted.length];
+		size = sorted.length;
 		
 		for(int i=0; i<sorted.length; i++){
 			list[i] = new Node(sorted[i], 0, i);
@@ -27,6 +29,34 @@ public class MinHeap {
 	
 	public int[] getChilden(int index){
 		return new int[]{2*index+1, 2*index+2};
+	}
+	
+	public boolean isEmpty(){
+		return size == 0;
+	}
+	
+	public void add(Node n){
+		if(size==list.length)
+			return;
+		
+		list[size] = n;
+		size++;
+		bubbleUp(size);	
+	}
+	
+	public void bubbleUp(int index){
+		
+	}
+	
+	public Node popMin(){
+		Node min = list[0];
+		if(size>1){
+			list[0] = list[size-1];
+			list[size-1] = null;
+		}
+		size--;
+		bubbleDown(0);
+		return min;
 	}
 	
 	public Node getRoot(){
@@ -46,20 +76,18 @@ public class MinHeap {
 	
 	public void bubbleDown(int index){
 		int[] children = this.getChilden(index);
-		if(children[0]>=list.length)
-			return;
-		if(children[1]>=list.length){
-			if(list[children[0]].value < list[index].value)
-				swap(children[0], index);				
-			return;			
+		int replaceIndex = index;
+		
+		if(children[0]<list.length && list[children[0]].value<list[index].value)
+			replaceIndex = children[0];
+		
+		if(children[1]<list.length && list[children[1]].value<list[index].value)
+			replaceIndex = children[1];		
+				
+		if(replaceIndex!=index){
+			swap(replaceIndex, index);
+			bubbleDown(replaceIndex);
 		}
 		
-		if(Math.min(list[children[0]].value, list[children[1]].value) < list[index].value){
-			int index2 = list[children[0]].value < list[children[1]].value ? children[0] : children[1];
-			swap(index2, index);
-			bubbleDown(index2);
-		}
-		
-		return;
 	}
 }

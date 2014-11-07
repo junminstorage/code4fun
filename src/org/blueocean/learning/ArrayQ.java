@@ -2,6 +2,11 @@ package org.blueocean.learning;
 
 public class ArrayQ {
 	
+	/*
+	 * http://www.geeksforgeeks.org/kth-smallest-element-in-a-row-wise-and-column-wise-sorted-2d-array-set-1/
+	 * Given an n x n matrix, where every row and column is sorted in non-decreasing order. 
+	 * Find the kth smallest element in the given 2D array.
+	 */
 	public static int findKthMinin2D(int[][] nums, int k){
 		MinHeap heap = new MinHeap(nums[0]);
 		
@@ -11,8 +16,6 @@ public class ArrayQ {
 			min = heap.getRoot();
 			MinHeap.Node n; 
 			if(min.row+1<nums.length){
-				//System.out.println(min.row);
-				//System.out.println(min.col);
 				n =  heap.new Node(nums[min.row+1][min.col], min.row+1, min.col);
 			}
 			else{

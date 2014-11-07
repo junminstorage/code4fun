@@ -108,6 +108,95 @@ public class TreeQTest extends TestCase {
 		return root;
 	}
 	
+	public Node createBST3(){
+		Node root = new Node();
+		root.data = 10;
+		
+		Node left1 = new Node();
+		left1.data = 8;
+		
+		Node right1 = new Node();
+		right1.data = 12;
+		
+		root.left = left1;
+		root.right = right1;
+		
+		Node left2 = new Node();
+		left2.data = 7;
+		
+		Node right2 = new Node();
+		right2.data = 9;
+		
+		left1.left = left2;
+		left1.right = right2;
+		return root;
+	}
+	
+	public void testconnectNodesAtSameLevel3(){
+		Node root = createBST3();
+		TreeQ.connectNodesAtSameLevel3(root);		
+		System.out.println(1);
+	}
+	
+	public void testconnectNodesAtSameLevel2(){
+		Node root = createBST3();
+		TreeQ.connectNodesAtSameLevel2(root);		
+		System.out.println(1);
+	}
+	
+	public void testfindKDistanceNodeFromGivenNode(){
+		Node root = new Node();
+		root.data = 12;
+		
+		Node left1 = new Node();
+		left1.data = 8;
+		
+		Node right1 = new Node();
+		right1.data = 10;
+		
+		root.left = left1;
+		root.right = right1;
+		
+		Node left2 = new Node();
+		left2.data = 7;
+		
+		Node right2 = new Node();
+		right2.data = 9;
+		
+		left1.left = left2;
+		left1.right = right2;
+		
+		TreeQ.findKDistanceNodeFromGivenNode(root, left1, 1);
+		
+	}
+	
+	
+	public void testfix2SwappedNodeOfBST(){
+		Node root = new Node();
+		root.data = 12;
+		
+		Node left1 = new Node();
+		left1.data = 8;
+		
+		Node right1 = new Node();
+		right1.data = 10;
+		
+		root.left = left1;
+		root.right = right1;
+		
+		Node left2 = new Node();
+		left2.data = 7;
+		
+		Node right2 = new Node();
+		right2.data = 9;
+		
+		left1.left = left2;
+		left1.right = right2;
+		
+		TreeQ.fix2SwappedNodeOfBST(root);
+		
+	}
+	
 	public void testlevelTraveseTreeRec(){
 		TreeQ.Node root1 = createBST();
 		TreeQ.levelTraveseTreeRec(root1);

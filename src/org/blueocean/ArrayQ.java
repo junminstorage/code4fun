@@ -76,6 +76,8 @@ public class ArrayQ {
 	
 	/*
 	 * http://www.geeksforgeeks.org/print-a-given-matrix-in-spiral-form/
+	 * 
+	 * print matrix in spiral form
 	 */
 	public static void print2DArraySpiral(int[][] numbers){
 		int starti=0, endi=numbers.length-1, startj=0, endj=numbers[0].length-1;
@@ -103,7 +105,11 @@ public class ArrayQ {
 		}
 	}
 	
-	
+	/*
+	 * find number in rotated sorted array
+	 * this is correct
+	 * 
+	 */
 	public static int findInRotatedSorted(int[] num, int k, int start, int end){
 		if(start<0 || end >=num.length)
 			return -1;
@@ -151,6 +157,10 @@ public class ArrayQ {
 		
 	}
 	
+	/* 
+	 * find max cost path in a matrix, 
+	 * you can only move down or right
+	 */
 	public static int findMaxCostPath(int[][] nums){
 		int[][] path = new int[nums.length][nums[0].length];
 		System.out.println(nums.length + " - " + nums[0].length);
@@ -232,14 +242,14 @@ public class ArrayQ {
 	 */
 	public static int[] find3Sum(int[] nums){
 		Arrays.sort(nums); 
-		for(int k=0; k<nums.length-1; k++){
+		for(int k=0; k<nums.length-2; k++){
 			int i=k+1;
 			int j=nums.length-1;
-			int target = 0 - nums[i];
+			int target = 0 - nums[k];
 			while(i<j){
 				int sum = nums[i] + nums[j];
 				if(sum == target)
-					return new int[]{k, i+1, j+1};
+					return new int[]{k, i, j};
 				else if(sum>target)
 					j--;
 				else
@@ -270,7 +280,7 @@ public class ArrayQ {
 				i++;
 		}
 			
-		return new int[]{0,0};
+		return null;
 	}
 	
 	/**
@@ -278,16 +288,24 @@ public class ArrayQ {
 	 * O(n)
 	 */
 	public static int[] find2Sum2(int[] nums, int target){
+		//store the number and the number of times it appears in the list
 		HashMap<Integer, Integer> found = new HashMap<Integer, Integer>();
 		found.put(nums[0], 1);		
 		for(int i=1; i< nums.length; i++){
-			 if(found.containsKey(target - nums[i]))
-				 return new int[]{found.get(target - nums[i]), i+1};
-			 else
-				 found.put(nums[i], i+1);
+			int key = target - nums[i];
+			 if(found.containsKey(key) && found.get(key)>0){
+				 found.put(key, found.get(key)-1);
+				 return new int[]{target, nums[i]};
+			 }
+			 else{
+				 if(found.containsKey(nums[i]))
+					 found.put(nums[i], found.get(nums[i]+1));
+				 else
+					 found.put(nums[i], 1);
+			 }
 		}
 			
-		return new int[]{0,0};
+		return null;
 	}
 	
 	

@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -15,6 +16,371 @@ import java.util.TreeSet;
 
 public class NumberQ {
 	
+	/*
+	 * http://www.careercup.com/question?id=5116481574535168
+	 */
+	/* In "the 100 game," two players take turns adding, to a running 
+	total, any integer from 1..10. The player who first causes the running 
+	total to reach or exceed 100 wins. 
+	What if we change the game so that players cannot re-use integers? 
+	For example, if two players might take turns drawing from a common pool of numbers 
+	of 1..15 without replacement until they reach a total >= 100. This problem is 
+	to write a program that determines which player would win with ideal play. 
+
+	Write a procedure, "Boolean canIWin(int maxChoosableInteger, int desiredTotal)", 
+	which returns true if the first player to move can force a win with optimal play. 
+
+	Your priority should be programmer efficiency; don't focus on minimizing 
+	either space or time complexity. 
+	*/ 
+
+	public static boolean canIWin(int maxChoosableInteger, int desiredTotal) { 
+		Set<Integer> pool = new HashSet<Integer>();
+		return canIWinRec(pool, maxChoosableInteger, 0, desiredTotal);
+	}
+	
+	public static boolean canIWinRec(Set<Integer> pool, int max, int sum, int total) { 
+		for(int i=max; i>=1; i--){
+			if(!pool.contains(i) && i + sum >= total)
+				return true;
+		}
+		
+		for(int i=1; i<=max; i++){
+			if(!pool.contains(i)){
+				Set<Integer> newPool = new HashSet<Integer>(pool);
+				newPool.add(i);
+				if(!canIWinRec(newPool, max, sum+i, total))
+					return true;	
+			}
+		}
+		return false;
+	}
+	
+	/** 
+	* Given a nested list of integers, returns the sum of all integers in the list weighted by their depth 
+	* For example, given the list {{1,1},2,{1,1}} the function should return 10 (four 1's at depth 2, one 2 at depth 1) 
+	* Given the list {1,{4,{6}}} the function should return 27 (one 1 at depth 1, one 4 at depth 2, and one 6 at depth 3) 
+	*/ 
+	public static int depthSum (List<NestedInteger> input) 
+	{ 
+		return depthSumRec(input, 1);
+	}
+	
+	public static int depthSumRec (List<NestedInteger> input, int depth) 
+	{ 
+		int sum = 0; 
+		
+		for(NestedInteger n : input){
+			if(n.isInteger()){
+				sum = sum + n.getInteger()*depth;
+			}else{
+				sum = sum + depthSumRec(n.getList(), depth+1);
+			}
+		}
+		
+		return sum;
+
+	}
+	
+	/** 
+	* This is the interface that represents nested lists. 
+	* You should not implement it, or speculate about its implementation. 
+	*/ 
+	public static interface NestedInteger 
+	{ 
+	/** @return true if this NestedInteger holds a single integer, rather than a nested list */ 
+	boolean isInteger(); 
+
+	/** @return the single integer that this NestedInteger holds, if it holds a single integer 
+	* Return null if this NestedInteger holds a nested list */ 
+	Integer getInteger(); 
+
+	/** @return the nested list that this NestedInteger holds, if it holds a nested list 
+	* Return null if this NestedInteger holds a single integer */ 
+	List<NestedInteger> getList(); 
+	}
+	
+	/*
+	 *  the maximum subarray problem is the task of finding the contiguous subarray within a one-dimensional 
+	 *  array of numbers (containing at least one positive number) which has the largest sum.
+	 */
+	public static void getMaxSumFromSubSequence(int[] numbers){
+		int maxSum = numbers[0];
+		int currentSum = numbers[0];
+		for(int i=1;i<numbers.length; i++){
+			currentSum = Math.max(currentSum + numbers[i], numbers[i]);
+			maxSum = Math.max(maxSum, currentSum);
+		}
+	}
+	
+	/*
+	 * Given a number d and size of array N. Print all combination of element in the array such that first element of array
+	 *  is d and next element in the array can be +1 or -1 the previous element in the array. Code was required.
+	 */
+	public static void printCombinations(int d, int n){
+		List<Integer> result = new ArrayList<Integer>();
+		result.add(d);
+		printCombinations(n, result, d);
+		
+	}
+	
+	public static void printCombinations(int n, List<Integer> current, int last){
+		if(current.size() == n)
+			System.out.println(current);
+		else{
+			List<Integer> newList = new ArrayList<Integer>(current);
+			newList.add(last+1);
+			printCombinations(n, newList, last+1);
+				
+			List<Integer> newList2 = new ArrayList<Integer>(current);
+			newList2.add(last-1);	
+			printCombinations(n, newList2, last-1);
+		}
+	}
+	
+	/*
+	 *  Find a sorted subsequence of size k in linear time
+	 */
+	public static void find4SortedSubsequence(int[] numbers, int k){
+		int[] big = new int[numbers.length];
+		big[numbers.length-1] = numbers.length;
+		
+		for(int i=numbers.length-2;i>=0;i--){
+			int after = i+1;
+			while(after<=numbers.length-1){
+				if(numbers[i]<numbers[after]){
+					big[i] = after;
+					break;
+				}
+				after = big[after];
+			}
+			if(after==numbers.length)
+				big[i] = after;
+		}
+		
+		
+		for(int i=0; i<=numbers.length-4; i++){
+			int c = i;
+			int counter=0;
+			StringBuilder sb = new StringBuilder();
+			sb.append(c);
+			while(big[c]!=numbers.length && counter <k-1){
+				c = big[c];
+				sb.append(",").append(c);
+				counter++;
+			}
+			if(counter==k-1){
+				System.out.println(sb.toString());
+				return;
+			}
+		}
+		
+		System.out.println("not found");
+		
+	}
+	/*
+	 * 1. Find a subsequence of size 3 such that arr[i] < arr[j] > arr[k].
+	 */
+	public static void findUPnDownSubSeq(int[] numbers){
+		if(numbers==null||numbers.length<3)
+			return;
+		int p1 = numbers[0];
+		int p2 = 0;
+		int p3 = 0;
+		int counter=1;
+		for(int i=1;i<numbers.length;i++){
+			if(counter==1){
+				if(numbers[i]>p1){
+					p2 = numbers[i];
+					counter++;
+				}else{
+					p1 = numbers[i];
+				}
+			}
+			
+			if(counter==2){
+				if(numbers[i]>p2){
+					p3 = numbers[i];
+					counter++;
+				}else{
+					p2 = numbers[i];
+				}
+			}
+		}
+		
+		if(counter==3){
+			System.out.println(p1 + "," + p2 + "," + p3);
+		}else{
+			System.out.println("not found");
+		}
+	}
+	
+	
+	/*
+	 * http://www.geeksforgeeks.org/find-a-sorted-subsequence-of-size-3-in-linear-time/
+	 */
+	public static void findSortedSubSeq(int[] numbers){
+		if(numbers==null||numbers.length<3)
+			return;
+		int p1 = numbers[0];
+		int p2 = 0;
+		int p3 = 0;
+		int min = numbers[0];
+		int counter=1;
+		for(int i=1;i<numbers.length;i++){
+			if(counter==1){
+				if(numbers[i]>p1){
+					p2 = numbers[i];
+					counter=2;
+				}else{
+					p1=numbers[i];
+					min=numbers[i];
+				}
+			}
+			
+			if(counter==2){
+				if(numbers[i]>p2){
+					p3 = numbers[i];
+					counter=3;
+				}else{
+					if(numbers[i]>p1){
+						p2 = numbers[i];
+					}else if(numbers[i]<=min){
+						min=numbers[i];
+					}else{
+						p1 = min;
+						p2 = numbers[i];
+					}
+				}
+			}
+		}
+		
+		if(counter==3){
+			System.out.println(p1 + "," + p2 + "," + p3);
+		}else{
+			System.out.println("not found");
+		}
+		
+	}
+	
+	/*
+	 * 2.	Given an integer array, find and print three element in the array whose product is maximum. Code was required.
+http://www.technicalypto.com/2010/05/find-three-numbers-in-array-which-forms.html
+	 */
+	public static int maxProductOf3(int[] numbers){
+		if(numbers==null || numbers.length<=2)
+			return Integer.MIN_VALUE;
+		if(numbers.length==3)
+			return numbers[0] * numbers[1] * numbers[2];		
+		
+		int min1 = 0;
+		int min2 = 0;
+		int max1 = Math.max(Math.max(numbers[0], numbers[1]), numbers[2]);
+		int max2 = Math.min(Math.max(numbers[0], numbers[1]), numbers[2]);
+		int max3 = Math.min(Math.min(numbers[0], numbers[1]), numbers[2]);
+		
+		for(int i=0; i<numbers.length; i++){
+			if(numbers[i]<0){
+				if(numbers[i] < min1){
+					min2 = min1;
+					min1 = numbers[i];
+				}
+				else if(numbers[i] < min2)
+					min2 = numbers[i];
+			}
+			
+			if(numbers[i] > max1){
+				max1 = numbers[i];
+				max3 = max2;
+				max2 = max1;
+			}
+			else if(numbers[i] > max2){
+				max2 = numbers[i];
+				max3 = max2;
+			}
+			else if(numbers[i] > max3)
+				max3 = numbers[i];
+		}
+		
+		if(min1>=0)
+			return max1*max2*max3;
+		else if(max1<=0)
+			return max1*max2*max3;
+		else{
+			//min1<0 && max1>0
+			if(min1*min2 > max2*max3)
+				return min1*min2*max1;
+			else
+				return max1*max2*max3;		
+		}
+		
+	}
+	
+	/*
+	 * Given an integer array and a constant number X, print all pair of number in the array 
+	 * whose product is equal to X. 
+	 * follow ups: how will you do in O(n)? how will you handle duplicate pairs?
+	 */
+	//solution 1, assume unique numbers in the array
+	public static void allPairs(int[] numbers, int product){
+		Set<Integer> set = new HashSet<Integer>();
+		for(int i=0; i<numbers.length; i++){			
+			if(product%numbers[i]==0 && set.contains(product/numbers[i])){
+				System.out.println(numbers[i] + "," + product/numbers[i]);
+				set.remove(product/numbers[i]);
+			}else
+				set.add(numbers[i]);
+		}		
+	}
+	
+	//solution 2, assume any random including duplicate numbers in the array
+		public static void allPairs2(int[] numbers, int product){
+			Map<Integer, Integer> set = new HashMap<Integer, Integer>();
+			for(int i=0; i<numbers.length; i++){			
+				if(product%numbers[i]==0 && set.containsKey(product/numbers[i]) && set.get(product/numbers[i])>0){
+					System.out.println(numbers[i] + "," + product/numbers[i]);
+					set.put(product/numbers[i], set.get(product/numbers[i])-1);
+				}else{
+					if(set.containsKey(numbers[i]))
+						set.put(numbers[i], set.get(numbers[i])+1);
+					else
+						set.put(numbers[i], 1);
+				}
+			}		
+		}
+	/*
+	 * http://en.wikipedia.org/wiki/Roman_numerals
+	 */
+	public static int roman2Arabic(String roman){
+		if(roman.isEmpty())
+			return 0;
+		int result = 0;
+		int p = roman.length()-1;
+		int preV = 0;
+		while(p>=0){
+			int currentV= romanLetter2int(roman.charAt(p));		
+			if(preV>currentV){
+				result = result - currentV;
+			}else
+				result = result + currentV;
+			preV = currentV;
+			p--;
+		}
+		return result;
+	}
+	
+	public static int romanLetter2int(char c){
+		switch(c){
+			case 'I' : return 1;
+			case 'V' : return 5;
+			case 'X' : return 10;
+			case 'L' : return 50;
+			case 'C' : return 100;
+			case 'D' : return 500;
+			case 'M' : return 1000;
+			default : 	throw new IllegalArgumentException(c + "is illegal roman");
+		}
+	}
 	
 	/*
 	 * Given an array of numbers print the values in diagonal format. 
@@ -61,6 +427,45 @@ arr={1 1 0 1 1 0 0 1 1 1 } m=2
 output={1 1 0 1 1 1 1 1 1 1} position=5,6
 http://www.careercup.com/question?id=5106425965576192
 	 */
+	public static List<Integer> findZeroPositions2(int[] numbers, int k){
+		int p1 = 0;
+		int p2 = 0;
+		int counter = 0;
+		int maxL = 0;
+		int maxP1 = p1;
+		int maxP2 = p2;
+		while(p1<numbers.length-maxL){
+			while(p2<numbers.length && counter<k){
+				if(numbers[p2]==0)
+					counter++;
+				p2++;
+			}
+			
+				if(p2-p1>maxL){
+					maxL = p2-p1;
+					maxP1 = p1;
+					maxP2 = p2;
+				}
+				
+				if(numbers[p1]==0)
+					counter--;
+				p1++;
+			
+		}
+		
+		List<Integer> result = new ArrayList<Integer>();
+		for(int i=maxP1; i<maxP2; i++){
+			if(numbers[i]==0)
+				result.add(i);
+		}
+		
+		return result;
+		
+		
+	}
+	
+	
+	
 	public static List<Integer> findZeroPositions(int[] numbers, int k){
 		int p1=0;
 		int p2 = p1;
@@ -1271,6 +1676,40 @@ notes:
 	}
 	
 	/*
+	 * /* Write a function to compute the maximum length palindromic sub-sequence of an array. 
+	A palindrome is a sequence which is equal to its reverse. 
+	A sub-sequence of an array is a sequence which can be constructed by removing elements of the array. 
+	Ex: Given [4,1,2,3,4,5,6,5,4,3,4,4,4,4,4,4,4] should return 10 (all 4's) */ 
+
+	public static int maxLengthPalindrome(int[] values) { 
+		if(values==null || values.length==0)
+			return 0;
+		
+		int[][] table = new int[values.length][values.length];
+		//step = 0
+		for(int i=0; i<values.length; i++)
+			table[i][i] = 1;
+		//step =1
+		for(int i=0; i<values.length-1; i++){
+			table[i][i+1] = values[i]==values[i+1]?2:1;
+		}
+		
+		for(int step = 2; step<values.length; step++){
+			for(int i= 0; i+step<values.length; i++){
+				if(values[i] == values[i+step])
+					table[i][i+step] = table[i+1][i+step-1]+2;
+				else
+					table[i][i+step] = Math.max(table[i][i+step-1], table[i+1][i+step]);
+			}
+		}
+		
+		return table[0][values.length-1];
+	}
+
+
+
+
+	/*
 	 * Given an unsorted array of nonnegative integers, 
 	 * find a continous subarray which adds to a given number.
 	 */
@@ -1283,15 +1722,20 @@ notes:
 		
 		int currentSum = numbers[start];
 		while(end < numbers.length){		
-			if(currentSum == sum)
-				return start;
-			else if(currentSum>sum){
+			
+			if(currentSum>sum){
 				currentSum = currentSum - numbers[start];
 				start++;
-			}else{
+			}	
+				
+			if(currentSum<sum){
 				currentSum = numbers[end] + currentSum;
 				end++;
 			}
+			
+			if(currentSum == sum)
+				return start;
+			
 		}
 		
 		return -1;
@@ -1566,7 +2010,48 @@ notes:
 		return sum;
 	}
 	
+	/*
+	 * http://www.geeksforgeeks.org/stock-buy-sell/
+	 * The cost of a stock on each day is given in an array,
+	 * find the max profit that you can make by buying and selling in those days.
+	 */
+	public static void buySellStock2(int[] nums){
+		int i = 0;
+		int minIndex = 0;
+		boolean found = false;
+		
+		while(i<nums.length){
+			//find next min
+			while(i<nums.length && nums[i]<=nums[minIndex]){
+				minIndex = i;
+				i++;
+			}
+			
+			int maxIndex=i;
+			//find next max after min
+			while(i<nums.length && nums[i]>=nums[maxIndex]){
+				maxIndex = i;
+				i++;
+			}
+			
+			if(minIndex<nums.length && maxIndex<nums.length){
+				System.out.println(minIndex + "," + maxIndex);
+				found = true;
+			}
+			
+			minIndex = i;
+		}		
+		
+		if(!found){
+			System.out.println("not found");
+		}
+	}
 	
+	/*
+	 * http://www.geeksforgeeks.org/maximum-difference-between-two-elements/
+	 * Maximum difference between two elements such that larger element appears after the smaller number
+	 */
+	//this method find the single one pair of buy/sell points which earns mostly
 	public static int[] buySellStock(int[] nums){
 		int[] times = new int[2];		
 		times[0] = 0;
@@ -1669,6 +2154,13 @@ notes:
 
 	}
 	
+	/*
+	 * http://www.geeksforgeeks.org/dynamic-programming-set-3-longest-increasing-subsequence/
+	 * The longest Increasing Subsequence (LIS) problem is to find the length of the 
+	 * longest subsequence of a given sequence such that all elements of 
+	 * the subsequence are sorted in increasing order. For example, 
+	 * length of LIS for { 10, 22, 9, 33, 21, 50, 41, 60, 80 } is 6 and LIS is {10, 22, 33, 50, 60, 80}.
+	 */
 	public static int[] findLIS(int[] nums){
 		int maxLIS = 0;
 		
@@ -2013,6 +2505,7 @@ notes:
 		
 	}
 	
+	//if 2 sum equal to zero
 	public static boolean ifZeroSumExit(int[] nums){
 		Set<Integer> s = new TreeSet<Integer>();		
 		for(int i=0; i< nums.length; i++)
@@ -2405,6 +2898,7 @@ public static void orderByZero2(int[] num){
 	/*
 	 * Given an array which initially increases and then decreases, 
 	 * search for an element in the array.
+	 * solution is to find max point first
 	 */
 	public int findKInInfiniteArray(int[] numbers, int k){
 		int start = 0;
@@ -2412,7 +2906,7 @@ public static void orderByZero2(int[] num){
 			return start;		
 		else if(numbers[start]>k){
 			//need to find the point where number < k
-			start = 1;
+			start = 1;  
 			while(numbers[start]>k){
 				start = start * 2;
 			}
@@ -2443,13 +2937,8 @@ public static void orderByZero2(int[] num){
 	}
 
 	protected static int findKInDecreasedArray(int[] numbers, int k, int start, int end) {
-		if(start==end){
-			return numbers[start]==k?start:-1;
-		}
-		
-		if(end-start==1){
-			return numbers[start]==k?start:(numbers[end]==k?end:-1);
-		}
+		if(start>end)
+			return -1;
 		
 		int middle = (start+end)/2;
 		if(numbers[middle]==k)

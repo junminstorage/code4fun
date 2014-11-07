@@ -1,5 +1,6 @@
 package org.blueocean;
 
+import java.io.ObjectInput;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,6 +15,116 @@ import java.util.Stack;
 import java.util.TreeSet;
 
 public class StringQ {
+	
+	/*
+	 * http://www.careercup.com/question?id=6283084039192576
+	 * Write a program that gives count of common characters presented in an array of strings..(or array of character arrays) 
+	 */
+	public static void findCommonChars(String[] strings){
+		if(strings==null || strings.length<2)
+			return;
+		
+		int[] t = new int[26];
+		
+		for(String s: strings){
+			int[] seen = new int[26];
+			for(int i=0; i<s.length(); i++){
+				int c = s.charAt(i)-'a';
+				seen[c]++;
+				if(seen[c]==1)
+					t[c]++;
+			}
+		}
+		
+		for(int i=0; i<26; i++){
+			if(t[i]==strings.length)
+				System.out.println((char)(i+'a'));
+		}
+	}
+	
+	/*
+	 * http://www.geeksforgeeks.org/amazon-interview-experience-set-140-experienced-sde/
+	 * 2.	In a given string some of the characters are replaced by question mark, and 
+	 * you can replace question mark with any character. Given such a string find total number of 
+	 * palindrome that can created. String contains only [a-z] characters and question 
+	 * marks can also be only replaced by [a-z].
+Example:
+Input String: String str=”a??a”
+Output: 26
+	 */
+	public static void findAllPalindrome(String input){
+		if(input==null || input.isEmpty())
+			return;
+		
+		findAllPalindrome(input, 0, input.length()-1);
+	}
+	
+	public static void findAllPalindrome(String input, int i, int j){
+		if(i>j)
+			System.out.println(input);
+		else if(i==j){
+			if(input.charAt(i)=='?'){
+				for(int k='a'; k<='z'; k++){
+					char[] chars = input.toCharArray();
+					chars[i] = (char)k;
+					System.out.println(String.valueOf(chars));
+				}				
+			}else
+				System.out.println(input);
+		}else{
+			char ci = input.charAt(i);
+			char cj = input.charAt(j);
+			if(ci!='?'&&cj!='?'&&ci!=cj){
+				System.out.println("can not find any");
+			}
+			else if(ci=='?' && cj=='?'){
+				for(int k='a'; k<='z'; k++){
+					char[] chars = input.toCharArray();
+					chars[i] = (char)k;
+					chars[j] = (char)k;
+					findAllPalindrome(String.valueOf(chars), i+1, j-1);
+				}	
+			}else{
+				char replace = ci=='?'?cj:ci;
+				char[] chars = input.toCharArray();
+				chars[i] = replace;
+				chars[j] = replace;
+				findAllPalindrome(String.valueOf(chars), i+1, j-1);
+			}
+		}
+	}
+	
+	
+	/*
+	 * http://www.javacodegeeks.com/2010/07/java-best-practices-high-performance.html
+	 */
+	/*
+	 * http://www.javacodegeeks.com/2010/11/java-best-practices-char-to-byte-and.html
+	 */
+	public static byte[] stringToBytesASCII(String input){
+		byte[] byteArray = new byte[input.length()];
+		for(int i=0; i<input.length(); i++){
+			byteArray[i] = (byte)input.charAt(i);
+		}
+		return byteArray;
+	}
+	
+	
+	static ObjectInput objectInput;
+	
+	
+	public static byte[] stringToBytesCustom(String input){
+		
+		byte[] byteArray = new byte[input.length()<<1];
+		for(int i=0; i<input.length(); i++){
+			int j = i<<1;
+			byteArray[j] = (byte)(input.charAt(i)&0xFF00>>8);
+			byteArray[j+1] = (byte)(input.charAt(i)&0x00FF);
+		}
+		return byteArray;
+	}
+	
+	
 	
 	/*
 	 * Group Anagrams 
@@ -142,7 +253,9 @@ inline int prime_map(char c) {
 		
 		return true;
 	}
-	
+	/*
+	 * minimum number of editions between 2 strings
+	 */
 	public static int distance(String s1, String s2){
 		int[][] edits = new int[s1.length()][s2.length()];
 		edits[0][0] = 0;
@@ -165,7 +278,9 @@ inline int prime_map(char c) {
 	}
 	
 	/*
-	 * Code a function that receives a string composed by words separated by spaces and returns a string where words appear in the same order but than the original string, but every word is inverted. 
+	 * Code a function that receives a string composed by words separated by 
+	 * spaces and returns a string where words appear in the same order 
+	 * but than the original string, but every word is inverted. 
 	Example, for this input string
 	http://www.careercup.com/question?id=5106757177180160
 	 */
@@ -406,7 +521,8 @@ inline int prime_map(char c) {
 	}
 	
 	/*
-	 * Given a string having no spaces, and a dictionary.Problem was to find if that string can be splitted in multiple strings such that all the splitted
+	 * Given a string having no spaces, and a dictionary.Problem was to find 
+	 * if that string can be splitted in multiple strings such that all the splitted
 	 *  strings are in dictionary. I was provided a function search(string str) which will tell if a particular string str is in the dictionary or not.
 	 */
 	public boolean stringSplittable(String s){
@@ -578,6 +694,42 @@ inline int prime_map(char c) {
 		}
 	}
 	
+	/*
+	 * http://www.geeksforgeeks.org/given-a-string-find-its-first-non-repeating-character/
+	 * Given a string, find the first non-repeating character in it. 
+	 */
+	public static class Record{
+		int pos;
+		int counter;
+		Record(int p, int c){
+			pos = p;
+			counter = c;
+		}
+	}
+	
+	//using hash to store the counter and position of each character
+	public static char findFirstNoRepeatUsingHash(String source){
+		if(source==null || source.isEmpty())
+			return '\0';
+		
+		Map<Character, Record> store = new HashMap<Character, Record>();
+		for(int i=0; i<source.length(); i++){
+			if(store.containsKey(source.charAt(i))){
+				store.get(source.charAt(i)).counter++;
+			}else{
+				Record r = new Record(i, 1);
+				store.put(source.charAt(i), r);
+			}
+		}
+		
+		int min = Integer.MAX_VALUE;
+		for(Character c : store.keySet()){
+			if(store.get(c).counter==1 && store.get(c).pos<min)
+				min = store.get(c).pos;
+		}
+		return source.charAt(min);
+	}
+	
 	public static char findFirstNoRepeatByQ(String source){
 
 		int[] repeated = new int[256];
@@ -602,6 +754,9 @@ inline int prime_map(char c) {
 		return '\0';
 	}
 	
+	/*
+	 * http://www.geeksforgeeks.org/given-a-string-find-its-first-non-repeating-character/
+	 */
 	public static char findFirstNoRepeat(String source){
 
 		int[] repeated = new int[256];
@@ -641,12 +796,7 @@ inline int prime_map(char c) {
 					next.pre = pre;
 				}
 				map.remove(c);
-			}
-			
-		
-			
-			
-			
+			}			
 		}
 		
 		int pos = 0;

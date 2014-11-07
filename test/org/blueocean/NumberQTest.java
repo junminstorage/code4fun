@@ -11,6 +11,69 @@ import junit.framework.TestCase;
 
 public class NumberQTest extends TestCase {
 	
+	public void testcanIWin(){
+		System.out.println(NumberQ.canIWin(5, 12));
+	}
+	
+	public void testmaxLengthPalindrome(){
+		System.out.println(NumberQ.maxLengthPalindrome(new int[]{3, 4, 4, 5, 4}));
+		System.out.println(NumberQ.maxLengthPalindrome(new int[]{4,1,2,3,4,5,6,5,4,3,4,4,4,4,4,4,4}));
+	}
+	
+	public void testbuySellStock2(){
+		NumberQ.buySellStock2(new int[]{100, 180, 260, 310, 40, 535, 695});
+		NumberQ.buySellStock2(new int[]{100, 90, 80, 70, 40, 35, 5});
+	}
+	
+	public void testArraytoString(){
+		System.out.println(Arrays.toString(new int[]{1, 2, 3}));
+		System.out.println(Arrays.toString(new char[]{1, 2, 3}));
+		System.out.println(Arrays.toString(new String[]{"1", "2", "3"}));
+	}
+	
+	public void testprintCombinations(){
+		int[] numbers = new int[1];
+		numbers[0] = 1;
+		int[] newArray = Arrays.copyOf(numbers, numbers.length+1);
+		newArray[newArray.length-1] = 2;
+		
+		for(int i: newArray){
+			System.out.println(i);
+		}
+		
+		int[] newArray2 = Arrays.copyOf(numbers, numbers.length+1);
+		newArray2[newArray2.length-1] = 4;
+		
+		for(int i: newArray2){
+			System.out.println(i);
+		}
+		
+		NumberQ.printCombinations(4, 3);
+	}
+	public void testfind4SortedSubsequence(){
+		NumberQ.find4SortedSubsequence(new int[]{12, 11, 10, 5, 6, 2, 30, 40}, 4);
+	}
+	
+	public void testfindSortedSubSeq(){
+		NumberQ.findSortedSubSeq(new int[]{12, 11, 10, 5, 6, 2, 30});
+		NumberQ.findSortedSubSeq(new int[]{4, 3, 2, 1});
+		NumberQ.findSortedSubSeq(new int[]{1, 2, 3, 4});
+		NumberQ.findSortedSubSeq(new int[]{5,13,6,10,3,7,2});
+	}
+	
+	public void testallPairs2(){
+		NumberQ.allPairs2(new int[]{1, 1, 2, 2, 3, 3, 4, 3, 5, 6}, 6);
+	}
+	
+	public void testallPairs(){
+		NumberQ.allPairs(new int[]{1, 1, 2, 2, 3, 3, 4, 3, 5, 6}, 6);
+	}
+	
+	public void testroman2Arabic(){
+		System.out.println(NumberQ.roman2Arabic("MMXIV"));
+		System.out.println(NumberQ.roman2Arabic("MMXV"));
+	}
+	
 	public void testoutDiagonalFormat(){
 		NumberQ.outDiagonalFormat(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12});
 	}
@@ -179,7 +242,7 @@ public class NumberQTest extends TestCase {
 	}
 	
 	public void testfindKInDecreasedArray(){
-		System.out.println(NumberQ.findKInDecreasedArray(new int[]{7, 6, 5, 4, 3, 2, 1, 0}, 2, 0, 8));
+		System.out.println(NumberQ.findKInDecreasedArray(new int[]{7, 6, 5, 4, 3, 2, 1, 0}, 7, 0, 8));
 		
 		System.out.println(NumberQ.findKInDecreasedArray(new int[]{7, 6, 5, 4, 3, 2, 1, 0}, 12, 0, 8));
 	}

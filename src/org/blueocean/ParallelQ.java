@@ -8,7 +8,11 @@ import java.io.RandomAccessFile;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Callable;
@@ -20,8 +24,38 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.Future;
 import java.util.concurrent.RecursiveTask;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class ParallelQ {
+	
+	ThreadLocalRandom rn = ThreadLocalRandom.current();
+	
+	public Date convertStringToDate(String dateString) throws ParseException {	
+		  return df.get().parse(dateString);	
+	}
+
+	private ThreadLocal<DateFormat> df = new ThreadLocal<DateFormat> () {
+
+		  @Override
+		  public DateFormat get() {
+	
+		   return super.get();
+	
+		  }
+	
+		  @Override
+		  protected DateFormat initialValue() {
+		   return new SimpleDateFormat("yyyy MM dd");	
+		  }
+
+		  @Override
+		  public void set(DateFormat value) {
+		   super.set(value);
+		  }
+		 };
+
+		 
+
 	/*
 	 * http://www.careercup.com/question?id=5653584985194496
 	 * process large file using threads

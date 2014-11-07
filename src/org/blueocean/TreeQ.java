@@ -81,6 +81,218 @@ public class TreeQ {
 		return root;
 	}
 	
+	
+	/*
+	 * http://www.geeksforgeeks.org/amazon-interview-experience-set-142-campus-sde-1/
+	 * Given a node in a binary tree, find all the nodes which are at distance K from it. 
+	 * Root node is also given.
+	 * 
+	 */
+	//using bottom up approach to find the nodes above target
+	//then using up-down approach to find the nodes below target
+	public static int treeVisit(Node current, Node target, int k){
+		
+		if(current==null)
+			return -1;
+		if(current == target)
+			return 0;
+				
+		int dL = treeVisit(current.left, target, k);
+		
+		int dR = treeVisit(current.right, target, k);
+		
+		if(dL!=-1){
+			
+			if(dL+1==k){
+				System.out.println(current.data);
+			}else{
+				findKDistanceNode(current.right, k-dL-2);
+			}
+			
+			return dL + 1;
+		}else if(dR!=-1){
+			
+			if(dR+1==k){
+				System.out.println(current.data);
+			}else{
+				findKDistanceNode(current.left, k-dL-2);
+			}
+			
+			return dR + 1;
+		}else
+			return -1;	
+	}
+	
+	
+	public static List<Node> findKDistanceNodeFromGivenNode(Node root, Node t, int k){
+		if(root==null)
+			return Collections.EMPTY_LIST;
+		
+		if(root==t)
+			return findKDistanceNode(root, k);
+		else{
+			int dL = findDistance(1, root.left, t);
+			int dR = findDistance(1, root.right, t);
+			List<Node> list1 = new ArrayList<Node>();
+			List<Node> list2 = new ArrayList<Node>();
+			if(dL==-1){
+				list1= findKDistanceNode(root.right, k+dR-1);
+				
+				if(dR-k>0)
+					list2= findKDistanceNode(root.right, dR-k-1);
+				else if(dR-k<0)
+					list2= findKDistanceNode(root.left, k-dR-1);
+				else
+					list2.add(root);
+			}else{
+				list1= findKDistanceNode(root.left, k+dL-1);
+				if(dL-k>0)
+					list2= findKDistanceNode(root.left, dL-k-1);
+				else if(dL-k<0)
+					list2= findKDistanceNode(root.right, k-dL-1);
+				else
+					list2.add(root);
+			}
+			list1.addAll(list2);
+			return list1;
+		}
+	}
+	
+	public static int findDistance(int d, Node c, Node t){
+		if(c==null)
+			return -1;
+		else if(c==t){
+			return d;
+		}
+		else{
+			int dL = findDistance(d+1, c.left, t);
+			int dR = findDistance(d+1, c.right, t);
+			return dL==-1?dR:dL;
+		}
+	}
+	
+	public static List<Node> findKDistanceNode(Node root, int k){
+		List<Node> result = new ArrayList<Node>();
+		
+		if(root==null)
+			return result;
+	
+		findKDistanceNodeRec(root, 0, k, result);	
+		return result;
+	}
+	
+	public static void findKDistanceNodeRec(Node c, int d, int k, List<Node> result){
+		if(c==null)
+			return;
+		if(d == k){
+			result.add(c);
+			return;
+		}else{
+			findKDistanceNodeRec(c.left, d+1, k, result);
+			findKDistanceNodeRec(c.right, d+1, k, result);
+		}
+		
+	}
+	
+	/*
+	 * 	Given a binary tree all the leaf nodes in the form of a doubly linked list. Find the height of the tree.
+	 */
+	public static int heightOfBSTWithDLLLeaves(Node head){
+		Node current = head;
+		
+		Set<Node> visited = new HashSet<Node>();
+		Node leaf = travel(head, visited);
+		
+		Set<Node> leaves = new HashSet<Node>();
+		current = leaf;
+		while(!leaves.contains(current)){
+			current = current.next;
+		}
+		
+		return h(head, leaves);
+	}
+	
+	private static int h(Node head, Set<Node> leaves){
+		if(leaves.contains(head))
+			return 0;
+		return 1 + Math.max(h(head.left,  leaves), h(head.right, leaves));
+	}
+	
+	
+	private static Node travel(Node head, Set<Node> v){
+		if(v.contains(head))
+			return head;
+		
+		v.add(head);
+		travel(head.left, v);
+		travel(head.right, v);
+		
+		return null;
+		
+	}
+	
+	
+	/*
+	 * In a BST two nodes were swapped. Given the pointer to root node find the two nodes and rectify the tree. He asked the approach then asked me to code the same in collabedit.
+http://www.geeksforgeeks.org/fix-two-swapped-nodes-of-bst/
+	 */
+	public static void fix2SwappedNodeOfBST(Node head){
+		if(head==null)
+			return;
+		Node p1 = null;
+		Node p2 = null;
+		Stack<Node> s = new Stack<Node>();
+		Node current = head;
+		Node pre = null;
+		Node last = null;
+		Node second = null;
+		int counter = 0;
+		while(!s.isEmpty() || current!=null){
+			if(current!=null){
+				s.add(current);
+				current = current.left;
+			}else{
+				Node c = s.pop();
+				counter++;
+				if(counter==2)
+					second = c;
+				last = c;
+				if(pre!=null){
+					//do the checking
+					if(pre.data > c.data){
+						if(p1==null)
+							p1 = pre;
+						else
+							p2 = c;
+					}
+				}
+				
+				pre = c;
+				//move to next
+				current = c.right;				
+			}
+		}
+		
+		if(p1==null)
+			return;
+		
+		if(p2==null){
+			if(last.data < p1.data)
+				p2 = last;
+			
+			else if(second!=null && p1.data > second.data) 
+				p2 = second;
+		}
+		
+		if(p1!=null && p2!=null){
+			int temp = p1.data;
+			p1.data = p2.data;
+			p2.data = temp;
+		}
+		
+	}
+	
+	
 	/*
 	 * http://www.careercup.com/question?id=6215580004646912
 	 * Print a tree in Level Order with a newline after each depth
@@ -106,6 +318,26 @@ public class TreeQ {
 		
 	}
 	
+	public static void levelOrderTraversalOfTree(Node head){
+		if(head==null)
+			return;
+		int h = 12;
+		for(int i=0; i<h; i++)
+			levelOrderTraversalOfTree(head, 0, i);
+	}
+	
+	public static void levelOrderTraversalOfTree(Node current, int currentLevel, int level){
+		if(current==null)
+			return;
+		if(currentLevel == level)
+			System.out.println(current.data);
+		else{
+			levelOrderTraversalOfTree(current.left, currentLevel+1, level);
+			levelOrderTraversalOfTree(current.right, currentLevel+1, level);
+		}
+	}
+	
+	//level order traversal of tree
 	public static void levelTraveseTreeRec(Node head){
 		if(head==null)
 			return;
@@ -1511,6 +1743,76 @@ public class TreeQ {
 		return Math.max(LMax, RMax) + root.data;
 	}
 	
+	/*
+	 * http://www.geeksforgeeks.org/connect-nodes-at-same-level/
+	 * 
+	 * only works for complete tree
+	 */
+	public static void connectNodesAtSameLevel(Node root){
+		if(root==null)
+			return;
+		
+		if(root.left!=null)
+			root.left.next = root.right;
+		if(root.right!=null && root.next!=null)
+			root.right.next = root.next.left;
+		
+		connectNodesAtSameLevel(root.left);
+		connectNodesAtSameLevel(root.right);
+		
+	}
+	
+	//for any tree
+	public static void connectNodesAtSameLevel2(Node root){
+		Deque<Node> q = new ArrayDeque<Node>();
+		q.add(root);
+		
+		while(!q.isEmpty()){
+			Deque<Node> t = new ArrayDeque<Node>();
+			Node pre = null;
+			while(!q.isEmpty()){
+				Node n = q.remove();
+				if(pre!=null)
+					pre.next = n;
+				else
+					pre = n;
+				
+				if(n.left!=null)
+					t.add(n.left);
+				if(n.right!=null)
+					t.add(n.right);
+				
+			}
+			
+			q = t;
+		}
+		
+	}
+	
+	public static void connectNodesAtSameLevel3(Node root){
+		Deque<Node> q = new ArrayDeque<Node>();
+		q.add(root);
+
+		Node pre = null;
+		while(!q.isEmpty()){
+			Node n = q.remove();
+			if(pre!=null)
+				pre.next = n;
+			else
+				pre = n;
+
+			if(n.left!=null)
+				q.add(n.left);
+			if(n.right!=null)
+				q.add(n.right);
+
+			if(n.next==null)//reach the end of level
+				pre = null;
+
+		}	
+	}
+	
+	
 	public static void populateNextRight(Node root){
 		root.next = null;		
 		Node leftMost = root;		
@@ -1530,6 +1832,9 @@ public class TreeQ {
 		}				
 	}
 	
+	/*
+	 * only works for complete tree
+	 */
 	public static void populateNextRight2(Node root){	
 		if(root==null)
 			return;

@@ -10,6 +10,15 @@ import junit.framework.TestCase;
 
 public class StringQTest extends TestCase {
 	
+	public void testfindCommonChars(){
+		StringQ.findCommonChars(new String[]{"abcddf", "fadbgth", "aaf"});
+	}
+	
+	public void testfindAllPalindrome(){
+		//StringQ.findAllPalindrome("a??a");
+		StringQ.findAllPalindrome("a?b");
+	}
+	
 	public void testgroupAnagrams(){
 		System.out.println(StringQ.groupAnagrams(new String[]{"star", "astr", "car", "rac", "st"}));
 	}

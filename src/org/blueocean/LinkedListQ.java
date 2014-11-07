@@ -111,6 +111,7 @@ public class LinkedListQ {
 	
 	
 	/*
+	 * clone a Linked list with random pointer.
 	 * http://www.geeksforgeeks.org/a-linked-list-with-next-and-arbit-pointer/
 	 */
 	public static LinkedListNode cloneLLWithRandomP(LinkedListNode head){
