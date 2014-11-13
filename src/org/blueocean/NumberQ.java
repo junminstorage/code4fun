@@ -829,6 +829,33 @@ arr={1 1 0 1 1 0 0 1 1 1 } m=2
 output={1 1 0 1 1 1 1 1 1 1} position=5,6
 http://www.careercup.com/question?id=5106425965576192
 	 */
+	public void find(int[] A, int m){
+	int wL = 0; int wR = 0; 
+	int nZero = 0;
+	int bestWindowWidth = -1;
+
+	while(wR < A.length){	
+		//expand to the right, update '0' count:
+		if (nZero <= m){
+			wR++;
+			if (A[wR] == '0') nZero++; 
+		};
+
+		//shrink from left, update '0' count:
+		if (nZero > m){ 
+			if (A[wL] == '0') nZero--;
+			wL++;
+		};
+		
+		//update best window:
+		if (wR - wL > bestWindowWidth){
+			bestWindowWidth = wR - wL;
+			int bestWR = wR;
+			int bestWL = wL;
+		};	
+	};
+	}
+	
 	public static List<Integer> findZeroPositions2(int[] numbers, int k){
 		int p1 = 0;
 		int p2 = 0;
