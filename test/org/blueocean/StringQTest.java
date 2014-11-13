@@ -10,6 +10,31 @@ import junit.framework.TestCase;
 
 public class StringQTest extends TestCase {
 	
+	public void testcountDuplicatesFB(){
+		System.out.println(StringQ.countDuplicatesFB("coffee tuffee"));
+	}
+	
+	public void testIsMatch(){
+		
+		System.out.println(StringQ.isMatch("faadcebook", "fa*cebook"));
+	}
+	
+	public void testcanComposed(){
+		System.out.println(StringQ.canComposed(new String[]{"cat", "world"}, "catworldd"));
+	}
+	
+	public void testaddBinaryNumbers(){
+		System.out.println(StringQ.addBinaryNumbers("110", "01101"));
+	}
+	
+	public void testprintPath(){
+		System.out.println(org.blueocean.learning.StringQ.printPath("/usr/bin/mail", "../../../etc/xyz/../abc"));
+	}
+	
+	public void testprintNonComments(){
+		StringQ.printNonComments();
+	}
+	
 	public void testfindCommonChars(){
 		StringQ.findCommonChars(new String[]{"abcddf", "fadbgth", "aaf"});
 	}
@@ -40,6 +65,8 @@ public class StringQTest extends TestCase {
 		System.out.println(StringQ.OneEditApart("abc", "dabc"));
 		System.out.println(StringQ.OneEditApart("abc", "abccc"));
 		System.out.println(StringQ.OneEditApart("at", "cat"));
+		
+		System.out.println(StringQ.OneEditApart("ad", "abc"));
 	}
 
 	public void testreverseStringFacebook(){

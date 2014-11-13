@@ -3,6 +3,115 @@ package org.blueocean;
 public class DynaProgQ {
 	
 	/*
+	http://help.topcoder.com/data-science/competing-in-algorithm-challenges/algorithm-tutorials/an-introduction-to-recursion-part-2/
+	*/
+
+	public boolean isConnected(char[][] maz, char s, char e){
+	    int r = 0;
+	    int c = 0;
+	    //find the s's pos
+	    int len = maz.length;
+	    boolean[][] visited = new boolean[len][len];
+	    boolean[] found = new boolean[1];
+	    isConnectedRec(maz, visited, s, e, r, c, found);
+	    return found[0];
+	}
+
+
+
+	public void isConnectedRec(char[][] maz, boolean[][] visited, char s, char e, int r, int c, boolean[] found){
+	    if(r>=0 && r<maz.length && c>=0 && c<maz[0].length && !visited[r][c] && maz[r][c]!='*'){
+	        if(maz[r][c] == e){
+	            found[0] = true;
+	            return;
+	        }
+	        else{
+	            //continue search
+	            visited[r][c] = true;
+	            
+	        }    
+	    }
+	    
+	}
+
+	
+	/*Given a list of N coins, their values (V1, V2, ... , VN), and the total sum S. Find the minimum number of coins the sum of which is S (we can use as many coins of one type as we want), or report that it's not 
+	possible to select coins in such a way that they sum up to S. 
+	*/
+
+	public boolean findMinNumCoins(int[] values, int s){
+	    int n = values.length;
+	    int[] table = new int[s+1];
+	    table[0] = 0;
+	    for(int j = 1; j<=s; j++){
+	            table[j] = Integer.MAX_VALUE;
+	            for(int k = 0; k<values.length; k++){
+	                if(j - values[k]>=0){
+	                    if(table[j-values[k]]!=Integer.MAX_VALUE)
+	                        table[j] = Math.min(table[j-values[k]]+1, table[j]);
+	                }
+	            }
+	        }
+	    
+	    return table[s]!=Integer.MAX_VALUE;
+	}
+	
+	/*Suppose we are given a set L of n line segments in the plane, where the endpoints of each 
+	segment lie on the unit circle x^2 + y^2 = 1, and all 2n endpoints are distinct. Describe 
+	and analyze an algorithm to compute the largest subset of L in which no pair of segments 
+	intersects.
+	http://www.careercup.com/question?id=5685788633202688
+	*/
+	public class Point{
+	    double x;
+	    double y;
+	}
+	public class Line{
+	    Point start;
+	    Point end;
+	}
+
+
+	boolean isIntersects(Line line1, Line line2){
+	    return (line2.start.x>line1.start.x && line2.start.x<line1.end.x && line2.start.y > Math.min(line1.start.y, line1.end.y) && line2.start.y<Math.max(line1.start.y, line1.end.y));
+	    
+	}
+
+	public int computeLargeSubSet(Line[] lines){
+	    assert(lines!=null && lines.length >0);
+	    //assume each line's start.x<end.x, otherwise we can loop through lines and switch start and end
+	    //sort lines by start.x
+	    int len=lines.length;
+	    int[][] table = new int[len][len];
+	    
+	    for(int i = 0; i < len; i++){
+	        table[i][i] = 1;
+	    }
+	    
+	    for(int i = 0; i < len-1; i++){            
+	        table[i][i+1] = isIntersects(lines[i], lines[i+1])?1:2;
+	    }
+	    
+	    for(int step = 2; step<len; step++){
+	        for(int i=0; i+step<len; i++){
+	            //table[i][i+step]
+	            //i<=k<i+step
+	            int max = 1;
+	            for(int k=i; k<i+step; k++){
+	                if(table[k][k+1]==2){           
+	                    int current = table[i][k] +  table[k+1][i+step];
+	                    max = current>max?current:max;
+	                }
+	            }
+	            table[i][i+step] = max;
+	        }
+	    }
+
+	    return table[0][len-1];
+	}
+	
+	
+	/*
 	 * 
 	 * 3. There is a particular sequence only uses the numbers 1, 2, 3, 4 and no two adjacent numbers are the same.
 	 *	Write a program that given n1 1s, n2 2s, n3 3s, n4 4s will output the number of such sequences using all these numbers.

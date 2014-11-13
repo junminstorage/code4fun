@@ -83,6 +83,89 @@ public class TreeQ {
 	
 	
 	/*
+	http://www.careercup.com/page?pid=facebook-interview-questions&n=2
+	*/
+
+	public static void sinkZero(Node root){
+	    if(root==null)
+	        return;
+	        
+	    sinkZero(root.left);
+	    sinkZero(root.right);
+	     if(root.data ==0){
+	         if(root.left!=null && root.left.data!=0){
+	             root.data = root.left.data;
+	             root.left.data = 0;
+	             sinkZeroTopDown(root.left);
+	         }else if(root.right!=null && root.right.data!=0){
+	             root.data = root.right.data;
+	             root.right.data = 0;
+	             sinkZeroTopDown(root.right);
+	         }
+	     }
+	}
+
+
+	public static  void sinkZeroTopDown(Node root){
+	    if(root==null)
+	        return;
+	     
+	    if(root.data ==0){
+	         if(root.left!=null && root.left.data!=0){
+	             root.data = root.left.data;
+	             root.left.data = 0;
+	             sinkZeroTopDown(root.left);
+	         }else if(root.right!=null && root.right.data!=0){
+	             root.data = root.right.data;
+	             root.right.data = 0;
+	             sinkZeroTopDown(root.right);
+	         }
+	     }    
+
+	}
+	
+	/*
+	 * 
+	 */
+	public static int findMedianInAVL(Node root){
+		if(root==null)
+			return -1;
+		
+	    Stack<Node> sL = new Stack<Node>();
+	    Stack<Node> sR = new Stack<Node>();
+	    Node left = root;
+	    Node right = root;
+	    Node preR = null;
+	    Node preL = null;
+	    
+	    while( (!sL.isEmpty() || left!=null) && (!sR.isEmpty()|| right!=null) ){
+	        if(left!=null){
+	            sL.push(left);
+	            left = left.left;
+	        }else if(right!=null){
+	            sR.push(right);
+	            right = right.right;
+	        }else{
+	            Node l = sL.pop();
+	            Node r = sR.pop();
+	            
+	            if(l==r)
+	                return l.data;
+	            else if(preR!=null && l==preR && preL!=null && r==preL)
+	                return (l.data + r.data)/2;
+	            else{
+	                preL = l;
+	                preR = r;
+	                
+	                left = l.right;
+	                right = r.left;
+	            }              
+	        }    
+	    }
+	    
+	    return -1;
+	}
+	/*
 	 * http://www.geeksforgeeks.org/amazon-interview-experience-set-142-campus-sde-1/
 	 * Given a node in a binary tree, find all the nodes which are at distance K from it. 
 	 * Root node is also given.
@@ -1609,6 +1692,9 @@ http://www.geeksforgeeks.org/fix-two-swapped-nodes-of-bst/
 		sb.append(")");
 	}
 	
+	/*
+	 * should use StringReader
+	 */
 	public static Node nickFormatToTree(String nick){
 		StringTokenizer st = new StringTokenizer(nick);
 		

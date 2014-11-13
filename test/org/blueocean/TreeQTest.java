@@ -127,9 +127,33 @@ public class TreeQTest extends TestCase {
 		Node right2 = new Node();
 		right2.data = 9;
 		
-		left1.left = left2;
-		left1.right = right2;
+		//left1.left = left2;
+		//left1.right = right2;
 		return root;
+	}
+	
+	public void testSinkZero(){
+		Node root = new Node(0);
+		root.left = new Node(1);
+		root.right = new Node(1);
+		
+		root.left.left = new Node(0);
+		root.left.right = new Node(0);
+		root.left.left.left = new Node(1);
+		
+		TreeQ.sinkZero(root);
+		
+		System.out.println(root.data);
+		System.out.println(root.left.data);
+		System.out.println(root.right.data);
+		System.out.println(root.left.left.data);
+		System.out.println(root.left.right.data);
+		
+	}
+	
+	public void testfindMedianInAVL(){
+		Node root = createBST3();
+		System.out.println(TreeQ.findMedianInAVL(root));
 	}
 	
 	public void testconnectNodesAtSameLevel3(){

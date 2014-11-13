@@ -4,10 +4,40 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class RandomQ {
+	
+	/*
+	 * Suppose we are given a set L of n line segments in the plane, where the endpoints of each 
+segment lie on the unit circle x^2 + y^2 = 1, and all 2n endpoints are distinct. Describe 
+and analyze an algorithm to compute the largest subset of L in which no pair of segments 
+intersects.
+
+http://www.careercup.com/question?id=5685788633202688
+	 */
+	
+	/*
+	*  Code a function that receives an array with duplicates and 
+	*  returns a new array keeping the original order *  of the elements but with the duplicates removed. 
+	*/
+
+	public static <T> T[] removeDuplicates(T[] input){
+		LinkedHashMap<T, Boolean> map = new LinkedHashMap<T, Boolean>();
+	    
+	    for(int i=0; i<input.length; i++){
+	        if(!map.containsKey(input[i])){
+	            map.put(input[i], true);
+	        }
+	    }    
+	    
+	    Set<T> keys = map.keySet();
+	    
+	    return (T[]) keys.toArray();
+	}
 
 	/*
 	 * http://www.geeksforgeeks.org/shuffle-a-given-array/

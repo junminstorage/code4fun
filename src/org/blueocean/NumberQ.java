@@ -14,7 +14,409 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
 
+import static java.lang.System.out;
+
 public class NumberQ {
+	
+	/*http://www.careercup.com/page?pid=facebook-interview-questions&n=5
+	 * Given an integer, return all sequences of numbers that sum to it. 
+	 * (Example: 3 -> (1, 2), (2, 1), (1, 1, 1)). Interview was for a php position.
+	*/
+
+	public static void alSequenceNumbersSumTo(int number){
+	    Map<Integer,  ArrayList<String>> table = new HashMap<Integer,  ArrayList<String>>();
+	    ArrayList<String> pre1 = new ArrayList<String>();
+	    pre1.add("1");
+	    table.put(1, pre1);
+	    
+	    ArrayList<String> pre2 = new ArrayList<String>();
+	    pre2.add("11");
+	    pre2.add("2");
+	    table.put(2, pre2);
+	       
+	    for(int i = 3; i <= number; i++){
+	        ArrayList<String> result = new ArrayList<String>();
+	        result.add(String.valueOf(i));
+	        for(int k = 1; k < i; k++){
+	            for(String s: table.get(i-k)){
+	                result.add(s + k);
+	            }	
+	        }
+	        table.put(i, new ArrayList<String>(result));
+	    }
+
+	    for(String s: table.get(number)){
+	    	if(number==1 || !s.equals(String.valueOf(number)))
+	    		System.out.println(s);
+	    }
+
+	}
+	
+	/*http://www.careercup.com/question?id=14847690
+	*/
+
+	public int maxSumSubsequence(int[] numbers){
+	    int[] table = new int[numbers.length];
+	    table[0] = numbers[0];
+	    table[1] = numbers[1];
+	    
+	    for(int i = 2; i < numbers.length; i++){
+	        
+	        int max = 0;
+	        for(int k = i-2; k >=0; k++)
+	            max = numbers[i]+table[k]>max?numbers[i]+table[k]:max;
+	    
+	    }
+
+	    int max = 0;
+	    for(int i=0; i< numbers.length; i++){
+	        max = table[i] > max? table[i]:max;
+	    }
+
+	    return max;
+	}
+	
+	/*insertion sort
+	*/
+
+	public static void insertionSort(int[] numbers){
+
+	    //0 .. i already sorted
+	    for(int i = 0; i<numbers.length-1; i++){
+	        int j = i;
+	        while(j>=0 && numbers[j] > numbers[i+1])
+	            j--;
+	        
+	        int temp = numbers[i+1];
+	        for(int k = i+1; k>j && k-1>=0; k--){
+	            numbers[k] = numbers[k-1];
+	        }    
+	        numbers[j+1] = temp;
+	    }
+
+	}
+	
+	/*
+	http://www.careercup.com/page?pid=facebook-interview-questions&n=1
+	*/
+
+	public static int numOfCombinations(String number){
+	    int len = number.length();
+	    int[] fn = new int[len];
+	    
+	    fn[0] = 1;
+	    fn[1] = fn[0] + (toNum(number, 0, 1)<=26?1:0);
+	    
+	    for(int i = 2; i<len; i++){
+	        fn[i] = fn[i-1] + (toNum(number, i-1, i)<=26?(fn[i-2]):0);
+	    }
+	    
+	    return fn[len-1];
+	}
+
+	public static int toNum(String number, int i, int j){
+	    int ci = number.charAt(i) - '1' + 1;
+	    int cj = number.charAt(j) - '1' + 1;
+	    
+	    return ci*10 + cj;
+
+	}
+	
+	/*
+	 * The function FindSol(n) finds the number of different pairs (p1, p2), for which n = p1 + p2. 
+	 */
+	static int FindSol(int n) {          
+		int i,res=0;  
+		int[] primes = new int[n];
+		//gen_primes
+		for(i=2;i<=n/2;i++)            
+			if (primes[i]==1 && primes[n-i]==1) res++;          
+		return res;        
+	}
+	
+	static void gen_primes(int MAX) {          
+		int i,j;
+		int[] primes = new int[MAX];
+		for(i=0;i<MAX;i++) primes[i] = 1;          
+		for(i=2;i<=(int)Math.sqrt(MAX);i++)            
+			if (primes[i]==1)              
+				for(j=i;j*i<MAX;j++) primes[i*j] = 0;        
+	}
+	
+	static void factor(int n) {          
+	 	int i;          
+		for(i=2;i<=(int)Math.sqrt(n);i++) {            
+			while(n % i == 0) {              
+				out.printf("%d ",i);              
+				n /= i;            
+			}          
+		}          
+		if (n > 1) out.printf("%d",n);          
+		out.printf("\n");        
+	}   
+ 
+	
+	/*
+	http://www.careercup.com/question?id=6026101998485504
+	Given an unordered array of positive integers, create an algorithm that makes 
+	sure no group of integers of size bigger than M have the same integers. 
+
+Input: 2,1,1,1,3,4,4,4,5 M = 2 
+Output: 2,1,1,3,1,4,4,5,4
+	*/
+
+	public static boolean equal(int[] numbers, int i, int m){
+		int p = i;
+		int counter = 0;
+		while(p<numbers.length && p<i+m+1){
+			if(numbers[p] == numbers[i])
+				counter++;
+			p++;
+			if(counter == m+1)
+				return true;
+		}
+		
+		return false;
+	}
+	
+	public static void shuffleSimple(int[] numbers, int m){
+	    int p = 0;
+	    int counter = 1;
+	    while(p+1<numbers.length){
+	        if(numbers[p] != numbers[p+1]){
+	            p++;
+	            counter = 1;
+	        }else{
+	           counter++;
+	           p++;
+	           if(counter>m){
+	               int next = p;
+	               while(next<numbers.length && numbers[next]==numbers[p])
+	                   next++;
+	               if(next<numbers.length){
+	                   int t = numbers[next];
+	                   numbers[next] = numbers[p];
+	                   numbers[p] = t;
+	                   counter = 1;
+	               }else{
+	                   break;
+	               }                      
+	           }           
+	        }    
+	    }
+	}
+	
+	public static void shuffle(int[] numbers, int m){
+		shuffle2(numbers, m);
+		reverse(numbers);
+		shuffle2(numbers, m);	
+	}
+	
+	public static void shuffle2(int[] numbers, int m){
+	    int i = 0;
+	    while(i+m<numbers.length){
+	        if(equal(numbers, i, m)){           
+	            int p = i+m;
+	            while(p<numbers.length && numbers[p]==numbers[i])
+	                p++;
+	           if(p<numbers.length)
+	               swap(numbers, p, i+m); 
+	           else{
+	               break;
+	           }                     
+	        }	        
+	        i++;
+	    }
+	}
+
+	public static void reverse(int[] numbers){
+		for(int i = 0, j = numbers.length-1; i<j; i++, j--){
+			swap(numbers, i, j);
+		}
+	}
+	
+	/*Given two extremely large numbers - 
+	 * each number is stored in a Singly Linked list, 
+	 * with the MSB at the head. You are not allowed to reverse the Linked lists. 
+	 * Write a program to multiply them in optimum space and time.
+	 * */
+	public static class LinkedList{
+		int data;
+		LinkedList next;
+		LinkedList(int i){
+			data = i;
+		}
+	}
+	
+	public static LinkedList multiple(LinkedList l1, LinkedList l2){
+		return null;
+	}
+	
+	public static LinkedList add(LinkedList l1, LinkedList l2){
+	    int len1 = len(l1);
+	    int len2 = len(l2);
+	    
+	    if(len1>len2){
+	        LinkedList t = l1;
+	        l1 = l2;
+	        l2 = t;
+	    }
+	    
+	    LinkedList c = l2;
+	    int diff = Math.abs(len1-len2);
+	    while(diff-- >0){
+	        c = c.next;
+	    }
+	     
+	    int[] left = new int[1];
+	    LinkedList result = addRec(l1, c, left);
+	    
+	    LinkedList fresult = append(l2, result, c, left);
+	    
+	    if(left[0]>0){
+	    	LinkedList n = new LinkedList(left[0]);
+	    	n.next = fresult;
+	    	return n;
+	    }
+	    
+	    return fresult;
+	}
+
+	public static LinkedList append(LinkedList l1, LinkedList result, LinkedList start, int[] left){
+	    if(l1 == start)
+	        return result;
+	    else{
+	        
+	        LinkedList n = append(l1.next, result, start, left);
+	        LinkedList newH = new LinkedList((l1.data+left[0])%10);
+	        newH.next = n;
+	        left[0] = (l1.data+left[0])/10;
+	        return newH;
+	    }    
+	}
+
+	public static LinkedList addRec(LinkedList l1, LinkedList l2, int[] left){
+	    if(l1.next==null && l2.next==null){
+	        LinkedList n = new LinkedList((l1.data + l2.data)%10);
+	        left[0] = (l1.data + l2.data)/10;
+	        return n;
+	    }else{
+	        LinkedList re = addRec(l1.next, l2.next, left);
+	        
+	        LinkedList n = new LinkedList((l1.data + l2.data + left[0])%10);
+	        
+	        n.next = re;
+	        
+	        left[0] = (l1.data + l2.data)/10;
+	        
+	        return n;
+	    
+	    }
+	}
+
+
+	public static int len(LinkedList l){
+	    LinkedList c = l;  
+	    int l1 = 0;
+	    while(c!=null){
+	       c = c.next;
+	       l1++;
+	    }    
+	    return l1;
+	}
+	
+	/*
+	 * http://www.careercup.com/question?id=15435963
+	 * Given an array of real numbers A of length n, and some integer k such that 0 <= k < n, 
+	 * write a function that returns the kth largest number in A, where k=0 refers to the largest number. 
+	 * What is the time complexity? What is the space complexity? Can you optimize either?
+	 */
+	public float findkth(float[] numbers, int k){
+		 assert(numbers!=null);
+		 assert(numbers.length>0);
+		 assert(k<numbers.length);
+		
+		 String s = 1 + "";
+		 return findkthRec(numbers, k, 0, numbers.length);
+		 
+		
+		 
+		}
+
+		public static float findkthRec(float[] numbers, int k, int s, int e){
+		    if(s==e)
+		        return numbers[s];
+		    
+		    int mid = s + (int)Math.random()*(e-s+1);
+		    //shift numbers from s to e
+		    float t = numbers[mid];
+		    swap(numbers, mid, e);
+		    
+		    int start = 0;
+		    int next = start;
+		    while(next<e){
+		        if(numbers[next]<t){
+		            swap(numbers, next, start);
+		            start++;
+		        }else{
+		            next++;
+		        }
+		    }
+		    
+		    swap(numbers, e, start);
+		    
+		    if(e - mid == k)
+		        return numbers[mid];
+		    else if(e - mid > k)  
+		        return findkthRec(numbers, k, mid+1, e);
+		    else
+		        return findkthRec(numbers, k, s, mid-1);          
+		}
+	
+	private static void swap(float[] numbers, int mid, int e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+	static boolean isNumber(String input){
+	    if(input==null || input.isEmpty())
+	        return false;
+	        
+	    int numberOfDecimal = 0;
+	    
+	    int start = (input.charAt(0) == '-' || input.charAt(0) == '+')?1:0;
+	    
+	    if(start==input.length())
+	        return false;
+	    
+	    for(int i=start; i<input.length(); i++){
+	        char c = input.charAt(i);
+	    
+	        if( (c<'0' || c>'9') && c!= '.')
+	            return false;
+	    
+	        if(c=='.' && ++numberOfDecimal > 1)
+	            return false;
+	            
+	    }    
+	    
+	    if(input.charAt(start) == '0'){
+	        if(numberOfDecimal==0){
+	            if(input.length()-start>1)
+	                return false;
+	        }
+	        
+	        if(numberOfDecimal==1){
+	            if(input.length()-start<=2)
+	                return false;
+	        }
+	    }
+
+	    if(input.charAt(input.length()-1)=='.')
+	    	return false;
+	    return true;
+
+	}
 	
 	/*
 	 * http://www.careercup.com/question?id=5116481574535168
@@ -931,8 +1333,8 @@ notes:
 	 * Find the square root of 
 	 * any number (square root can be a real number) without using any library function
 	 */
-	public static float sqrt(int number){
-		float result = number/2.0f;
+	public static double sqrt(int number){
+		double result = number/2.0;
 		
 		int c = 0;
 		while(result * result - number >0.001){

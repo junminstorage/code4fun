@@ -2,10 +2,66 @@ package org.blueocean.learning;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 
 
 public class StringQ {
+	
+	/*
+	http://www.careercup.com/page?pid=facebook-interview-questions&n=5
+	O(len*m^len)
+	*/
+
+	public List<String> printComb(Map<String, List<Character>> map, String s){
+	    int len = s.length();
+	    List<String> result = new ArrayList<String>();
+	    result.add("");
+	    for(int i = 0; i<len; i++){
+	        List<String> temp = new ArrayList<String>();
+	        char c = s.charAt(i);
+	        for(String sV : result){	            
+	            for(Character cv : map.get(c))
+	                temp.add(String.valueOf(sV.concat(cv.toString())));
+	        }
+	        
+	        result = temp;
+	    }
+
+	    return result;
+	}
+	
+	/*
+	 * Given a current absolute path, e.g., "/usr/bin/mail", and 
+	 * a relative one, e.g, "../../../etc/xyz/../abc" 
+	 * return the absolute path created from the combination of the first two paths. 
+	 * In the example strings, the answer should be "/etc/abc".
+	 */
+
+	public static String printPath(String ab, String rel){
+		Stack<String> s = new Stack<String>();
+		String[] temp = ab.split("/");
+		for(String st : temp){
+			if(!st.isEmpty())
+				s.push(st);
+		}
+
+		temp = rel.split("/");
+		for(String st : temp){
+			if(st.equals(".."))
+				s.pop();
+			else{
+				s.push(st);    
+			}
+		}
+
+		String result = "/";
+		while(!s.isEmpty()){
+			result = "/" + s.pop() + result;
+		}
+		return result;
+	}
 	//
 	public static Character firstNonRepeatChar(String s){
 		int[] found = new int[256];

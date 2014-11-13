@@ -6,6 +6,11 @@ import java.util.List;
 import junit.framework.TestCase;
 
 public class RandomQTest extends TestCase {
+	
+	public void testremoveDuplicates(){
+		String[] result = (String[])RandomQ.removeDuplicates(new String[]{"dog",  "dog","cat", "tiger", "dog", "cat", "cat" });
+		System.out.println(Arrays.toString(result));
+	}
 	public void testZoo(){
 		
 		Integer[] numbers = new Integer[4];

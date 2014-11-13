@@ -4,12 +4,89 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.blueocean.NumberQ.LinkedList;
 import org.blueocean.NumberQ.MatrixMinQ;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
 public class NumberQTest extends TestCase {
+	
+	public void testalSequenceNumbersSumTo(){
+		String s = "a\0b";
+		System.out.println(s.length());
+		int t = s.charAt(1);
+		char c = 0;
+		//System.out.println(s.charAt(1));
+		System.out.println(c);
+		NumberQ.alSequenceNumbersSumTo(1);
+	}
+	
+	public void testinsertionSort(){
+		int[] num = new int[]{2, 3, 5, 7, 1};
+		NumberQ.insertionSort(num);
+		System.out.println(Arrays.toString(num));
+	}
+	
+	public void testnumOfCombinations(){
+		System.out.println(NumberQ.numOfCombinations("111"));
+	}
+	public void testFactor(){
+		NumberQ.factor(-192);
+	}
+	
+	public void testShuffleSimple(){
+		int[] res = new int []{2,1,1,1,3,4,4,4,5};
+		NumberQ.shuffleSimple(res, 2);		
+		System.out.println(Arrays.toString(res));
+		
+		res = new int []{4,1,1,1,4,1,1,1};
+		NumberQ.shuffleSimple(res, 2);		
+		System.out.println(Arrays.toString(res));
+		
+	}
+	public void testShuffle(){
+		int[] res = new int []{2,1,1,1,3,4,4,4,5};
+		NumberQ.shuffle(res, 2);		
+		System.out.println(Arrays.toString(res));
+		
+		res = new int []{4,1,1,1,4,1,1,1};
+		NumberQ.shuffle(res, 2);		
+		System.out.println(Arrays.toString(res));
+		
+		res = new int []{1, 1, 1, 1, 2};
+		NumberQ.shuffle(res, 2);		
+		System.out.println(Arrays.toString(res));
+	}
+	public void testaddRec(){
+		LinkedList n1 = new LinkedList(2);
+		n1.next =  new LinkedList(2);
+		
+		LinkedList n2 = new LinkedList(2);
+		n2.next =  new LinkedList(8);
+		n2.next.next =  new LinkedList(9);
+		n2.next.next.next =  new LinkedList(8);
+		
+		int[] left = new int[1];
+		LinkedList re = NumberQ.add(n1, n2);
+		LinkedList c = re;
+		while(c!=null){
+			System.out.println(c.data);
+			c = c.next;
+		}
+		System.out.println(left[0]);
+		
+		
+	}
+	
+	public void testIsNumber(){
+		System.out.println(NumberQ.isNumber(".1"));
+		System.out.println(NumberQ.isNumber("0"));
+		System.out.println(NumberQ.isNumber(".1."));
+		System.out.println(NumberQ.isNumber(".12"));
+		System.out.println(NumberQ.isNumber("11."));
+		System.out.println(NumberQ.isNumber("011"));
+	}
 	
 	public void testcanIWin(){
 		System.out.println(NumberQ.canIWin(5, 12));

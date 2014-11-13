@@ -16,6 +16,213 @@ import java.util.TreeSet;
 
 public class StringQ {
 	
+	/*http://www.careercup.com/page?pid=facebook-interview-questions&n=5
+	*/
+
+	public static char countDuplicatesFB(String s){
+	    int[] counter = new int[256];
+	    
+	    for(int i=0; i<s.length(); i++){
+	        counter[(int)s.charAt(i)]++;
+	    }
+	    
+	    int maxIndex = 0;
+	    for(int i=1; i<256; i++){
+	        if(counter[i]>counter[maxIndex])
+	            maxIndex = i;
+	    }
+	    
+	    return (char)maxIndex;
+	}
+	
+	/*In Java: Write a function in language of your choice that 
+	 * takes in two strings, and returns true if they match. 
+	 * Constraints are as follows: String 1, the text to match to, will be alphabets and digits. String 2, the pattern, will be alphabets, digits, '.' and '*'. '.' means either alphabet or digit will be considered as a "match". "*" means the previous character is repeat 0 or more # of times. For example: Text: Facebook Pattern: F.cebo*k returns true.
+	*/
+
+	public static boolean isLegal(char sC){
+		return (sC>='0' && sC <='9') || (sC>='A' && sC<='Z') || (sC>='a' && sC<='z');
+	}
+	public static boolean isMatch(String s, String p){
+	    int p1 = 0;
+	    int p2 = 0;
+	    
+	    char pre = '\0';
+	    while(p1<s.length() && p2<p.length()){
+	        char sC = s.charAt(p1);
+	        char pC = p.charAt(p2);
+	        
+	      //check illegal chars, alphabets or digits
+	        if(!isLegal(sC))
+	        	throw new IllegalArgumentException("invalid string");
+	        	
+	        if(!isLegal(pC) && pC!='.' && pC!='*')
+	        	throw new IllegalArgumentException("invalid pattern");
+	        
+	        if(pC == '.'){
+	            p1++; p2++;
+	        }else if(pC == '*'){
+	            if(pre == '\0')
+	                throw new IllegalArgumentException("invalid pattern");
+	            else if(pre=='.'){
+	                p1++;
+	            }        
+	            else if(sC == pre){
+	                p1++;
+	            }else{
+	                p2++;
+	            }    
+	            
+	        }else{
+	            if(sC == pC){
+	                p1++; p2++;
+	            }else{
+	                return false;
+	            }
+	        }
+	    
+	        pre = pC;
+	        
+	    }
+	    
+	    return p1==s.length() && (p2 == p.length()||p2==p.length()-1 && pre == '*');
+
+
+	}
+	
+	/*You're given a dictionary of strings, and a key. Check if the key is composed of an arbitrary number of concatenations of strings from the dictionary. For example: 
+
+	dictionary: "world", "hello", "super", "hell" 
+	key: "helloworld" --> return true 
+	key: "superman" --> return false 
+	key: "hellohello" --> return true
+	*/
+	public static boolean canComposed(String[] words, String word){
+	    Stack<Integer> s = new Stack<Integer>();   
+	    s.push(0);
+	    
+	    return canComposedRec(words, word, s);
+
+	}
+
+	public static boolean canComposedRec(String[] words, String word, Stack<Integer> s){
+	    if(s.isEmpty())
+	        return false;
+	        
+	    int len = word.length();
+	    
+	    Stack<Integer> s1 = new Stack<Integer>();   
+	    while(!s.isEmpty()){
+	        int start = s.pop();
+	        if(start==len)
+	            return true;
+	       
+	        for(String w : words){
+	            int index = word.indexOf(w, start);
+	            if(index>=0){
+	                    s1.push(index+w.length());
+	            }
+	         }        
+	    }
+	    
+	    return canComposedRec(words, word, s1);
+
+	}
+	
+	/*
+	 * http://www.careercup.com/question?id=15420859
+	 * Write a program to sum two binary numbers represented as strings. 
+	 * Input: "110", "01101"  
+	 * Output: "10011" 
+	*/
+	public static String addBinaryNumbers(String num1, String num2){
+		assert(num1!=null && num2!=null);
+	    int p1 = num1.length()-1;
+	    int p2 = num2.length()-1;
+	    
+	    String result = "";
+	    int left = 0;
+	    int sum = 0;
+	    while(p1>=0 && p2>=0){
+	        sum = left;
+	        char c1 = num1.charAt(p1);
+	        char c2 = num2.charAt(p2);
+	        
+	        if(c1=='1')
+	            sum++;
+	        if(c2=='1')
+	            sum++;
+	            
+	        left = sum/2;
+	            
+	        result = sum % 2 + result;  
+	        p1--;
+	        p2--;  
+	    }
+
+	    int p = p1>=0? p1:p2;
+	    String num = p1>=0?num1:num2;
+	    while(p>=0){
+	       sum = left;
+	       char c = num.charAt(p);
+	       if(c=='1')
+	           sum++;
+	       left = sum/2;
+	       result = sum % 2 + result;  
+	       p--;
+	    }
+	    if(left==1)
+	        result = left + result;
+	    return result;
+	}
+	
+	static void printNonComments(){
+		
+	    String line = null;
+	    boolean begin = false;
+	    int j = 0;
+	    while((line= getNextLine(j)) != null){
+	    	j++;
+	        if(line.isEmpty())
+	            System.out.println(line);
+	        else {
+	        	int index = -1;
+	            for(int i=0; i<line.length(); i++){
+	                if(!begin && line.charAt(i)=='/' && i+1<line.length() && line.charAt(i+1)=='*'){
+	                    begin = true;
+	                    index = i;
+	                    break;
+	                }else if(begin && line.charAt(i)=='*' && i+1<line.length() && line.charAt(i+1)=='/'){
+	                    begin = false;
+	                    index = i+2<line.length()?i+2:line.length()-1;
+	                    break;
+	                }      
+	            }
+	            
+	            if(index != -1){              
+                    System.out.println(begin? line.substring(0, index) : line.substring(index));
+	            }else if(!begin)
+	            	System.out.println(line);
+	            
+	        }
+	    
+	    }
+	}
+	
+	
+	
+	private static String getNextLine(int i) {
+		if(i==0)
+			return "hello /* this is a ";
+		if(i==1)
+			return "dsdsad";
+		if(i==2)
+			return "multi line comment */ all ";
+		return null;
+	}
+
+
+
 	/*
 	 * http://www.careercup.com/question?id=6283084039192576
 	 * Write a program that gives count of common characters presented in an array of strings..(or array of character arrays) 
@@ -245,6 +452,7 @@ inline int prime_map(char c) {
 			for(int i=0;i<s1.length(); i++){
 				if(s1.charAt(i) != s2.charAt(i+diff)){
 					diff++;
+					i--;
 					if(diff==2)
 						return false;
 				}
@@ -257,7 +465,7 @@ inline int prime_map(char c) {
 	 * minimum number of editions between 2 strings
 	 */
 	public static int distance(String s1, String s2){
-		int[][] edits = new int[s1.length()][s2.length()];
+		int[][] edits = new int[s1.length()+1][s2.length()+1];
 		edits[0][0] = 0;
 		for(int i=1; i<=edits.length; i++)
 			edits[i][0] = 1;
@@ -276,6 +484,39 @@ inline int prime_map(char c) {
 		return edits[s1.length()][s2.length()];
 		
 	}
+	
+	
+	
+	static int distanceBetween(String s1, String s2){
+	    if(s1==null || s2==null)
+	        return -1;
+	        
+	        
+	    int[][] table = new int[s1.length()+1][s2.length()+1];
+	    table[0][0] = 0;
+	    for(int i = 0; i<s1.length()+1; i++)
+	        table[i][0] = 1;
+	      
+	     for(int i = 0; i<s2.length()+1; i++)
+	        table[0][i] = 1;    
+	    
+	    for(int i = 1; i<s1.length()+1; i++){
+	        for(int j = 1; j<s2.length()+1; j++){
+	            if(s1.charAt(i-1) == s2.charAt(j-1))
+	                table[i][j] = table[i-1][j-1];
+	            else{
+	                int replace =  table[i-1][j-1] + 1;
+	                int deletei = table[i-1][j]+1;
+	                int deletej = table[i][j-1] + 1;
+	                
+	                table[i][j] = Math.min(deletei, Math.min(replace, deletej));         
+	            }       
+	        }   
+	    }
+	    
+	    return table[s1.length()][s2.length()];
+	}
+
 	
 	/*
 	 * Code a function that receives a string composed by words separated by 
