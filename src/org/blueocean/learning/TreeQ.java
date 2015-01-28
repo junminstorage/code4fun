@@ -41,6 +41,31 @@ public class TreeQ {
 		System.out.println(level);
 	}
 	
+	
+	public boolean isSubtree(Node tree1, Node tree2){
+	    if(tree2 == null)
+	        return true;
+	    if(tree1 == null)
+	        return false;
+
+	    if(tree1.data != tree2.data)
+	        return isSubtree(tree1.left, tree2) || isSubtree(tree1.right, tree2);
+	    else
+	        return isSubtreeRec(tree1.left, tree2.left) && isSubtreeRec(tree1.right, tree2.right);    
+
+	}
+
+
+	public boolean isSubtreeRec(Node tree1, Node tree2){
+	    if(tree2 == null)
+	        return true;
+	    if(tree1 == null)
+	        return false;
+	        
+	    return tree1.data == tree2.data && isSubtreeRec(tree1.left, tree2.left) && isSubtreeRec(tree1.right, tree2.right);        
+
+	}
+	
 	/*
 	 * order statistics tree, log(N)
 	 */

@@ -17,6 +17,883 @@ import java.util.TreeSet;
 import static java.lang.System.out;
 
 public class NumberQ {
+	//x, y >0
+	public static int gcd2(int x, int y) {
+        for (int r; (r = x % y) != 0; x = y, y = r) { }
+            return y;
+    }
+	
+	public NumberQ() throws CloneNotSupportedException{
+		this.clone();
+	}
+	
+	static int[] findMinUnsortedWindow2(int[] nums){
+		int p=0, len = nums.length, left = Integer.MAX_VALUE, right = Integer.MIN_VALUE;
+		
+		while(p<len){
+			while(p+1<len && nums[p+1]>=nums[p]){p++;}
+			if(p+1<len)//we found the number broke the order, do binary search
+				left = Math.min(left, binarySearch3(nums, 0, Math.min(p,  left), nums[p+1]));
+			p++;
+		}
+		//use -1, -1 to indicate the array is sorted already
+		if(left == Integer.MAX_VALUE)
+			return new int[]{-1, -1};
+		
+		p=len-1;		
+		while(p>=0){
+			while(p-1>=0 && nums[p-1]<=nums[p]){p--;}
+			if(p-1>=0)
+				right = Math.max(right, binarySearch4(nums, Math.max(p, right), len-1, nums[p-1]));
+			p--;
+		}
+		
+		return new int[]{left, right};
+		
+	}
+	//find the minimum index i which nums[i] bigger than k in sorted array
+	static int binarySearch3(int[] nums, int p0, int p1, int k){
+		//if(k<nums[p0])
+		//	return p0;
+		while(p0<p1-1){
+			int mid = (p0+p1)/2;
+			if(nums[mid]>k)
+				p1 = mid;
+			else
+				p0 = mid;
+		}		
+		return nums[p0]>k?p0:p1;
+	}
+	
+	//find the maximum index i which nums[i] smaller than k in sorted array
+		static int binarySearch4(int[] nums, int p0, int p1, int k){
+			//if(k>nums[p1])
+			//	return p1;
+			while(p0<p1-1){
+				int mid = (p0+p1)/2;
+				if(nums[mid]<k)
+					p0 = mid;
+				else
+					p1 = mid;
+			}		
+			return nums[p1]<k?p1:p0;
+		}
+	
+	//find minimum window that if it is sorted then the whole list is sorted
+	//using min/max stack to track the boundaries
+	static int[] findMinUnsortedWindow(int[] nums){
+		int len = nums.length;
+		if(len<2)
+			return new int[]{-1,-1};
+		
+		int[] min = new int[len];
+		int[] max = new int[len];
+		
+		max[0] = 0;
+		for(int i=1;i<len;i++){
+			if(nums[i]>=nums[max[i-1]])
+				max[i] = i;
+			else
+				max[i] = max[i-1];
+		}
+		
+		min[len-1] = len-1;
+		for(int i=len-2;i>=0;i--){
+			if(nums[i]<=nums[min[i+1]])
+				min[i] = i;
+			else
+				min[i] = min[i+1];
+		}
+		
+		int left = 0;
+		while(left<len && left == min[left]){left++;}
+		
+		if(left==len)
+			return new int[]{-1, -1};
+		
+		int right = len-1;
+		while(right>=0 && right == max[right]){right--;}
+		
+		return new int[]{left, right};
+	}
+	
+	
+	//a stack node which contains min and max of all underlying elements
+	static class MNode {
+		Integer i, min, max;
+		MNode(int i, int max, int min){this.i = i;this.max=max; this.min=min;}
+	}
+	//a stack(LIFO) can track min and max of all elements in amortized O(1) time
+	static class MStack {
+		Stack<MNode> s = new Stack<MNode>();
+		public boolean isEmpty(){
+			return s.isEmpty();
+		}
+		public int min(){
+			if(s.isEmpty())
+				return Integer.MAX_VALUE;
+			return s.peek().min;
+		}
+		public int max(){
+			if(s.isEmpty())
+				return Integer.MIN_VALUE;
+			return s.peek().max;
+		}
+		public void push(int i){
+			int max=Math.max(i, max());
+			int min=Math.min(i, min());
+			s.push(new MNode(i, max, min));
+		}
+		public int pop(){
+			return s.pop().i;
+		}
+	}
+	//a queue(FIFO) can track min and max of all elements in amortized O(1) time 
+	static class MQueue{
+		MStack s_new = new MStack(), s_old = new MStack();
+		public void enqueue(int i){
+			s_new.push(i);
+		}
+		public int dequeue(){
+			if(s_old.isEmpty()){
+				while(!s_new.isEmpty()){
+					s_old.push(s_new.pop());
+				}
+			}
+			return s_old.pop();
+		}
+		public boolean isEmpty(){
+			return s_new.isEmpty() && s_old.isEmpty();
+		}
+		public int min(){
+			return Math.min(s_new.min(), s_old.min());
+		}
+		public int max(){
+			return Math.max(s_new.max(), s_old.max());
+		}
+	}
+	
+	public static List<Pair> countSlices(int[] numbers, int k){
+		 int len = numbers.length;
+		    if(numbers==null || len<2)
+		        return null;
+		    List<Pair> list = new ArrayList<Pair>();    
+		    int p0=0;
+		    int p1=0;
+		    MQueue q = new MQueue();
+		    q.enqueue(numbers[p1]);
+		    while(p0<len && p1<len && p0<=p1){		    	
+		    		int min = q.min();
+		    		int max = q.max();
+		    		if(max-min<=k){
+		    			for(int p=p1; p>=p0; p--){
+			                list.add(new Pair(p1, p));
+			            }  
+		    			p1++;
+		    			if(p1<len) q.enqueue(numbers[p1]);
+		    		}else{
+		    			p0++;
+		    			q.dequeue();
+		    		}
+		    }
+		    return list;
+	}
+	
+	
+	static class MinMaxNode {
+		Integer i;
+		MinMaxNode min;
+		MinMaxNode(Integer d){i = d;}
+	}
+	
+	static class MinMaxStack  {			
+		Stack<MinMaxNode> s;
+		Comparator<Integer> c;
+		public MinMaxStack(Comparator<Integer> c){
+			this.c = c;
+			s = new Stack<MinMaxNode>();
+		}
+		public boolean isEmpty(){
+			return s.isEmpty();
+		}
+		
+		public Integer pop(){
+			if(s.isEmpty())
+				return null;
+			return s.pop().i;
+		}
+		public Integer min(){
+			if(s.isEmpty())
+				return null;
+			if(s.peek().min==null)
+				return s.peek().i;
+			else
+				return s.peek().min.i;
+		}
+		
+		public void push(int i){
+			MinMaxNode min = null;
+			if(!s.isEmpty())
+				min = s.peek().min==null?s.peek():s.peek().min;
+			s.push(new MinMaxNode(i));
+			if(min!=null && c.compare(min.min.i, i) <0){
+				s.peek().min = min;
+			}
+		}
+	}
+	
+	static class MinMaxQ {
+		MinMaxStack s1; MinMaxStack s2; Comparator<Integer> c;
+		public MinMaxQ(Comparator<Integer> c) {
+			s1 = new MinMaxStack(c);
+			s2 = new MinMaxStack(c);
+			this.c = c;
+		}
+		
+		public void addLast(int i){
+			s1.push(i);
+		}
+
+		public boolean isEmpty(){
+			return s1.isEmpty() && s2.isEmpty();
+		}
+		public Integer removeFirst(){
+			if(isEmpty())
+				return null;
+			
+			if(s2.isEmpty()){
+				while(!s1.isEmpty())
+					s2.push(s1.pop());
+			}
+			return s2.pop();
+		}
+		
+		public Integer min(){
+			Integer min1 = s1.min();
+			Integer min2 = s2.min();
+			if(min1==null)
+				return min2;
+			else if(min2==null)
+				return min1;
+			else{
+				if(c.compare(min1, min2)<0)
+					return min1;
+				else
+					return min2;
+			}
+		}
+		
+	}
+	
+	static class MinQ1 extends MinMaxQ{
+		public MinQ1(){
+			super(new Comparator<Integer>(){
+				@Override
+				public int compare(Integer o1, Integer o2) {
+					return o1 - o2;
+				}								
+			});
+		}
+		
+	}
+	
+	static class MaxQ extends MinMaxQ{
+		public MaxQ(){
+			super(new Comparator<Integer>(){
+				@Override
+				public int compare(Integer o1, Integer o2) {
+					return o2 - o1;
+				}								
+			});
+		}
+	}
+		
+	public static List<Pair> countSlices2(int[] numbers, int k){
+		 int len = numbers.length;
+		    if(numbers==null || len<2)
+		        return null;
+		    List<Pair> list = new ArrayList<Pair>();    
+		    int p0=0;
+		    int p1=1;
+		    MinQ1 minq = new MinQ1();
+		    MaxQ maxq = new MaxQ();
+		    minq.addLast(numbers[p1]);
+		    maxq.addLast(numbers[p1]);
+		    while(p0<len && p1<len && p0<=p1){
+		    	if(p0==p1){
+		    		p1++;
+		    		minq.addLast(numbers[p1]);
+		 		    maxq.addLast(numbers[p1]);
+		    	}else{
+		    		int min = minq.min();
+		    		int max = maxq.min();
+		    		if(max-min<=k){
+		    			for(int p=p1-1; p>=p0; p--){
+			                list.add(new Pair(p1, p));
+			            }  
+		    			p1++;
+		    			minq.addLast(numbers[p1]);
+			 		    maxq.addLast(numbers[p1]);
+		    		}else{
+		    			p0++;
+		    			minq.removeFirst();
+		    			maxq.removeFirst();
+		    		}
+		    			
+		    	}
+		    }
+		    return list;
+	}
+	
+	//http://www.geeksforgeeks.org/median-of-two-sorted-arrays/
+	static int median(int[] num1, int[] num2){
+		int n = num1.length;
+		
+		
+		if(n==1)
+			return (num1[0] + num2[0])/2;
+		if(num1[0]>=num2[n-1])
+			return (num1[0]+num2[n-1])/2;
+		if(num2[0]>=num1[n-1])
+			return (num2[0]+num1[n-1]);
+		int p1=0;
+		int p2=0;
+		while(p1<n && p2<n && p1+p2<n){
+			if(num1[p1]>num2[p2]){
+				p2++;
+			}
+			else{
+				p1++;
+			}
+		}
+		
+		return (Math.max(num1[p1-1], num2[p2-1])+Math.min(num1[p1], num2[p2]))/2;
+	}
+	
+	//Count bounded slices
+	static class Pair{
+		int i; int j; 
+		Pair(int i1, int j1){i = i1; j = j1;}
+		@Override
+		public String toString(){
+			return "("+i+"-"+j+")";
+		}
+	}
+	
+	
+	/*
+	 * assume n>m
+	 */
+	public static int gcd(int n, int m){
+		if(n==0 && m==0)
+			throw new IllegalArgumentException();
+		n = Math.abs(n);
+		m = Math.abs(m);
+	
+		if(n==0)
+			return m;
+		if(m==0)
+			return n;
+		
+		int k = n%m;
+		
+		while(k!=0){
+			n = m;
+			m = k;
+			k = n%m;
+		}
+		
+		return m;
+	}
+	
+	static enum STATE {START, BEFOREDOT, AFTERDOT};
+	
+	public static boolean isStringNumber(String input){
+		boolean firstZero = false;
+		boolean hasSign = false;
+		
+		STATE state = STATE.START;
+		
+		for(int p=0; p<input.length(); p++){
+			char c = input.charAt(p);
+			switch(state){
+				case START:
+					if(c=='.')
+						state = STATE.AFTERDOT;
+					else if(c=='0'){
+						state = STATE.BEFOREDOT;
+						firstZero = true;
+					}else if(c>='1' && c<='9')
+						state = STATE.BEFOREDOT;
+					else if(c=='+' || c=='-'){
+						if(hasSign)
+							return false;
+						hasSign = true;
+						state = STATE.START;
+					}
+					else
+						return false;
+					break; 
+				case BEFOREDOT:
+					if(c>='0' && c<='9'){
+						if(firstZero)
+							return false;
+					}else if(c=='.')
+						state = STATE.AFTERDOT;
+					else
+						return false;
+					break;
+				case AFTERDOT:
+					if(c<'0' || c>'9'){
+						return false;
+					}
+					break;
+				default: return false;	
+			}
+			
+		}
+		
+		return true;
+	}
+	
+	public static long reverseInt(int input){
+	    long d = input/10;
+	    long m = input%10;
+	    while(d>0){
+	        m = m*10 + d%10;
+	        d = d/10;
+	    }
+	   return m;
+	}
+	
+	public static String divideToString(int num1, int num2){
+	    int d = num1/num2;
+	    int m = num1%num2;
+	    boolean flag = false;
+	    Set<Integer> seen = new HashSet<Integer>();
+	    StringBuilder sb = new StringBuilder();
+	    sb.append(d);
+	    while(m!=0){
+	     if(!flag){
+	         sb.append(".(");
+	         flag = true;
+	     }   
+	     
+	     num1 = m*10;
+	     d = num1/num2;
+	     m = num1%num2;
+	       
+	     if(seen.contains(num1)){
+	    	 sb.append(")");
+	    	 break;
+	     }else{
+	    	 sb.append(d);	   
+	    	 seen.add(num1);
+	     }
+	     }
+	    
+	    return sb.toString();
+	}
+	
+	public static void biggerGreater(String str){
+        char[] chars = str.toCharArray();      
+        int len = str.length();
+        boolean found = false;        
+        int p1 = len - 2;
+        while(p1>=0){
+            int p2 = len - 1;
+            while(p2>p1){
+                if(chars[p1] < chars[p2]){
+                    found = true;
+                    char p1c = chars[p1];
+                    chars[p1] = chars[p2];
+                    chars[p2] = p1c;
+                    
+                    //sort p2 to len-1
+                    insertionSort(chars, p1+1);
+                    
+                    System.out.println(new String(chars));
+                    return;
+                }
+                p2--;
+            }
+            p1--;
+        }
+        
+        System.out.println("no answer");
+    }
+
+	public static void insertionSort(char[] chars, int p){
+		if(!(p<chars.length))
+			return;
+        int len = chars.length;
+        for(int i = p+1; i<len; i++){
+            int p1 = i;
+            char temp = chars[i];
+            while(p1-1>=p && chars[p1-1]>temp){
+                chars[p1] = chars[p1-1];
+                p1--;
+            }            
+            chars[p1] = temp;
+        }
+        System.out.println(new String(chars));
+    }
+	
+	public static int binarySearch2(int[] nums, int t, int low, int high){
+		while(low<high-1){
+			int mid = (low+high)>>>1;
+			if(nums[mid]<t)
+				low = mid;
+			else if(nums[mid]>=t)
+				high = mid;			
+		}		
+		return high;
+	}
+	public static int LISNLOGN(int[] nums){
+		int len = nums.length;
+		int[] table = new int[len]; //store the index of len i+1
+		table[0] = nums[0];
+		int size = 1;
+		for(int i = 1; i<len; i++){			
+			if(nums[i]>table[size-1]){
+				table[size] = nums[i];
+				size++;
+			}else if(nums[i]<table[0])
+				table[0] = i;
+			else {//binary search table[] from 0 to size-1
+				int p = binarySearch2(table, nums[i], -1, size-1);		
+				table[p] = nums[i];				
+			}
+		}
+		
+		System.out.println(Arrays.toString(table));
+		return size;
+	}
+	
+	
+	public static class Result implements Comparable<Result>{
+		String w;
+		String n;
+		int index;
+		@Override
+		public int compareTo(Result o) {
+			if(n.compareTo(o.n)==0)
+				return index - o.index;
+			return n.compareTo(o.n);
+		}	
+	}
+	
+	public static void printKeypadNumber(String[] words){
+		
+		Map<Character, Integer> map = new HashMap<Character, Integer>();
+		map.put('A', 2);
+		map.put('D', 3);
+		
+		String w = words[0];
+		for(int i=0; i<w.length(); i++){
+			
+		}
+		
+	}
+	
+	//Given a row and column wise 2d sorted array. FInd an elements in it.
+	//Given a row and column wise 2d sorted array. FInd an elements in it.
+	public int[] findLinearSearch(int[][] num, int target){
+	    int row = 0;
+	    int col = num[0].length-1;
+	    
+	    while(row<num.length && col>=0){
+	        if(num[row][col] == target){
+	            return new int[]{row, col};
+	        }else if(num[row][col] > target){
+	            col--;
+	        }else{
+	            row++;
+	        }
+	    }
+	    
+	    return new int[]{-1, -1};
+	}
+
+	public int[] find2(int[][] num, int target){
+	    int row = 0;
+	    int col = num[0].length-1;
+	    
+	    while(row<num.length){
+	    
+	    if(num[row][0]>target || num[row][col]<target)
+	        return new int[]{-1, -1};
+	    int[] found = find(num[row], 0, col, target);//target is between 0, and col
+	    if(num[row][found[0]] == target)
+	        return new int[]{row, found[0]};
+	    if(num[row][found[1]] == target)
+	        return new int[]{row, found[1]};
+	    col = found[0];
+	    
+	    row++;
+	    }
+	    
+	    return new int[]{-1, -1};
+	}
+
+	public int[] find(int[] num, int l, int r, int target){
+	    while(l<r-1)  {
+	        int mid = (l+r)>>>1;
+	        if(num[mid] == target){
+	            l = mid+1;
+	        }else{
+	            r = mid-1;
+	        }   
+	    }  
+
+	    return new int[]{l, r};    
+	}
+	
+	//A row and column wise 2d sorted array is given which only contains 0s and 1s in each row. 
+	//Find the row which is having maximum number of ones.
+	public int findMax1Row3(int[][] num){
+		int maxRow = 0, row=1;
+	    int col = find1(num[0], 0, num[0].length);	    
+	    if(col==-1)
+	    	col = num[0].length-1;
+	    while(row<num.length && col >=0){
+	    	if(num[row][col]==1){
+	    		maxRow = row;
+	    		col--;
+	    	}
+	    	else
+	    		row++;
+	    }
+	    return maxRow;
+	}
+
+	public int findMax1Row2(int[][] num){
+	    int row = 0;
+	    int col = num[0].length-1;
+	    
+	    while(row<num.length && col >=0){
+	        int found = find1(num[row], 0, col);
+	        if(found!=-1)
+	            col = found;
+	        row++;    
+	        if(col==0)
+	            return row;    
+	    }
+	    return row;
+	}
+
+	public static int find1(int[] num, int l, int r){
+	    while(l<r)  {
+	        int mid = (l+r)>>>1;
+	        if(num[mid] == 0){
+	            l = mid+1;
+	        }else{
+	            r = mid;
+	        }   
+	    }  
+
+	    if(l==r && num[l]==1)
+	        return l;           
+	    return -1;    
+	}
+	
+	/*
+	 * http://www.geeksforgeeks.org/amazon-interview-questions-set-147/
+	 */
+	public static int[] findNextGreater(int[] num){
+		Stack<Integer> s = new Stack<Integer>();
+		int[] nextG = new int[num.length];
+		s.push(0);
+		for(int i=1; i<num.length; i++){
+			while(!s.isEmpty() && num[i]>num[s.peek()])				
+					nextG[s.pop()] = i;			
+			s.push(i);
+		}
+		while(!s.isEmpty())
+			nextG[s.pop()] = -1;
+		return nextG;
+	}
+	
+	public static int rank(int key, int[] a) {
+        int lo = 0;
+        int hi = a.length - 1;
+        while (lo <= hi) {
+            // Key is in a[lo..hi] or not present.
+            int mid = lo + (hi - lo) / 2;
+            if      (key < a[mid]) hi = mid - 1;
+            else if (key > a[mid]) lo = mid + 1;
+            else return mid;
+        }
+        return -1;
+    }
+	
+  static int binarySearch(int[] a, int start, int len, int key) {
+		        int high = start + len, low = start - 1, guess;
+		
+		        while (high - low > 1) {
+		            guess = (high + low) / 2;
+		
+		            if (a[guess] < key)
+		                low = guess;
+		            else
+		                high = guess;
+		        }
+		
+		        if (high == start + len)
+		            return ~(start + len);
+		        else if (a[high] == key)
+		            return high;
+		        else
+		            return ~high;
+		    }
+	
+	public static int addBitApple(int x, int y)
+	{
+	    while (y != 0)
+	    {
+	        int carry = x & y;  
+	 
+	         x = x ^ y; 
+	 
+	         y = carry << 1;
+	    }
+	    return x;
+	}
+	
+	/*
+	 * 11 = 1011, count is the position of bit set
+	 */
+	public static int SqApple(int n){
+		int i=n, sq=0, count=1;
+		if((i&1) == 1)
+			sq += n;
+		i >>= 1;
+		while(i>0){
+			if((i&1) == 1)
+				sq += n<<count;
+			i >>= 1;
+			count++;
+		}
+		return sq;
+	}
+	
+	
+	public static int addApple(int a, int b){
+		
+		for(int i = 0 ; i<Math.abs(b); i++){
+			if(b>0)
+				a++;
+			else
+				a--;			
+		}
+		return a;
+	}
+	
+	/*
+	 * Given an array and a key, sum min subarray whose sum is no less than key.
+	 *  O(n) Time needed
+	 */
+	//http://www.careercup.com/question?id=14859694
+	public static int minLenthSubarraySum(int[] number, int k){
+	   int max_sum_so_far = number[0];
+	   int start = 0; 
+	   int end = 0;
+	   int minW = Integer.MAX_VALUE;
+	   for(int i = 1; i<number.length; i++){
+	   
+	       max_sum_so_far = Math.max(number[i], max_sum_so_far);
+	       
+	       if(max_sum_so_far > number[i]){
+	           end = i;
+	       }else{
+	           start = i;
+	           end = i;
+	       }
+	       
+	       if(max_sum_so_far>=k){
+	           if(number[i]>=k)
+	               return 1;
+	           else
+	               minW = minW>end-start+1?end-start+1:minW;      
+	       }
+	   
+	   }
+
+	    return minW;
+
+	}
+	
+	/*
+	 * (1,2,5)
+()
+(1)
+(2)
+(5)
+(1,2)
+(1,5)
+(2,5)
+(1,2,5)
+	 */
+	public static void combination3(int[] numbers){
+	    Set<Set<Integer>> result = new HashSet<Set<Integer>>();	   
+	    result.add(Collections.EMPTY_SET);
+	    
+	    for(int i=0; i<numbers.length; i++){
+	    	Set<Set<Integer>> newAdd = new HashSet<Set<Integer>>();		    	
+	        for(Set<Integer> s: result){
+	        	HashSet<Integer> h = new HashSet<Integer>(s);
+	        	h.add(numbers[i]);
+	        	newAdd.add(h);
+	        }
+	        result.addAll(newAdd);
+	    }
+
+	    for(Set<Integer> s:result){
+	        System.out.println(s);
+	    }
+	}
+	
+	public static void combination2(int[] numbers){
+	    Set<Set<Integer>> result = new HashSet<Set<Integer>>();	   
+	    result.add(Collections.EMPTY_SET);
+	    
+	    for(int i=0; i<numbers.length; i++){
+	    	Set<Set<Integer>> temp = new HashSet<Set<Integer>>(result);		        	
+	        for(Set<Integer> s: temp){
+	        	HashSet<Integer> h = new HashSet<Integer>(s);
+	        	h.add(numbers[i]);
+	        	result.add(h);
+	        }
+	    }
+
+	    for(Set<Integer> s:result){
+	        System.out.println(s);
+	    }
+	}
+	
+	
+	public static void combination(int[] numbers){
+	    List<String> result = new ArrayList<String>();
+	    result.add("");
+	    
+	    for(int i=0; i<numbers.length; i++){
+	        List<String> temp = new ArrayList<String>(result);
+	       // temp.addAll(result);
+	        
+	        for(String s:result){
+	        	if(s.isEmpty())
+	        		temp.add(""+numbers[i]);
+	        	else		
+	        		temp.add(s+","+numbers[i]);
+	        }
+	        result = temp;
+	    }
+
+	    for(String s: result){
+	        System.out.println("(" + s + ")");
+	    }
+	}
+	
 	
 	/*http://www.careercup.com/page?pid=facebook-interview-questions&n=5
 	 * Given an integer, return all sequences of numbers that sum to it. 
@@ -1020,6 +1897,27 @@ notes:
 	 * http://www.careercup.com/question?id=4734553532923904
 	 * 
 	 */
+	public static List<int[]> permutation(int[] numbers){
+		List<int[]> result = new ArrayList<int[]>();
+		result.add(numbers);
+		
+		for(int i=0; i<numbers.length; i++){
+			List<int[]> addition = new ArrayList<int[]>();
+			for(int j=i+1; j<numbers.length; j++){				
+				for(int[] list : result){
+					int[] newList = new int[list.length];
+					System.arraycopy(list, 0, newList, 0, list.length);
+					swap(newList, i, j);	
+					addition.add(newList);
+					//result.add(Arrays.copyOf(list, list.length));		
+					//swap(list, i, j);
+				}					
+			}
+			result.addAll(addition);
+		}		
+		return result;
+	}
+	
 	public static List<ArrayList<Integer>> findPermutation(int[] numbers){
 		ArrayList<String[]> ret = new ArrayList<String[]>();
 		List<ArrayList<Integer>> permutation = new ArrayList<ArrayList<Integer>>();

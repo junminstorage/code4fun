@@ -25,8 +25,97 @@ import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.Future;
 import java.util.concurrent.RecursiveTask;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+
+
 
 public class ParallelQ {
+	
+	public class SemaphoreOnLock {
+	     private final Lock lock = new ReentrantLock();
+	     // CONDITION PREDICATE: permitsAvailable (permits > 0)
+	     private final Condition permitsAvailable = lock.newCondition();
+	     @GuardedBy("lock") private int permits;
+	     SemaphoreOnLock(int initialPermits) {
+	         lock.lock();
+	         try {
+	             permits = initialPermits;
+	         } finally {
+	             lock.unlock();
+	} }
+	     // BLOCKS-UNTIL: permitsAvailable
+	     public void acquire() throws InterruptedException {
+	    	 
+	    	 lock.lock();
+	    	 try {
+	    	     while (permits <= 0)
+	    	         permitsAvailable.await();
+	    	     --permits;
+	    	 } finally {
+	    	     lock.unlock();
+	    	 }
+	    	 }
+	    	 public void release() {
+	    	     lock.lock();
+	    	 try {
+	    	     ++permits;
+	    	     permitsAvailable.signal();
+	    	 } finally {
+	    	     lock.unlock();
+	    	 }
+	    	 }
+	}
+	
+	class YourMonitor
+	{
+	    int counter = 0;
+
+	    //init
+	    public MyMonitor( int init )
+	    {
+	        counter = init;
+	    }
+
+	    //Signal
+	    public synchronized void S()
+	    {
+	        counter++;
+	        notifyAll();
+	    }
+
+	    //Wait
+	    public synchronized void W()  throws InterruptedException
+	    {
+	        while ( counter <= 0 )
+	        {
+	            wait();
+	        }
+
+	        counter--;
+	    }
+	}
+	public class MySemorephore {
+		volatile AtomicReference<Boolean> permission = new AtomicReference<Boolean>(true); 
+		
+		public synchronized void acquire() throws InterruptedException {
+			while(!permission.get() || !permission.compareAndSet(true, false)){
+				wait();
+			}
+			return;
+		}
+		
+		public synchronized void release() throws InterruptedException {
+			while(!permission.compareAndSet(false, true)){
+				
+			}
+			notifyAll();
+			return;
+		}
+	}
 	
 	ThreadLocalRandom rn = ThreadLocalRandom.current();
 	

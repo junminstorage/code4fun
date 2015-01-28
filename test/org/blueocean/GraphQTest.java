@@ -6,6 +6,25 @@ import junit.framework.TestCase;
 
 public class GraphQTest extends TestCase {
 	
+	public void testfindLanguageOrder(){
+		System.out.println(GraphQ.findLanguageOrder(new String[]{"baa", "abcd", "abca", "cab", "cad"}));
+		System.out.println(GraphQ.findLanguageOrder(new String[]{"caa", "aaa", "aab"}));
+		System.out.println(GraphQ.findLanguageOrderDFS(new String[]{"caa", "aaa", "aab"}));
+		System.out.println(GraphQ.findLanguageOrderDFS(new String[]{"baa", "abcd", "abca", "cab", "cad", "dad"}));
+		//System.out.println(GraphQ.findLanguageOrderDFS(new String[]{"caa", "aaa", "aab"}));
+	}
+	
+	public void testRemoveEdges(){
+		GraphQ.addEdgeG(2, 1);
+		GraphQ.addEdgeG(3, 1);
+		GraphQ.addEdgeG(4, 3);
+		GraphQ.addEdgeG(5, 2);
+		GraphQ.addEdgeG(6, 1);
+		
+		GraphQ.removeEdge();
+		
+	}
+	
 	public void testFindMinPath(){
 		GraphQ.createTestGraph();
 		GraphQ.minPath(GraphQ.findNode(5), GraphQ.findNode(1));

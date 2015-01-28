@@ -5,6 +5,8 @@ import junit.framework.TestCase;
 public class ArrayQTest  extends TestCase {
 
 	public void testFindKMin(){
+		
+		
 		int[][] mat = { {10, 20, 30, 40},
                 {15, 25, 35, 45},
                 {25, 29, 37, 48},

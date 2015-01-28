@@ -7,9 +7,21 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 public class RandomQ {
+	
+	public static void shuffle(List<?> list, Random rnd) {
+	    for (int i = list.size(); i > 1; i--)
+	        swap(list, i - 1, rnd.nextInt(i));
+	}
+	
+	public static <E> void swap(List<E> a, int i, int j) {
+	    E tmp = a.get(i);
+	    a.set(i, a.get(j));
+	    a.set(j, tmp);
+	}
 	
 	/*
 	 * Suppose we are given a set L of n line segments in the plane, where the endpoints of each 

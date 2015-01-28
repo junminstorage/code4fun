@@ -21,6 +21,7 @@ public class ArrayQ {
 	*/
 
 	public boolean canPlaceFlowers(List<Boolean> flowerbed, int numberToPlace) {
+		this.hashCode();
 	    if(flowerbed == null || flowerbed.isEmpty()){
 	        throw new IllegalArgumentException("bed is empty");
 	    }

@@ -11,9 +11,11 @@ import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
@@ -23,7 +25,83 @@ import java.util.TreeSet;
 import org.blueocean.LinkedListQ.SortedListNode;
 
 public class TreeQ {
-	static class Node {
+	
+	public static class DiaData{
+		//the nodes on the longest path from children to current node
+		List<Node> maxPath;
+		//the nodes on the diameter path with current node as root
+		List<Node> diameter;
+		DiaData(List<Node> path, List<Node> dia){this.maxPath = path; this.diameter = dia;}
+	}
+	
+	public static List<Node> findNodesOnTreeDiameter(Node tree){
+		DiaData  re = findNodesOnTreeDiameterUtil(tree);
+		return re.diameter;
+	}
+	
+	
+	public static DiaData findNodesOnTreeDiameterUtil(Node tree){
+		if(tree==null){
+			return new DiaData(Collections.EMPTY_LIST, Collections.EMPTY_LIST);
+		}else{
+			DiaData left = findNodesOnTreeDiameterUtil(tree.left);
+			DiaData right = findNodesOnTreeDiameterUtil(tree.right);
+			
+			int leftMaxPsize = left.maxPath.size();
+			int rightMaxPSize = right.maxPath.size();
+			int leftMaxSubSize = left.diameter.size();
+			int rightMaxSubSize = right.diameter.size();
+			int maxSubSize = Math.max(leftMaxPsize+rightMaxPSize+1, Math.max(leftMaxSubSize, rightMaxSubSize));
+			
+			//list of nodes on the diameter for the subtree rooted at current node: tree
+			List<Node> diameter = new ArrayList<Node>();
+			if(leftMaxSubSize == maxSubSize)
+				diameter = left.diameter;
+			else if(rightMaxSubSize == maxSubSize)
+				diameter = right.diameter;
+			else{
+				diameter.addAll(left.maxPath); 
+				diameter.add(tree);
+				diameter.addAll(right.maxPath);
+			}
+			
+			//list nodes on the longest path from leaf to current node: tree
+			List<Node> maxPath = new ArrayList<Node>(); 
+			if(leftMaxPsize>rightMaxPSize)
+				maxPath.addAll(left.maxPath);
+			else
+				maxPath.addAll(right.maxPath);
+			maxPath.add(tree);
+			
+			return new DiaData(maxPath, diameter);
+		}
+	}
+	
+	public static Node constructBSTByPre(int[] num){
+		int[] pos = new int[1];
+		
+		return constructBSTByPreUtil(num, pos, Integer.MIN_VALUE, Integer.MAX_VALUE);
+	}
+	
+	public static Node constructBSTByPreUtil(int[] num, int[] pos, int min, int max){
+		int index = pos[0];
+		System.out.println(index);
+		if(index<0 || index>=num.length)
+			return null;
+		
+		if(num[index]>=min && num[index]<=max){
+			Node n = new Node(num[index]);
+			pos[0]++;
+			n.left = constructBSTByPreUtil(num, pos, min, num[index]);
+			n.right = constructBSTByPreUtil(num, pos, num[index], max);
+			return n;
+		}
+		
+		return null;
+	}
+	
+	
+	static class Node implements Iterable{
 		char v;
 		int data;
 		List<Node> children;
@@ -43,7 +121,52 @@ public class TreeQ {
 
 		public Node(int v2) {
 			data = v2;
-		}		
+		}	
+		
+		public static class BSTIterator implements Iterator {
+			private Node tree;
+			Stack<Node> s;
+			Node current;
+			BSTIterator(Node tree){
+				this.tree = tree;
+				s = new Stack<Node>();
+				current = tree;
+				
+				while(current!=null){
+					s.add(current);
+					current = current.left;
+				}
+			}
+			
+			@Override
+			public boolean hasNext() {
+				return !s.isEmpty() || current!=null;
+			}
+
+			@Override
+			public Object next() {
+				if(!hasNext())
+					throw new NoSuchElementException();
+				
+				Node v = null;
+				v = s.pop();
+				current = v.right;			
+				return v.data;
+			}
+
+			@Override
+			public void remove() {
+				throw new UnsupportedOperationException();
+				
+			}
+			
+		}
+
+
+		@Override
+		public Iterator iterator() {			
+			return new BSTIterator(this);
+		}
 	}
 	
 	public static Node createBST(){
@@ -79,6 +202,48 @@ public class TreeQ {
 		
 		//right1.right = right3;
 		return root;
+	}
+	
+	/*
+	 * Given a sorted array.Make a balanced binary tree from this array.
+	 */
+	public static Node makeTree(int[] array, int l, int r){
+		   if(l>r)
+		        return null;
+		        
+		   int mid = (l+r)>>>1;    
+		   Node root = new Node(array[mid]);      
+		   root.left = makeTree(array, l, mid-1);
+		   root.right = makeTree(array, mid+1, r);
+		   
+		   return root;
+	}
+	/*
+	 * Problem statement: In a binary tree, a chain can be defined as sum of length of the left node series,
+	 *  right node series, and 1. Find the length of longest chain in the tree.
+	 */
+	public static int longestChain(Node tree){
+		int[] maxL = new int[1];
+		int l = longestChainRec(tree.left, true, maxL);
+		int r = longestChainRec(tree.right, false, maxL);
+		
+		maxL[0] = (maxL[0]<l+r+1)?l+r+1:maxL[0];
+		
+		return maxL[0];
+	}
+	
+	public static int longestChainRec(Node tree, boolean isLeft, int[] maxL){
+		if(tree==null)
+			System.out.println("" + "-" + isLeft + maxL[0]);
+		else
+			System.out.println(tree.data + "-" + isLeft + maxL[0]);
+		if(tree==null)
+			return 0;		
+		int l = longestChainRec(tree.left, true, maxL);
+		int r = longestChainRec(tree.right, false, maxL);
+		maxL[0] = (maxL[0]<l+r+1)?l+r+1:maxL[0];
+		
+		return isLeft?l+1:r+1;
 	}
 	
 	

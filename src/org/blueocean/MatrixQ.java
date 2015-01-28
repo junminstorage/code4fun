@@ -2,11 +2,218 @@ package org.blueocean;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 import java.util.Stack;
 
 public class MatrixQ {
 	
+	public static void move(){
+		
+		
+		 int n = 2, m = 2, k = 3;
+         char[][] grid = new char[n][m];
+         grid[0] = "RD".toCharArray();
+         grid[1] = "*L".toCharArray();
+         char[][] copy = copyOf(grid);
+         boolean[][] changed = new boolean[n][m];
+         search(grid, changed, 0, 0, k, 0, 0);  
+         System.out.println(min);
+	}
+	
+	
+	public static char[][] copyOf(char[][] grid){
+        char[][] copy = new char[grid.length][grid[0].length];
+        for(int r = 0; r<grid.length; r++){
+            System.arraycopy(grid[r], 0, copy[r], 0, grid[0].length);
+        }
+        return copy;
+    }
+	
+	 private static int min = Integer.MAX_VALUE;
+	    public static void search(char[][] grid, boolean[][] changed, int r, int c, int k, int step, int ops){
+	        if(step > k || r<0 || c<0 || r>=grid.length || c>=grid[0].length){
+	             return;
+	        }
+	        
+	        if(grid[r][c] == '*'){
+	            if(step == k)
+	                min = Math.min(min, ops);
+	            return;
+	        }        
+	        
+	        switch(grid[r][c]){
+	            case 'U' : search(grid, changed, r-1, c, k, step+1, ops); 
+	                       /*if(!changed[r][c]){
+	                         changed[r][c] = true;  
+	                         grid[r][c] = 'D';  
+	                         search(grid, changed, r+1, c, k, step+1, ops+1);
+	                         grid[r][c] = 'L';  
+	                         search(grid, changed, r, c-1, k, step+1, ops+1);
+	                         grid[r][c] = 'R';  
+	                         search(grid, changed, r, c+1, k, step+1, ops+1);   
+	                       }*/
+	                       break;
+	            case 'D' : search(grid, changed, r+1, c, k, step+1, ops); 
+	                       /*if(!changed[r][c]){
+	                         changed[r][c] = true;  
+	                         grid[r][c] = 'U';  
+	                         search(grid, changed, r-1, c, k, step+1, ops+1);
+	                         grid[r][c] = 'L';  
+	                         search(grid, changed, r, c-1, k, step+1, ops+1);
+	                         grid[r][c] = 'R';  
+	                         search(grid, changed, r, c+1, k, step+1, ops+1);   
+	                       } */
+	            
+	                       break;
+	            case 'L' : search(grid, changed, r, c-1, k, step+1, ops); 
+	                        /*if(!changed[r][c]){
+	                         changed[r][c] = true;  
+	                         grid[r][c] = 'D';  
+	                         search(grid, changed, r+1, c, k, step+1, ops+1);
+	                         grid[r][c] = 'U';  
+	                         search(grid, changed, r-1, c, k, step+1, ops+1);
+	                         grid[r][c] = 'R';  
+	                         search(grid, changed, r, c+1, k, step+1, ops+1);   
+	                       }*/
+	                        break;
+	            case 'R' : search(grid, changed, r, c+1, k, step+1, ops); 
+	                       /* if(!changed[r][c]){
+	                         changed[r][c] = true;  
+	                         grid[r][c] = 'D';  
+	                         search(grid, changed, r+1, c, k, step+1, ops+1);
+	                         grid[r][c] = 'L';  
+	                         search(grid, changed, r, c-1, k, step+1, ops+1);
+	                         grid[r][c] = 'U';  
+	                         search(grid, changed, r-1, c, k, step+1, ops+1);   
+	                       }*/
+	                        break;
+	        }
+	            
+	        return;
+	    }
+	
+	/*
+	 * https://www.hackerrank.com/challenges/the-grid-search
+	 */
+	public static int[] buildTable(char[] digits){
+		int[] table = new int[digits.length+1];
+		table[0] = -1;
+		int i = 1, j = -1;
+		while(i<digits.length){
+			while(j>=0 && digits[i]!=digits[j])
+				j = table[j];
+			i++;
+			j++;
+			table[i] = j;		
+		}
+		return table;
+	}
+	
+	public static List<Integer> kmp(char[] text, char[] pattern){
+		int[] table = buildTable(pattern);
+		List<Integer> result = new ArrayList<Integer>();
+		int j = 0, i = 0;
+		while(i<text.length){
+			while(j>=0  && text[i]!=pattern[j])
+				j = table[j];
+			i++;
+			j++;
+			if(j == pattern.length){
+				result.add(i-j);
+				System.out.println("found "+ (i - j));
+				j=table[j];
+			}
+		}
+		
+		return result;
+	}
+	
+
+    public static void main(String[] args) {
+    	
+        /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
+        try(Scanner conin = new Scanner(System.in)){
+            int t = Integer.valueOf(conin.nextLine());     
+            
+            int jars = conin.nextInt();
+            //int t = conin.nextInt();
+            long sum = 0l;
+            
+            long re = sum/t;
+            
+            new String("fsdf").compareTo("ssd");
+            
+			while (t>0) {
+				t--;
+				String matrix = conin.nextLine();
+				String[] temp = matrix.split(" ");
+				int row = Integer.valueOf(temp[0]);
+				int col = Integer.valueOf(temp[1]);
+				
+				String[] m = new String[row];
+				int index = 0;
+                while(index<row){
+                	m[index] = conin.nextLine();
+                	index++;
+                }
+                
+                matrix = conin.nextLine();
+				temp = matrix.split(" ");
+				row = Integer.valueOf(temp[0]);
+				col = Integer.valueOf(temp[1]);
+				
+				String[] p = new String[row];
+				index = 0;
+                while(index<row){
+                	p[index] = conin.nextLine();
+                	index++;
+                }
+                
+                
+                if(gridSearch(m, p))
+                	System.out.println("YES");
+                else
+                	System.out.println("NO");
+			}
+		}
+        
+    }
+    
+	public static boolean gridSearch(String[] strings, String[] patterns){
+
+		int row = 0;
+		while(row<=strings.length - patterns.length){
+			List<Integer> positions = kmp(strings[row].toCharArray(), patterns[0].toCharArray());
+			System.out.println(positions);
+			for(Integer col : positions){
+				int j = 1;
+				for(j = 1; j<patterns.length && row+j<strings.length; j++){
+					if(!isMatch(strings[row+j].substring(col).toCharArray(), patterns[j].toCharArray())){
+						break;
+					}			
+				}
+
+				if(j==patterns.length)
+					return true;
+			}
+			row++;
+		}
+		return false;
+	}
+	
+	
+	private static boolean isMatch(char[] charArray, char[] charArray2) {
+		for(int i=0; i<charArray2.length; i++){
+			if(charArray[i]!=charArray2[i])
+				return false;
+		}
+		return true;
+	}
+
+
 	/*Given a matrix with 1's and 0's, a rectangle can be made with 1's. 
 	What is the maximum area of the rectangle. 
 
@@ -213,7 +420,7 @@ public class MatrixQ {
 	public static int findMax1Row(int[][] matrix){
 		int row = 0;
 		int col = matrix[0].length-1;
-		int max = row;
+		int max = -1;
 		while(row<matrix.length && col >=0){
 			if(matrix[row][col]==1){
 				col--;

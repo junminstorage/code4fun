@@ -5,10 +5,86 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
+import java.util.TreeSet;
 
 
 public class StringQ {
 	
+	/*
+	 * http://www.geeksforgeeks.org/amazon-interview-experience-set-149-campus-internship/
+	 */
+	
+	public static class Result implements Comparable<Result>{
+	    String w;
+	    String n;
+	    int index;
+	    
+	    public Result(String wi, String ni, int i){
+	        this.w = wi;
+	        this.n = ni;
+	        this.index = i;
+	    }
+	    @Override
+	    public int compareTo(Result o){
+	        if(n.compareTo(o.n)==0)
+	            return index - o.index;
+	        return o.n.compareTo(n);
+	    }
+	    
+	}
+	public static void keypad(String[] words){
+	    Set<Result> re = new TreeSet<Result>();
+	    for(int i=0; i<words.length; i++){
+	    String w = words[i];
+	    StringBuilder sb = new StringBuilder();
+	    for(int j=0; j<w.length(); j++){
+	        char c = w.charAt(j);
+	        if(c>='A' && c<='Z')
+	            c = (char)(c + 'a'- 'A');
+	        int m = (c-'a')/3 + 2;
+	        if(m==10)
+	            m = 9;    
+	        sb.append(m);
+	    }
+	    re.add(new Result(w, sb.toString(), i));
+	    }
+	    
+	    for(Result r : re){
+	        System.out.println(r.n + '\t' + r.w);
+	    }
+	    
+	}
+	
+	boolean[] extractWord(String text){
+		final int N = 2^20;
+		
+		int[] rand = new int[256];
+		int[] codetable = new int[256];
+		for(int i=0; i<256; i++){
+			codetable[i] = isWord((char)i) ? rand[i] : 0;
+		}
+		
+		boolean fv[] = new boolean[N];
+		int wordhash = 0;
+		for(char c: text.toCharArray()){
+			int code = codetable[c];
+			if(code!=0)
+				wordhash = wordhash>>1 + code;
+				else{
+					if(wordhash!=0)
+						fv[wordhash%N] = true;
+						wordhash = 0;
+				}
+		}
+		
+		return fv;
+	}
+	
+	private boolean isWord(char i) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	/*
 	http://www.careercup.com/page?pid=facebook-interview-questions&n=5
 	O(len*m^len)

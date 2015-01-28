@@ -2,6 +2,7 @@ package org.blueocean;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.blueocean.NumberQ.LinkedList;
@@ -11,6 +12,158 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 public class NumberQTest extends TestCase {
+	public void testfindMinUnsortedWindow(){
+		System.out.println(Arrays.toString(NumberQ.findMinUnsortedWindow2(new int[]{2, 3, 4, 6, 4, 3, 2, 7, 8, 9})));
+		System.out.println(Arrays.toString(NumberQ.findMinUnsortedWindow2(new int[]{7,8,9,2,3,2,3,4})));
+		System.out.println(Arrays.toString(NumberQ.findMinUnsortedWindow2(new int[]{1,2,3,4,5,6,7,4,3,6,5,6,7,8,9})));
+	}
+	
+	public void testCountingSlices(){
+		System.out.println(NumberQ.countSlices(new int[]{3, 5, 7, 6, 3}, 2));
+	}
+	
+	public void testtest(){
+		
+		System.out.println(-48%18);
+		
+		System.out.println(NumberQ.gcd(48, -28));
+		System.out.println(NumberQ.gcd(-48, -18));
+		System.out.println(NumberQ.gcd(18, 0));
+		System.out.println(Float.valueOf("-.12"));
+		
+		System.out.println(Float.valueOf("+.12"));
+		
+		System.out.println(Float.valueOf("099"));
+		
+		System.out.println(NumberQ.isStringNumber("-.3"));
+		System.out.println(NumberQ.isStringNumber("-0.3"));
+		System.out.println(NumberQ.isStringNumber("-00.3"));
+		System.out.println(NumberQ.isStringNumber("-.03"));
+		System.out.println(NumberQ.isStringNumber("0.3"));
+		System.out.println(NumberQ.isStringNumber("00.3"));
+		
+		System.out.println(NumberQ.isStringNumber("99"));
+		
+	}
+	
+	public void testReverseInt(){
+		System.out.println(NumberQ.reverseInt(1147483649));
+		Boolean match = false;
+		
+		System.out.println(match);
+		
+		Integer a = new Integer(10);
+		Integer b = new Integer(10);
+		System.out.println("a == b: " + (a == b));
+		
+		/*
+		 * It may be worth noting that autoboxing is guaranteed to return the same object 
+		 * for integral values in the range [-128, 127], 
+		 * but an implementation may, at its discretion, cache values outside of that range.
+		 */
+		a = 127;
+		b = 127;
+		System.out.println("a == b: " + (a == b));
+		
+		String c = new String("10");
+		String d = new String("10");
+		System.out.println("c == d: " + (c == d));
+		
+		c = "10";
+		d = "10";
+		System.out.println("c == d: " + (c == d));
+	}
+	public void testDivideToString(){
+		System.out.println(NumberQ.divideToString(0, 1));
+		
+		System.out.println(NumberQ.divideToString(15, 11));
+		
+		System.out.println(NumberQ.divideToString(1, 3));
+		
+		System.out.println(NumberQ.divideToString(1, 3333));
+		
+		System.out.println(NumberQ.divideToString(77777, 3333));
+	}
+	
+	public void test112(){
+		NumberQ.biggerGreater("gojh");
+		//NumberQ.insertionSort("234571".toCharArray(), 2);
+	}
+	
+	public void testSqrt(){
+		System.out.println(Long.MAX_VALUE);
+			long r2 = 200_000_000l;
+			r2 = r2 * r2 -1;
+			System.out.println(r2);
+			
+	        long sqrt = Math.min(r2/2, 2_000_000_000l);     
+	        while(sqrt * sqrt > r2 ){
+	        	 System.out.println(sqrt);
+	            sqrt = ((long)(r2 / sqrt) + sqrt) >>> 1;
+	        }
+	        
+	       System.out.println(sqrt);
+	    }
+	
+	
+	public void testbinarySearch2(){
+		int[] nums = new int[]{1, 4, 6, 9, 10};
+		System.out.println(NumberQ.binarySearch2(nums, 5, 0, 4));
+		System.out.println(NumberQ.binarySearch2(nums, 5, -1, 4));
+		
+	}
+	
+	public void testLISNLOGN(){
+		System.out.println(NumberQ.LISNLOGN(new int[]{0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15}));
+	}
+	
+	public void testallLexPerm() {
+		String a = "ab";
+		List<String> powerSet = new ArrayList<String>();
+		for (int j = 0; j < Math.pow(2, a.length()); j++) {
+			StringBuilder newa = new StringBuilder();
+			for (int i = 0; i < a.length(); i++) {
+				if (!Integer.toBinaryString(j & (1 << i)).equals("0")) {				
+					newa.append(a.charAt(i));
+				}
+			}
+			powerSet.add(newa.toString());
+		}
+		Collections.sort(powerSet);
+	}
+
+	
+	public void testpermutation(){
+		List<int[]> RE = NumberQ.permutation(new int[]{2, 3, 8});
+		for(int[] r : RE){
+			System.out.println(Arrays.toString(r));
+		}
+	}
+	
+	public void testfind1(){
+		System.out.println(NumberQ.find1(new int[]{0,0,1}, 0, 2));
+	}
+	
+	public void testNG(){
+		System.out.println(Arrays.toString(NumberQ.findNextGreater(new int[]{40,50,11,32,55,68,75})));
+	}
+	
+	public void testSqApple(){
+		System.out.println (NumberQ.binarySearch(new int[]{1,  3,  5,  7, 9}, 0, 5, 1));
+		
+		//System.out.println(~1);
+		//System.out.println(~2);
+		//System.out.println(~0);
+		//System.out.println(NumberQ.SqApple(11));
+	}
+	
+	public void testminLenthSubarraySum(){
+		System.out.println(NumberQ.minLenthSubarraySum(new int[]{3,  -1, 3, 5, 7}, 6));
+	}
+	
+	public void testcombination(){
+		NumberQ.combination(new int[]{1, 2, 5});
+	}
 	
 	public void testalSequenceNumbersSumTo(){
 		String s = "a\0b";

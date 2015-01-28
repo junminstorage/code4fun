@@ -12,7 +12,7 @@ public class LRUCache {
 	
 	/////////////////////////////////////
 	//solution 1
-	private Map cache = new LinkedHashMap(MAX, .75F, true){
+	private Map cache = new LinkedHashMap(MAX+1, .75F, true){
 		@Override
 		protected boolean removeEldestEntry(Map.Entry oldest){
 			return size() > MAX;

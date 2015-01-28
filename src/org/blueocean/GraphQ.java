@@ -2,17 +2,351 @@ package org.blueocean;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Scanner;
+import java.util.Set;
 import java.util.Stack;
+import java.util.TreeSet;
 
 import org.blueocean.GraphQ.Node;
 
 public class GraphQ {
+	
+	
+	public static void sort(){
+		Collections.sort(new LinkedList());
+	}
+	/*
+	 * http://web.stcloudstate.edu/bajulstrom/cs301/examples/diameter.html
+	 */
+	public static int diameterOfTree(CNode[] vertices){
+		int[] max = new int[1];
+		CNode[] mNode = new CNode[1];
+		Set<CNode> visited = new HashSet<CNode>();
+		//start with any vertex in the tree
+		dfs(vertices[0], 0, visited, max, mNode);
+		
+		CNode[] maxNode = new CNode[1];
+		max[0] = 0;
+		visited = new HashSet<CNode>();
+		dfs(mNode[0], 0, visited, max, maxNode);
+		
+		return max[0];
+		
+	}
+	public static void dfs(CNode start, int distance, Set<CNode> visited, int[] max, CNode[] maxNode){
+		visited.add(start);
+		max[0] = Math.max(max[0], distance);
+		if(max[0]==distance)
+			maxNode[0] = start;
+		for(CNode n : start.outgoing){
+			if(!visited.contains(n)){
+				dfs(n, distance+1, visited, max, maxNode);
+			}
+		}
+	}
+	
+	
+	/*
+	 * http://www.geeksforgeeks.org/given-sorted-dictionary-find-precedence-characters/
+	 */
+	public static class CNode {
+		char c;
+		Set<CNode> incoming = new HashSet<CNode>();
+		Set<CNode> outgoing = new HashSet<CNode>();
+		CNode(char i){this.c=i;}
+	}
+	
+	public static List<Character> findLanguageOrderDFS(String[] words){
+		Map<Character, CNode> nodes = new HashMap<Character, CNode>();
+		Set<CNode> vertices = new HashSet<CNode>();
+		createGraph(words, nodes, vertices);
+		
+		List<Character> result = new ArrayList<Character>();		
+		//add those vertices without any incoming edges
+		Set<CNode> visited = new HashSet<CNode>();
+		Set<CNode> processed = new HashSet<CNode>();
+		Stack<CNode> stack = new Stack<CNode>();
+		for(CNode n : vertices){
+			if(n.incoming.isEmpty()){
+				if(visited.contains(n))
+					continue;
+				processed.add(n);
+				for(CNode v: n.outgoing){
+					if(!visited.contains(v))
+						DFS(v, visited, processed, stack);
+				}
+				visited.add(n);
+				stack.add(n);
+			}
+		}
+		
+		while(!stack.isEmpty()){
+			result.add(stack.pop().c);
+		}
+		
+		return result;
+	}
+	
+	
+	public static void DFS(CNode v, Set<CNode> visited,  Set<CNode> processed, Stack<CNode> s){
+		if(visited.contains(v))
+			return;
+		if(processed.contains(v))
+			throw new IllegalArgumentException("cycle found");
+		processed.add(v);
+		for(CNode n : v.outgoing){
+			if(!visited.contains(n)){
+				DFS(n, visited, processed, s);
+			}
+		}
+		visited.add(v);
+		s.push(v);
+	}
+	
+	public static List<Character> findLanguageOrder(String[] words){
+		List<Character> result = new ArrayList<Character>();
+		
+		Map<Character, CNode> nodes = new HashMap<Character, CNode>();
+		Set<CNode> vertices = new HashSet<CNode>();
+		createGraph(words, nodes, vertices);
+		
+		List<Character> temp = new ArrayList<Character>();
+		//add those vertices without any incoming edges
+		for(CNode n : vertices){
+			if(n.incoming.isEmpty())
+				temp.add(n.c);
+		}
+		
+		//remove those vertices from the incoming list of its outgoing nodes
+		while(!temp.isEmpty()){
+			result.addAll(temp);
+			List<Character> temp2 = new ArrayList<Character>();
+			for(Character c : temp){
+				CNode n = nodes.get(c);
+				for(CNode o : n.outgoing){
+					o.incoming.remove(n);
+					if(o.incoming.isEmpty())
+						temp2.add(o.c);
+				}			
+			}	
+			temp = new ArrayList<Character>(temp2);
+		}
+		
+		for(CNode n : vertices){
+			if(!n.incoming.isEmpty())
+				throw new IllegalArgumentException("can not find solution, possible wrong input");
+		}
+		
+		return result;
+	}
+
+	private static void createGraph(String[] words,
+			Map<Character, CNode> nodes, Set<CNode> vertices) {
+		for(int i=0; i<words.length-1; i++){
+			String current = words[i], next = words[i+1];
+			int j = 0;
+			for(j=0; j<current.length() && j<next.length() && current.charAt(j) == next.charAt(j); j++){}
+
+			char c1=current.charAt(j), c2=next.charAt(j);
+			CNode start = null, end = null;
+			
+			if(!nodes.containsKey(c1)){
+				start = new CNode(c1);
+				nodes.put(c1, start);
+				vertices.add(start);
+			}
+			if(!nodes.containsKey(c2)){
+				end = new CNode(c2);
+				nodes.put(c2, end);
+				vertices.add(end);
+			}
+			start = nodes.get(c1);
+			end = nodes.get(c2);			
+			start.outgoing.add(end);
+			end.incoming.add(start);			
+		}
+	}
+	
+	
+	/*
+	 * https://www.hackerrank.com/challenges/even-tree
+	 */
+	static List<EdgeG> edges = new ArrayList<EdgeG>();
+	
+	public static void addEdgeG(int i, int j){
+		NodeG nodeI = new NodeG(i);
+		NodeG nodeJ = new NodeG(j);
+		
+		for(EdgeG e:edges){
+			if(e.one.num == i)
+				nodeI = e.one;
+			if(e.two.num == i)
+				nodeI = e.two;
+			if(e.one.num == j)
+				nodeJ = e.one;
+			if(e.two.num == j)
+				nodeJ = e.two;
+		}
+		
+		edges.add(new EdgeG(nodeI, nodeJ));
+		
+		nodeI.neighbors.add(nodeJ);
+		nodeJ.neighbors.add(nodeI);
+		
+	}
+	
+	public static int removeEdge(){
+		int counter = 0;
+		for(EdgeG e : edges){
+			if(e.one.size(e.two)%2==0 && e.two.size(e.one)%2==0){
+				//remove edge
+				counter++;
+				e.one.removeEdge(e.two);
+				e.two.removeEdge(e.one);
+			}
+		}
+		
+		return counter;
+	}
+	
+	public static class EdgeG{
+		NodeG one;
+		NodeG two;	
+		public EdgeG(NodeG o, NodeG t){
+			this.one = o;
+			this.two = t;
+		}
+		public String toString(){
+			return one.num + " - " + two.num;
+		}
+	}
+	
+	public static class NodeG{
+		int num;
+		boolean visited;
+		List<NodeG> neighbors;
+		
+		public NodeG(int n){
+			num = n;
+			neighbors = new ArrayList<NodeG>();
+		}
+		
+		public void removeEdge(NodeG two){
+			neighbors.remove(two);
+		}
+		public int size(NodeG from){
+			NodeG n = this;
+			int counter = 0;
+			Set<NodeG> seen = new HashSet<NodeG>();
+			Stack<NodeG> s = new Stack<NodeG>();
+			s.add(n);
+			counter++;
+			while(!s.isEmpty()){
+				NodeG current = s.pop();
+				seen.add(current);
+				for(NodeG c : current.neighbors){
+					if(c!=from && !seen.contains(c)){
+						s.add(c);
+						counter++;
+					}
+				}
+			}
+			return counter;
+		}
+	}
+	
+	
+/*
+ * **************	
+ */
+	
+	
+	public static void read(){
+		try(Scanner conin = new Scanner(System.in)){
+
+			while (conin.hasNext()) {
+				int t = Integer.valueOf(conin.nextLine());
+				String s = conin.nextLine();
+				
+				if(!s.isEmpty()){			
+				char[] carray = s.toCharArray();
+				Arrays.sort(carray);
+				Set<String> set = new TreeSet<String>();
+				set.add(String.valueOf(carray[0]));
+				for(int i=1; i<carray.length; i++){
+					Set<String> temp = new TreeSet<String>(set);
+					for(String st : temp){
+						StringBuilder sb = new StringBuilder(st);
+						set.add(sb.append(carray[i]).toString());
+						//set.add(st.concat(String.valueOf(carray[i])));
+					} 
+					set.add(String.valueOf(carray[i]));
+				}
+
+				for(String st : set)
+					System.out.println(st);
+				}
+			}
+		}
+	}
+	
+	public static void combination(String s){
+		
+	}
+	
+	/*
+	 * 3- An Adjacency matrix is given which is represented by 2d array.and each field is having cost associated.You are also given source and destination points.Find the maximum cost to reach from source to destination.
+	 */
+	public int maxCost(int[][] matrix, int start, int end){
+	    boolean[] visited = new boolean[matrix.length];
+	    int[] cost = new int[matrix.length];
+	    Deque<Integer> q = new ArrayDeque<Integer>();
+	    q.add(start);
+	    visited[start] = true;
+	    cost[start] = 0;
+	    
+	    while(!q.isEmpty()){
+	        int current = q.remove();
+	        
+	        for(int i=0; i!=current && matrix[current][i]!=Integer.MAX_VALUE && i<matrix[current].length; i++){
+	            
+	            cost[i] = Math.max(cost[i], cost[current]+matrix[current][i]);
+	            
+	            if(!visited[i] && i!=end){
+	                q.add(i);
+	                visited[i] = true;
+	            }
+	        
+	        }
+	           
+	    }
+	    
+	    return cost[end];
+	}
+	
+	void dijkstra(Node start) {
+		Deque<Node> s = new ArrayDeque();
+		
+		s.push(start);
+		while (s.isEmpty() == false) {
+			Node top = s.pop();
+			s.pop();
+			// mark top as visited;
+
+			//check for termination condition (have we reached the target node?)
+			//add all of top's unvisited neighbors to the stack.
+
+		}
+	}
 	/*
 	 * union-find algo
 	 * http://algs4.cs.princeton.edu/15uf/

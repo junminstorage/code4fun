@@ -1,8 +1,21 @@
 package org.blueocean;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 public class GraphQV2 {
+	
+	class GraphAsAdjList {
+		List<Integer>[] graph;
+		
+		GraphAsAdjList(int n){
+			graph = (List<Integer>[])new List[n];
+			for(int i=0; i<n; i++)
+				graph[i] = new ArrayList<Integer>();
+			
+		}
+	}
 	
 	class Node {
 		char c;

@@ -5,6 +5,8 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -12,9 +14,371 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
+import java.util.StringTokenizer;
 import java.util.TreeSet;
+import java.util.Map.Entry;
 
 public class StringQ {
+	
+	static class DescendComparator implements Comparator<Entry<Character, Integer>> {
+	    public int compare(Entry<Character, Integer> entry1,
+	            Entry<Character, Integer> entry2) {
+	        int count1 = entry1.getValue();
+	        int count2 = entry2.getValue();
+	        return count2 - count1;
+	    }
+	}
+	
+    public static void descendPrint2(String str) {
+        if (str == null || str.length() == 0) {
+            return;
+        }
+        // put char count to hashMap
+        Map<Character, Integer> hm = new HashMap<Character, Integer>();
+        for (int i = 0; i < str.length(); i++) {
+            if (!hm.containsKey(str.charAt(i))) {
+                hm.put(str.charAt(i), 1);
+                continue;
+            }
+            int count = hm.get(str.charAt(i));
+            hm.put(str.charAt(i), ++count);
+        }
+        // Sort hashMap according to value.
+        Set<Entry<Character, Integer>> set = hm.entrySet();
+        ArrayList<Entry<Character, Integer>> list = new ArrayList<Entry<Character, Integer>>(
+                set);
+        Collections.sort(list, new DescendComparator());
+        // Print result
+        for (Entry<Character, Integer> entry : list) {
+            char ch = entry.getKey();
+            int count = entry.getValue();
+            for (int i = 0; i < count; i++) {
+                System.out.print(ch);
+            }
+        }
+    }
+	
+	
+	public static void reversePrint2(String s){
+		if(s==null || s.isEmpty())
+			return;
+		
+		int p1=s.length()-1;
+		while(p1>=0){
+			System.out.print(s.charAt(p1));
+			p1--;
+		}
+	}
+	
+	public static void reversePrint(String s){
+		if(s==null || s.isEmpty())
+			return;
+		
+		char[] chars = s.toCharArray();
+		int p0=0;
+		int p1=s.length()-1;
+		while(p0<p1){
+			char temp = chars[p0];
+			chars[p0] = chars[p1];
+			chars[p1] = temp;
+			p0++; p1--;
+		}
+		System.out.println(String.valueOf(chars));
+	}
+	
+	 public static int lastIndexOf(char[] source, int sourceOffset, int sourceCount,
+	            char[] target, int targetOffset, int targetCount,
+	            int fromIndex) {
+	        /*
+	         * Check arguments; return immediately where possible. For
+	         * consistency, don't check for null str.
+	         */
+	        int rightIndex = sourceCount - targetCount;
+	        if (fromIndex < 0) {
+	            return -1;
+	        }
+	        if (fromIndex > rightIndex) {
+	            fromIndex = rightIndex;
+	        }
+	        /* Empty string always matches. */
+	        if (targetCount == 0) {
+	            return fromIndex;
+	        }
+
+	        int strLastIndex = targetOffset + targetCount - 1;
+	        char strLastChar = target[strLastIndex];
+	        int min = sourceOffset + targetCount - 1;
+	        int i = min + fromIndex;
+
+	        startSearchForLastChar:
+	        while (true) {
+	            while (i >= min && source[i] != strLastChar) {
+	                i--;
+	            }
+	            if (i < min) {
+	                return -1;
+	            }
+	            int j = i - 1;
+	            int start = j - (targetCount - 1);
+	            int k = strLastIndex - 1;
+
+	            while (j > start) {
+	                if (source[j--] != target[k--]) {
+	                    i--;
+	                    continue startSearchForLastChar;
+	                }
+	            }
+	            System.out.println(start + " - " + sourceOffset);
+	            return start - sourceOffset + 1;
+	        }
+	    }
+	
+	public static boolean equals(String s1, String s2){
+		if(s1==null || s2==null)
+			throw new IllegalArgumentException();
+		
+		if(s1.length()!=s2.length())
+			return false;
+		
+		char[] char1 = s1.toCharArray();
+		char[] char2 = s2.toCharArray();
+		
+		for(int p=0; p<char1.length; p++){
+			if(char1[p]!=char2[p])
+				return false;
+		}
+		
+		return true;
+		
+	}
+	public static int strcmp(String s1, String s2){
+	    assert(s1!=null && s2!=null);	    
+	    int len1 = s1.length();
+		int len2 = s2.length();
+		for(int p1=0, p2=0; p1<len1&&p2<len2; p1++,p2++){
+	        char c1 = s1.charAt(p1);
+			char c2 = s2.charAt(p2);
+			if(c1!=c2)
+	            return c1 - c2;
+	    }
+	    return len1 - len2;	     
+	}
+	
+	public static void biggerGreater(String str){
+	    char[] chars = str.toCharArray();
+	    int len = chars.length;
+	    int p = len-1;
+	    while(p-1>=0 && chars[p-1]>=chars[p])
+	        p--;
+	        
+	    if(p==0)
+	        return;
+	    
+	    int p1 = p-1;
+	    //binary search p1 from p, len-1
+	    int left = p;
+	    int right = len;
+	    
+	    while(left<right-1){
+	        int mid = (left+right)>>>1;
+	        if(chars[mid]>chars[p1])
+	            left = mid;
+	        else
+	            right = mid;
+	    }
+	    
+	    int p2 = left;
+	    
+	    //swap p1, p2
+	    char temp = chars[p1];
+	    chars[p1] = chars[p2];
+	    chars[p2] = temp;
+	    
+	    //reverse chars from p1+1, len-1
+	    for(int start = p1+1, end = len -1; start<len && end>=0 && start<end; start++, end--){
+	        temp = chars[start];
+	        chars[start] = chars[end];
+	        chars[end] = temp;
+	    }
+	    
+	    System.out.println(String.valueOf(chars));
+	}
+	public static void subDiff(String st1, String st2, int maxD){
+		Deque q = new ArrayDeque();
+		
+        System.out.println(st1 + st2 + maxD);
+        int len = st1.length();
+        int maxL = 0;
+        int[][] table = new int[len][len];
+        int[][] diffs = new int[len][len];
+        
+        for(int i=0; i<len; i++){
+            for(int j=0; j<len; j++){
+                int diff = 0;               
+                int start = 0;
+                if(i>0 && j>0){
+                	if(st1.charAt(i) == st2.charAt(j)){
+                		start = table[i-1][j-1];
+                		diff = diffs[i-1][j-1];
+                	}else{
+                		diff = diffs[i-1][j-1]-1;
+                	}
+                }
+                
+                for(int k=start; i+k<len && j+k<len; k++){
+                    if(st1.charAt(i+k)!=st2.charAt(j+k))
+                        diff++;
+                    if(diff<=maxD){
+                        maxL = Math.max(maxL, k+1);
+                        table[i][j] = k;
+                        diffs[i][j] = diff;
+                    }
+                    else
+                        break;
+                }
+                
+                
+            }          
+        }
+        
+        System.out.println(maxL);
+    }
+	
+	/*
+	 * Question 1: Given two valid dictionary words, find the minimum number of steps required to transform first word to second word. Following are the transformation rules –
+
+1. You can, in a single step, change a single letter in the word.
+2. Each transition should result in a valid word. Assume you have been provided a helper function boolean isValid (String word) which tells you if a word is valid or not.
+3. This must be done with minimum transitions.
+
+Example: Transform CAT to TOY. One of the several possible transformations is CAT -> CAR -> TAR -> TOR -> TOY
+	 */
+	public static class Node{
+		String w;
+		int d;
+		public Node(String s, int t){
+			w = s;
+			d = t;
+		}
+	}
+	
+	public static boolean isValid(String w){
+		return true;
+	}
+	public static int shortestDistanceBetweenWords(String w, String t){
+		if(w.length()!=t.length())
+			return Integer.MAX_VALUE;
+		
+		Set<String> cache = new HashSet<String>();
+		Deque<Node> q = new ArrayDeque<Node>();
+		q.add(new Node(w, 0));
+		cache.add(w);
+		while(!q.isEmpty()){
+			Node c = q.pop();
+			if(c.w.equals(t))
+				return c.d;
+			
+			char[] chars = c.w.toCharArray();
+			for(int i=0; i<chars.length; i++){
+				char temp = chars[i];
+				for(int j = 'a'; j<='z'; j++){
+					chars[i] = (char)j;
+					String newW = String.valueOf(chars);
+					if(!cache.contains(newW) && isValid(newW)){
+						q.add(new Node(newW, c.d+1));
+						cache.add(newW);
+					}
+					chars[i] = temp;
+				}
+			}		
+		}
+		
+		return Integer.MAX_VALUE;
+	}
+	
+	
+	//Given an Amazon reviews paragraph containing several words, find the minimum distance between two given words.
+	//Example: Following is a hypothetical paragraph in an amazon review –
+	//“Amazon is the best company to work for. The amazon is a beautiful forest.”
+
+	public int minDistance(String s1, String s2, String sentence){
+	   if(s1==null || s1.isEmpty() || s2==null || s2.isEmpty() || sentence==null || sentence.isEmpty())
+	       return -1;
+	       
+
+	    int minD = Integer.MAX_VALUE;
+	    int p1 = -1;
+	    int p2 = -1;
+	    
+	    StringTokenizer st = new StringTokenizer(sentence);
+	    int p = -1;
+	    while(st.hasMoreTokens()){
+	        String t = st.nextToken();
+	        p++;
+	        if(t.equals(s1))
+	            p1 = p;
+	        if(t.equals(s2))
+	            p2 = p;
+	        minD = minD > p2-p1? p2-p1:minD;    
+	    }
+	    
+	    return minD;
+	}
+	/*
+	 * Given: You are given the position of each word in the paragraph. Meaning, you know that word ‘Amazon’ occurs at positions 1 and 10, and ‘The’ occurs at 3 and 9. 
+	 * You do not have to parse the paragraph to gather this info.
+	 */
+	public static int minDistance2(int[] p1, int[] p2){
+		   int t1 = 0;
+		   int t2 = 0;
+		   
+		   int minD = Math.abs(p1[0]-p2[0]);
+		   
+		   while(t1<p1.length && t2<p2.length){
+		       int d = Math.abs(p1[t1] - p2[t2]);
+		       minD = minD > d? d:minD; 
+		       if(p1[t1]<p2[t2])
+		           t1++;
+		       else 
+		           t2++;
+		   }
+		   
+		   return minD;
+		}
+	
+	//select customer_id from (select customer_id, sum(expense) as sumE from expense
+	//group by customer_id order by sumE desc) where rownum<=5
+	
+	/*
+	 * http://www.careercup.com/question?id=5088478488428544
+	 */
+	public class WordCounter implements Comparable<WordCounter>{
+		int counter;
+		String w;
+		
+		public WordCounter(String w1, int c){
+			this.w = w1;
+			this.counter = c;
+		}
+		@Override
+		public int compareTo(WordCounter o) {
+			if(this.counter == o.counter)
+				return this.w.compareTo(o.w);
+			else
+				return this.counter - o.counter;
+		}	
+	}
+	
+	public void processFile(){
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		
+		TreeSet<WordCounter> set = new TreeSet<WordCounter>();
+		
+		for(String s : map.keySet()){
+			set.add(new WordCounter(s, map.get(s)));
+		}
+		
+	}
 	
 	/*http://www.careercup.com/page?pid=facebook-interview-questions&n=5
 	*/
@@ -840,6 +1204,47 @@ inline int prime_map(char c) {
 		
 		return maxLen;
 	}
+	
+	/*
+	 * given 2 arrays wrds[] , chars[] as an input to a function such that 
+wrds[] = [ "abc" , "baa" , "caan" , "an" , "banc" ] 
+chars[] = [ "a" , "a" , "n" , "c" , "b"] 
+Function should return the longest word from words[] which can be constructed from the chars in chars[] array. 
+for above example - "caan" , "banc" should be returned 
+
+	 */
+	static volatile boolean first= true;
+	public static List<String> canComposteFromChars(String[] words, char[] chars){
+		int[] needToFound = new int[256];
+		int[] seen = new int[256];
+		
+		int maxL = 0;
+		List<String> result = new ArrayList<String>();
+		for(int i=0; i<chars.length; i++)
+			needToFound[chars[i]] ++;
+
+		for(int i=0; i<words.length; i++){
+			int j =0;
+			while(j<words[i].length()){
+				char c = words[i].charAt(j);
+				if(needToFound[c]>=1 && seen[c]++<needToFound[c]){
+					j++;
+				}else
+					break;
+			}		
+			if(j==words[i].length()){//found positive words
+				if(maxL <=j){
+					if(maxL < j){
+						result.clear();
+					}
+					result.add(words[i]);
+				}					
+			}
+		}
+
+		return result;
+	}
+	
 	
 	public static void searchAnagramSubstring(String target, String pattern){
 		int[] needToFound = new int[256]; // number of times each char appears in pattern

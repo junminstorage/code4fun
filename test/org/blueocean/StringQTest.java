@@ -9,6 +9,43 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 public class StringQTest extends TestCase {
+	public void testreversePrint(){
+		//StringQ.reversePrint2("afdsf");
+		
+		char[] str = "abacba".toCharArray();
+		Arrays.sort(str);
+		System.out.println(str);
+		int pos = str.length-1;
+		int dup_num = 0;    //to record how many duplication are there in str.
+        for(int i=1;i<=pos;i++){
+        	System.out.println(i + "-" + dup_num);
+            if(str[i]==str[i-1-dup_num]){
+                dup_num++;
+            }
+            else{
+                str[i-dup_num] = str[i];
+            }
+        }
+        str[str.length-dup_num] = '\0';
+        System.out.println(dup_num);
+        
+        System.out.println(String.valueOf(str));
+	}
+	
+	public void testBiggerGreater(){
+		//StringQ.biggerGreater("gojh");
+		
+		int t = StringQ.lastIndexOf("12345".toCharArray(), 1, 4, "23".toCharArray(), 0, 2, 3);
+		System.out.println(t);
+	}
+	
+	public void testSubDiff(){
+		StringQ.subDiff("tabriz", "torino", 2);
+		StringQ.subDiff("helloworld", "yellomarin", 3);
+	}
+	public void testminDistance2(){
+		System.out.println(StringQ.minDistance2(new int[]{1, 10},  new int[]{3,8}));
+	}
 	
 	public void testcountDuplicatesFB(){
 		System.out.println(StringQ.countDuplicatesFB("coffee tuffee"));

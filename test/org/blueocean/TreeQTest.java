@@ -14,6 +14,10 @@ import junit.framework.TestCase;
 
 public class TreeQTest extends TestCase {
 	
+	public void testconstructBSTByPre(){
+		Node n = TreeQ.constructBSTByPre(new int[]{6, 4, 3, 2, 5, 8, 7, 11, 9, 12});
+		System.out.println(n.toString());
+	}
 	
 	public Node createBST2(){
 		Node root = new Node();
@@ -130,6 +134,42 @@ public class TreeQTest extends TestCase {
 		//left1.left = left2;
 		//left1.right = right2;
 		return root;
+	}
+	
+	public void testMakeTree(){
+		/*
+		 * The unsigned right shift operator inserts a 0 in the leftmost. 
+		 * -1 as an int converted to binary is represented by 32 1's. When I right-shift it 31 times, 
+		 * I get 1 (31 0's and one 1). But when I right-shift it 32 times, I get -1 again. 
+		 */
+		System.out.println(Integer.toBinaryString(-1>>>30));
+		
+		Node root = TreeQ.makeTree(new int[]{1}, 0, 0);
+		
+		StringBuilder sb = new StringBuilder();
+		TreeQ.outputTreeString(root, sb);
+		
+		System.out.println(sb.toString());
+		
+	}
+	public void testlongestChain(){
+		Node root = new Node(1);
+		root.left = new Node(2);
+		root.right = new Node(3);
+		
+		root.left.left = new Node(4);
+		root.left.right = new Node(5);
+		root.left.left.left = new Node(8);
+		root.left.left.right = new Node(9);
+		
+		root.left.left.left.left = new Node(10);
+		
+		//root.right.right = new Node(7);
+		
+		root.left.right.right = new Node(11);
+		root.left.right.right.right = new Node(12);
+		
+		System.out.println(TreeQ.longestChain(root));
 	}
 	
 	public void testSinkZero(){

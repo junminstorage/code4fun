@@ -1,6 +1,19 @@
 package org.blueocean.learning;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ArrayQ {
+	private final Map<String, String> states;
+	
+	public ArrayQ(){		
+		states = new HashMap<String, String>();
+	
+	}
+	
+	private void test(){
+		
+	}
 	
 	/*
 	 * http://www.geeksforgeeks.org/kth-smallest-element-in-a-row-wise-and-column-wise-sorted-2d-array-set-1/
@@ -8,6 +21,7 @@ public class ArrayQ {
 	 * Find the kth smallest element in the given 2D array.
 	 */
 	public static int findKthMinin2D(int[][] nums, int k){
+		
 		MinHeap heap = new MinHeap(nums[0]);
 		
 		int i = 0;

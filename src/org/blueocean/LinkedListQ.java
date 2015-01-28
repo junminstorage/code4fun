@@ -1,10 +1,12 @@
 package org.blueocean;
 
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.NoSuchElementException;
 
 public class LinkedListQ {
 	
-	class LinkedListNode{
+	class LinkedListNode implements Iterable{
 		Object data;
 		LinkedListNode next;
 		LinkedListNode random;
@@ -15,16 +17,50 @@ public class LinkedListQ {
 			copy.next = this.next;
 			return copy;
 		}
+		
+		@Override
+		public Iterator iterator() {
+			return new MyIterator(this);
+		}
+		
+		private class MyIterator implements Iterator {
+			LinkedListNode current;
+			
+			public MyIterator(LinkedListNode n){
+				this.current = n;
+			}
+			
+			@Override
+			public boolean hasNext() {				
+				return current!=null && current.next != null;
+			}
+
+			@Override
+			public Object next() {
+				if(current==null)
+					throw new NoSuchElementException();
+				current = current.next;
+				return current.next.data;
+			}
+
+			@Override
+			public void remove() {
+				throw new UnsupportedOperationException();			
+			}
+
+			
+			
+		}
 	}
 	
 	/*
 	 * http://www.careercup.com/question?id=5691288624037888
-	 * We have one single linked list. How we’ll travers it that we 
+	 * We have one single linked list. How we’ll traverse it that we 
 	 * reach till second last (n-1) node. If we want to reach till (n\2) node.
 	 */
 	public LinkedListNode getKthNodeByPacer(LinkedListNode head, int k){
 		LinkedListNode p1 = head;
-		for(int i=0; i<k; i++)
+		for(int i=0; i<k && p1!=null; i++)
 			p1 = p1.next;
 		
 		if(p1==null)
