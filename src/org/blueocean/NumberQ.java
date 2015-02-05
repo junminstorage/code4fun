@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
@@ -17,6 +18,165 @@ import java.util.TreeSet;
 import static java.lang.System.out;
 
 public class NumberQ {
+	
+	//http://www.careercup.com/question?id=5649103830646784
+	public static class QNode{
+		int val;
+		int size;
+		QNode left, right;
+		QNode(int v, int s){val = v; size = s;}
+		//time complexity O(n), n is the tree height 
+		void insert(int target){
+			size++;
+			if(target<=this.val){//smaller or equal goes left
+				if(this.left==null)
+					this.left = new QNode(target, 1);
+				else
+					this.left.insert(target);
+			}else{
+				if(this.right==null)
+					this.right = new QNode(target, 1);
+				else
+					this.right.insert(target);
+			}
+		}
+		//time complexity O(n), n is the tree height 		
+		int findIndexFor(int value){
+			int passed = 0;
+			QNode curr = this;
+			while(curr!=null){
+				if(curr.val == value){
+					return (curr.left==null?0:curr.left.size) + passed;
+				}else if(curr.val > value){
+					curr = curr.left;
+				}else{
+					passed += (curr.left==null?0:curr.left.size) + 1;
+					curr = curr.right;
+				}
+			}
+			return -1;
+		}
+	}
+	
+	public static int maxQAZ(int[] nums){
+		assert(nums != null);
+		int len = nums.length;
+		QNode root = new QNode(nums[len-1], 1);
+		int max = 0;
+		for(int i=len-2; i>=0; i--){
+			root.insert(nums[i]);
+			max = Math.max(max, i- root.findIndexFor(nums[i]) + 1);
+		}
+		return max;		
+	}
+	
+	
+	
+	
+	//http://www.geeksforgeeks.org/amazon-interview-experience-set-174-sde/
+	//3)Next Greater Element
+	public static int[] findNGE(int[] nums){
+		assert(nums != null);
+		int[] nge = new int[nums.length];
+		
+		Stack<Integer> stack = new Stack<Integer>();
+		for(int i=0; i<nums.length; i++){
+			
+			if(stack.isEmpty() || nums[stack.peek()]>=nums[i])
+				stack.push(i);
+			else{
+				while(!stack.isEmpty() && nums[stack.peek()]<nums[i])
+					nge[stack.pop()] = i;
+			}
+			stack.push(i);
+		}
+		
+		while(!stack.isEmpty())
+			nge[stack.pop()] = -1;
+		
+		return nge;
+	}
+	
+	public static int[] findNGEBackward(int[] nums){
+		assert(nums != null);
+		int len = nums.length;
+		int[] nge = new int[len];
+		nge[len-1] = -1;		
+		for(int i=len-2; i>=0; i--){
+			int k = i+1;
+			while(k>-1 && nums[i]>=nums[k])
+				k = nge[k];
+			nge[i] = k;		
+		}		
+		return nge;
+	}
+	
+	/*
+	 * given a stream of numbers, find the median of them at any given time
+	 */
+	public static Integer findMedianMinMaxHeap(int[] nums){
+		PriorityQueue<Integer> minQ = new PriorityQueue<Integer>();
+		
+		PriorityQueue<Integer> maxQ = new PriorityQueue<Integer>(nums.length>>>2, new Comparator<Integer>(){
+			@Override
+			public int compare(Integer o1, Integer o2) {
+				return o2 - 01;
+			}			
+		});
+		
+		if(nums.length == 0)
+			return null;
+		
+		if(nums.length>0)
+			minQ.add(nums[0]);
+		if(nums.length>1)
+			maxQ.add(nums[1]);
+		
+		for(int i = 2; i<nums.length; i++){
+			if(nums[i] > minQ.peek())
+				minQ.add(nums[i]);
+			else
+				maxQ.add(nums[i]);
+			
+			if(minQ.size()>maxQ.size())
+				maxQ.add(minQ.poll());
+			
+			if(maxQ.size() - minQ.size() == 2)
+				minQ.add(maxQ.poll());
+		}
+		Collections.reverseOrder();
+		if(nums.length%2==1)
+			return minQ.peek();
+		else
+			return (minQ.peek() + maxQ.peek())>>>1;
+	}
+	
+	//find local min
+	public static int findLocalMin(int[] nums){
+		if(nums.length == 0)
+			return -1;
+		if(nums.length <= 2)
+			return 0;
+		int start = 0, end = nums.length -1;
+		while(start<end-1){
+			int mid = (start + end)>>>1;
+			if(nums[mid]<nums[mid-1] && nums[mid]<nums[mid+1]){
+				return mid;
+			}else if(nums[mid] > nums[mid-1])
+				end = mid;
+			else
+				start = mid;
+		}
+		
+		if(nums[start] < nums[end])
+			return start;
+		else 
+			return end;
+	}
+	
+	
+	
+	
 	//x, y >0
 	public static int gcd2(int x, int y) {
         for (int r; (r = x % y) != 0; x = y, y = r) { }

@@ -12,6 +12,22 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 public class NumberQTest extends TestCase {
+	
+	public void testFindNGE(){
+		System.out.println(Arrays.toString(NumberQ.findNGE(new int[]{2, 4, 1, 5, 8})));
+		System.out.println(Arrays.toString(NumberQ.findNGEBackward(new int[]{2, 4, 1, 5, 8})));
+	}
+	
+	public void testFindLocalMin(){
+		System.out.println(NumberQ.findLocalMin(new int[]{1}));
+		
+		System.out.println(NumberQ.findLocalMin(new int[]{1,2}));
+		
+		System.out.println(NumberQ.findLocalMin(new int[]{3,1,2}));
+		
+		System.out.println(NumberQ.findLocalMin(new int[]{1, 2, 3, 5, 4, 7}));
+	}
+	
 	public void testfindMinUnsortedWindow(){
 		System.out.println(Arrays.toString(NumberQ.findMinUnsortedWindow2(new int[]{2, 3, 4, 6, 4, 3, 2, 7, 8, 9})));
 		System.out.println(Arrays.toString(NumberQ.findMinUnsortedWindow2(new int[]{7,8,9,2,3,2,3,4})));

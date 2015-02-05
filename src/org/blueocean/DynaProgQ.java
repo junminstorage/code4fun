@@ -1,6 +1,57 @@
 package org.blueocean;
 
+import java.util.Arrays;
+
 public class DynaProgQ {
+	
+	/*
+	 * http://www.geeksforgeeks.org/weighted-job-scheduling/
+	 */
+	public class Job implements Comparable<Job>{
+		int start, end, profit;
+		public Job(int s, int e, int p){
+			this.start = s;
+			this.end = e;
+			this.profit = p;
+		}
+		public int compareTo(Job other){
+			return this.end - other.end;
+		}
+	}
+	
+	public int maxProfit(Job[] jobs){
+		//table[i] store the max profit including ith job
+		int[] table = new int[jobs.length];
+		Arrays.sort(jobs);
+		table[0] = jobs[0].profit;
+		for(int k = 1; k<jobs.length; k++){			
+			int max = Integer.MIN_VALUE;
+			int m = binarySearch(jobs, 0, k-1, jobs[k].start);		
+			while(m>=0)			
+					max = Math.max(max, table[m--]);		
+			table[k] = max + jobs[k].profit;
+		}
+		
+		int max = Integer.MIN_VALUE;
+		for(int k=0; k<jobs.length; k++){
+			max = Math.max(table[k], max);
+		}	
+		return max;
+	}
+	
+	public int binarySearch(Job[] jobs, int start, int end, int k){
+		if(jobs[start].end > k)
+			return start-1;
+		
+		while(start<end-1){
+			int mid = (start+end)>>>1;
+			if(jobs[mid].end > k)
+				end = mid;
+			else
+				start = mid;
+		}		
+		return jobs[end].end<=k?end:start;
+	}
 	
 	/*
 	http://help.topcoder.com/data-science/competing-in-algorithm-challenges/algorithm-tutorials/an-introduction-to-recursion-part-2/

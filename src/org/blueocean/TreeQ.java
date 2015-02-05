@@ -26,6 +26,54 @@ import org.blueocean.LinkedListQ.SortedListNode;
 
 public class TreeQ {
 	
+	//build BST from sorted array
+	public static Node sorted2bstIteratively(int[] nums){
+		assert(nums != null);
+		
+		int start = 0, end = nums.length-1, mid = (start + end)>>>1;
+		Node root,  pre;
+		root = pre = new Node(nums[mid]);
+		end = mid -1;
+		while(start<=end){
+			mid = (start + end)>>>1;
+			Node n = new Node(nums[mid]);
+			pre.left = n;
+			pre = n;
+			end = mid - 1;
+		}
+		
+		pre = root;
+		start = (nums.length-1)>>>1+1; end = nums.length-1;
+		while(start<=end){
+			mid = (start + end)>>>1;
+			Node n = new Node(nums[mid]);
+			if(pre!=null)
+				pre.right = n;
+			start = mid + 1;
+		}
+		
+		return root;
+		
+	}
+	
+	public static Node sorted2bst(int[] nums){
+		assert(nums != null);
+		return sorted2bstRec(nums, 0, nums.length-1);
+	}
+	
+	
+	public static Node sorted2bstRec(int[] nums, int start, int end){
+		if(start>end)
+			return null;		
+		int mid = (start+end)>>>1;
+		Node curr = new Node(nums[mid]);
+		curr.left = sorted2bstRec(nums, start, mid-1);
+		curr.right = sorted2bstRec(nums, mid+1, end);
+		return curr;
+	}
+	
+	
+	
 	public static class DiaData{
 		//the nodes on the longest path from children to current node
 		List<Node> maxPath;

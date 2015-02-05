@@ -52,7 +52,7 @@ public class OrderStatisticTreeQ {
 			}else if(curr.data > value){
 				curr = curr.left;
 			}else{
-				passed += curr.left.size + 1;
+				passed += (curr.left==null?0:curr.left.size) + 1;
 				curr = curr.right;
 			}
 		}
