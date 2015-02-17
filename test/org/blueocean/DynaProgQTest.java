@@ -6,6 +6,10 @@ import junit.framework.TestCase;
 
 public class DynaProgQTest extends TestCase {
 	
+	public void testfindLongestSubsequence(){
+		System.out.println(DynaProgQ.findLongestSubsequence("abcde", "bdace"));
+	}
+	
 	public void testmaxProfit(){
 		DynaProgQ q = new DynaProgQ();
 		

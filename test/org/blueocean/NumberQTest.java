@@ -13,6 +13,26 @@ import junit.framework.TestCase;
 
 public class NumberQTest extends TestCase {
 	
+	
+	public void testFindInInfiniteArray(){
+		System.out.println(1>>>1);
+		System.out.println(1>>1);
+	}
+	
+	public void testqazBymergeSort(){
+		int[] nums = new int[]{2, 1, 3, 5, 6, 1};
+		NumberQ.qazBymergeSort(nums);
+		
+		System.out.println(NumberQ.maxQAZ(nums));
+	}
+	
+	public void testmergeSort(){
+		int[] nums = new int[]{2, 1, 5};
+		NumberQ.mergeSort(nums);
+		System.out.println(Arrays.toString(nums));
+		
+	}
+	
 	public void testFindNGE(){
 		System.out.println(Arrays.toString(NumberQ.findNGE(new int[]{2, 4, 1, 5, 8})));
 		System.out.println(Arrays.toString(NumberQ.findNGEBackward(new int[]{2, 4, 1, 5, 8})));
