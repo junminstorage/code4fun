@@ -5,6 +5,43 @@ import java.util.Arrays;
 public class DynaProgQ {
 	
 	/*
+	 * find longest subsequence in two strings
+	 */
+	public static String findLongestSubsequence(String s1, String s2){
+		 int len1 = s1.length(), len2 = s2.length();
+		 int[][] table = new int[len1+1][len2+1];
+		 for(int i = 0; i<len1+1; i++)
+		     table[i][0] = 0;
+		     
+		 for(int i = 0; i<len2+1; i++)
+		     table[0][i] = 0;
+		     
+		 for(int i = 1; i<len1+1; i++){
+		     for(int j=1; j<len2+1; j++){
+		        if(s1.charAt(i-1) == s2.charAt(j-1))
+		            table[i][j] = table[i-1][j-1]+1;
+		        else
+		            table[i][j] = Math.max(table[i-1][j], table[i][j-1]);         
+		     }
+		 }    
+		 
+		StringBuilder sb = new StringBuilder(); 
+		int i = len1, j = len2;
+		while(i>0 && j>0){
+		    if(s1.charAt(i-1) == s2.charAt(j-1)){
+		        sb.append(s1.charAt(i-1));
+		         i--; j--;   
+		    }else if(table[i][j] == table[i-1][j])
+		        i--;
+		    else
+		        j--;    
+		}
+
+		return sb.reverse().toString();
+
+		}
+	
+	/*
 	 * http://www.geeksforgeeks.org/weighted-job-scheduling/
 	 */
 	public class Job implements Comparable<Job>{

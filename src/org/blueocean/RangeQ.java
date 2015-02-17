@@ -111,6 +111,7 @@ public class RangeQ {
 			return null;
 		}
 		
+		//find all intervals overlapping with an interval
 		public List<Interval> findAll(Interval input){
 			List<Interval> result = new ArrayList<Interval>();
 			findAll(tree, input, result);
@@ -137,6 +138,35 @@ public class RangeQ {
 			if(curr.right!=null)
 				findAll(curr.right, input, result);
 			
+		}
+		
+		//find all intervals contain a point		
+		public List<Interval> findAll(int input){
+			List<Interval> result = new ArrayList<Interval>();
+			findAll(tree, input, result);
+			return result;
+		}
+		
+		//in-order travel with condition check against curr.max and curr.left
+		public void findAll(Node curr, int point, List<Interval> result){
+					if(curr==null)
+						return;
+						
+					if(curr.max < point)
+						return;
+					
+					if(curr.left!=null)
+						findAll(curr.left, point, result);
+					
+					if(curr.interval.left <= point && point <= curr.interval.right)
+						result.add(curr.interval);		
+					
+					if(point < curr.interval.left)
+						return;
+					
+					if(curr.right!=null)
+						findAll(curr.right, point, result);
+					
 		}
 		
 		

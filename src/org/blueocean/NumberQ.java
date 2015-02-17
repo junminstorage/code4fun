@@ -19,7 +19,124 @@ import static java.lang.System.out;
 
 public class NumberQ {
 	
+	
+	//peak finding in 2D matrix
+	//peak is defined as the element in the matrix that is no smaller than its all neighbors
+	public static int[] findPeakIn2DMatrix(int[][] matrix){
+		int rows = matrix.length;
+		int cols = matrix[0].length;
+		
+		int start = 0, end = cols -1;
+		int maxIndex = 0; int mid = 0;
+		while(start<=end){
+			mid = (start+end)>>>1;
+			maxIndex = 0;
+			for(int i=1; i<rows; i++)
+				maxIndex = matrix[i][mid]>matrix[maxIndex][mid]?i:maxIndex;
+			if(mid-1>=0 && matrix[maxIndex][mid-1]>matrix[maxIndex][mid])	
+				end = mid-1;
+			else if(mid+1<cols && matrix[maxIndex][mid+1]>matrix[maxIndex][mid])
+				start = mid+1;
+			else
+				break;
+		}
+		
+		return new int[]{maxIndex, mid};
+	}
+	
+	public static void mergeSort(int[] nums){
+		mergeSort(nums, 0, nums.length-1);
+	}
+	
+	public static void mergeSort(int[] nums, int start, int end){
+		if(start>=end)
+			return;
+		int mid = (start+end)>>>1;
+		mergeSort(nums, start, mid);
+		mergeSort(nums, mid+1, end);
+		
+		merge(nums, start, mid, end);
+	}
+	
+	public static void merge(int[] nums, int start, int mid, int end){
+		int save = start;
+		int[] temp = new int[end-start+1];
+		int start2 = mid+1;	
+		int k = 0;
+		while(start<=mid && start2<=end){
+			if(nums[start]<=nums[start2])
+				temp[k++] = nums[start++];
+			else
+				temp[k++] = nums[start2++];
+		}		
+		while(start<=mid)
+			temp[k++] = nums[start++];
+		while(start2<=end)
+			temp[k++] = nums[start2++];
+		
+	   System.arraycopy(temp, 0, nums, save, temp.length);
+	}
+	
+	
+	
 	//http://www.careercup.com/question?id=5649103830646784
+	//find QAZ using merge sort
+	public static class Qaz{
+		int v; int qaz;
+		public Qaz(int v){this.v = v;}
+		public String toString(){
+			return v + "-" + qaz;
+		}
+	}
+	public static void qazBymergeSort(int[] nums){
+		int len = nums.length;
+		Qaz[] objs = new Qaz[len];
+		for(int i = 0; i< len; i++){
+			objs[i] = new Qaz(nums[i]);
+		}		
+		mergeSort(objs, 0, len-1);
+		
+		System.out.println(Arrays.toString(objs));
+	}
+	
+	public static void mergeSort(Qaz[] nums, int start, int end){
+		if(start>=end)
+			return;
+		int mid = (start+end)>>>1;
+		mergeSort(nums, start, mid);
+		mergeSort(nums, mid+1, end);
+		
+		merge(nums, start, mid, end);
+	}
+	
+	public static void merge(Qaz[] nums, int start, int mid, int end){
+		Qaz[] temp = new Qaz[end-start+1];
+		int start2 = mid+1;	
+		int k = temp.length-1;
+		int add = 0;
+		while(start<=mid && start2<=end){
+			if(nums[mid].v<nums[end].v){
+				temp[k--] = nums[end--];
+				add++;
+			}
+			else{
+				temp[k] = nums[mid--];
+				temp[k].qaz = temp[k].qaz + add;
+				k--;
+			}
+		}		
+		while(start<=mid){
+			temp[k] = nums[mid--];
+			temp[k].qaz = temp[k].qaz + add;
+			k--;
+		}
+		while(start2<=end)
+			temp[k--] = nums[end--];
+		
+	   System.arraycopy(temp, 0, nums, start, temp.length);
+	}
+	
+	
 	public static class QNode{
 		int val;
 		int size;
@@ -65,7 +182,7 @@ public class NumberQ {
 		int max = 0;
 		for(int i=len-2; i>=0; i--){
 			root.insert(nums[i]);
-			max = Math.max(max, i- root.findIndexFor(nums[i]) + 1);
+			max = Math.max(max, i- root.findIndexFor(nums[i]));
 		}
 		return max;		
 	}
