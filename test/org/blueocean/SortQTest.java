@@ -1,6 +1,7 @@
 package org.blueocean;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -12,13 +13,24 @@ import java.util.TreeSet;
 import junit.framework.TestCase;
 
 public class SortQTest extends TestCase {
+	
+	public void testCircleSort(){
+		
+		SortQ.circleSort(new int[]{1, 3, 0, 2});
+		SortQ.circleSort(new int[]{0, 1, 2, 3});
+		SortQ.circleSort(new int[]{2, 0, 1, 4, 5, 3});
+	}
+	
+	public void testCircularSort(){
+		System.out.println(Arrays.toString(SortQ.circularSort(new int[]{4, 1, 3, 8, 9, 10, -1})));
+	}
 
 	public void testinsertionSortTest(){
 		SortQ.insertionSort(new int[]{2, 5, 1, 7, 3});
 	}
 	
 	public void testfdsf(){
-		testsort("abababcc");
+		
 		
 		Entry e1 = new Entry('a', 1);
 		

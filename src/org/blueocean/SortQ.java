@@ -4,6 +4,78 @@ import java.util.Arrays;
 
 public class SortQ {
 	
+	
+	public static void circleSort(int[] array){
+
+		for(int i=0; i<array.length; i++){
+			if(array[i]<0)
+				continue;
+			int startPos = i;
+			int next_value = array[startPos];
+			while( startPos != next_value ){
+
+				int next_index = next_value;
+				next_value = array[next_index];
+				array[next_index] = (startPos + 1) * -1; //mark it negative 
+				startPos  = next_index;
+				if(next_index == i)
+					break;
+			}
+		}
+
+		for(int i = 0; i< array.length; i++){
+			if(array[i]<0)
+				array[i] = array[i]*-1 -1;
+		}
+
+	}
+
+	
+	public static int[] circularSort(int[] nums){
+		int len = nums.length;
+		int[] cb = new int[len];
+		cb[len/2] = nums[0];
+		int start = len/2, end = len/2;
+		
+		for(int i=1; i<len; i++){
+			//if nums[i] is the smallest, append to the front
+			if(nums[i]<=cb[start]){
+				start = start == 0? len-1:start-1;
+				cb[start] = nums[i];
+			//if nums[i] is the biggest, append to the end
+			}else if(nums[i]>=cb[end]){
+				end = end == len-1? 0 : end+1;
+				cb[end] = nums[i];
+			}else{
+				//if nums[i] falls into first half
+				if(nums[i]<cb[len/2]){
+					start = start == 0? len-1:start-1;
+					int p = start;
+					//shift the first half to left circularly 
+					while(cb[p]<nums[i]){
+						int next = p-1>=0? p-1: len-1;
+						cb[next] = cb[p];
+						p++;
+					}
+					cb[p] = nums[i];				
+				//if nums[i] falls into second half	
+				}else{
+					end = end == len-1? 0 : end+1;
+					int p = end;
+					//shift the second half to right circularly
+					while(cb[p]>nums[i]){
+						int next = p+1<len? p+1: 0;
+						cb[next] = cb[p];
+						p--;
+					}
+					cb[p] = nums[i];
+				}
+			}			
+		}
+		return cb;
+	}
+	
+	
 	//fat partition
 	public static void ThreeWayPartition(int[] nums, int target){
 		//the next index for number < p

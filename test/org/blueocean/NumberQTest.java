@@ -17,6 +17,9 @@ public class NumberQTest extends TestCase {
 	public void testFindInInfiniteArray(){
 		System.out.println(1>>>1);
 		System.out.println(1>>1);
+		
+		System.out.println(1<<1);
+		System.out.println(1<<27);
 	}
 	
 	public void testqazBymergeSort(){

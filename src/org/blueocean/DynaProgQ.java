@@ -4,6 +4,52 @@ import java.util.Arrays;
 
 public class DynaProgQ {
 	
+	
+	/*
+	 * given a list of words and window with width w
+	 * align the words to fewest lines as possible
+	 */
+	public static void textJustification(String[] words, int width){
+		int len = words.length;
+		double[] table = new double[len];
+		int[] indices = new int[len];
+		table[len-1] = fullness(words, len-1, len-1, width);
+		indices[len-1] = -1;
+		
+		for(int k = len - 2; k<=0; k--){
+			table[k] = Integer.MIN_VALUE;
+			for(int i=0; k+i<len; i++){
+				double fullness = fullness(words, k, k+i, width);
+				if(fullness==0d)
+					break;
+				double dp = k+i+1<len?table[k+i+1]:0;
+				if(fullness + dp > table[k]){
+					table[k] = fullness + dp;
+					indices[k] = k+i+1;
+				}
+			}
+		}
+		
+		for(int i = 0; i<len; i = indices[i]){
+			System.out.println(i);
+		}
+	}
+	
+	public static double fullness(String[] words, int i, int j, int w){
+		int length = words[i].length();
+		for(int m = i+1; m<=j; m++)
+			length += words[i].length()+1;
+		return length<=w? (double)length/w :0;
+	}
+	
+	public static double badness(String[] words, int i, int j, int w){
+		int length = words[i].length();
+		for(int m = i+1; m<=j; m++)
+			length += words[i].length()+1;
+		return length<=w? Math.pow(w - length, 3) : Integer.MAX_VALUE;
+	}
+	
+	
 	/*
 	 * find longest subsequence in two strings
 	 */

@@ -19,6 +19,100 @@ import static java.lang.System.out;
 
 public class NumberQ {
 	
+	/*
+	 * Given digit[] D, and a number A. Find the smallest number which is larger than A, 
+	 * and is consisted by the digit in D.
+
+For example:
+D = [0, 1, 8, 3], A = 8821. Result: 8830
+D = [0, 1, 8, 3], A = 8310. Result: 8311
+D = [0, 1, 8, 3], A = 12345. Result: 13000
+	 */
+	public static int[] findSmallestNumberUsingDigits(int[] D, int source){
+		int len = 0, copy = source;
+		while(copy>0){
+			copy = copy/10; len++;
+		}		
+		int[] digits = new int[len];
+		copy = source;
+		while(copy>0){
+			digits[--len] = copy%10;
+			copy = copy/10;
+		}
+		//java uses quick-sort if size is small then actually insertion sort
+		Arrays.sort(D);
+		//step 1
+		//scan from left to right find the one digit in the number not in D and try to replace it with larger digit in D
+		//if succeed set flag to true, then replace the rest of digits on the right with smallest digits in D
+		//if failed, then call getNextGreater()
+		boolean flag = false;
+		for(int i=0; i<digits.length; i++){
+			if(flag){
+				digits[i] = D[0];
+				continue;
+			}
+
+			int target = Arrays.binarySearch(D, digits[i]);
+			if(target<0){
+				int insertion = (target+1)*(-1);
+				if(insertion == D.length){
+					//throw new IllegalArgumentException("Not possible");
+					//now we scan to the left to increase the digit
+					int k = i-1;
+					for(; k>=0; k--){
+						target = Arrays.binarySearch(D, digits[k]);
+						if(target+1<D.length){
+							digits[k] = D[target+1];
+							i = k;
+							break;
+						}
+					}
+					if(k<0){
+						return getNextGreater(digits, D);						
+					}
+
+				}else{
+					digits[i] = D[insertion];
+				}
+				flag = true;
+			}
+		}
+
+		if(flag)
+			return digits;
+
+		//step 2
+		//if all digits are in D
+		//then starting from right, find the larger digit in D than current digit,
+		//if found, replace current digit with the found digit and replace the rest of the digits on the right with smallest digit in D	
+		//otherwise call getNextGreater()
+		int i = digits.length-1;
+		for(; i>=0; i--){								
+			int target = Arrays.binarySearch(D, digits[i]);
+			if(target+1<D.length){
+				digits[i] = D[target+1];
+				flag = true;
+				break;
+			}
+		}
+
+		if(!flag)
+			return getNextGreater(digits, D);
+
+		for(int j = i+1; j<digits.length; j++)
+			digits[j] = D[0];		
+
+		return digits;
+
+	}
+
+	public static int[] getNextGreater(int[] digits, int[] D){
+		int[] ds = new int[digits.length+1];
+		ds[0] = D[0]==0?D[1]:D[0];
+		for(int id=1; id<ds.length; id++)
+			ds[id] = D[0];
+		return ds;	
+	}
 	
 	//peak finding in 2D matrix
 	//peak is defined as the element in the matrix that is no smaller than its all neighbors
