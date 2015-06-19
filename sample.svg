@@ -1,0 +1,349 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="612pt" height="792pt" version="1.1">
+	<style type="text/css">
+rect.page_rect {stroke: gray; stroke-width: 0.5px; fill: none}
+rect.image_rect {stroke: green; stroke-width: 0.5px; fill: none}
+rect.text_rect {stroke: blue; stroke-width: 0px; fill: none}
+rect.text_flow_rect {stroke: red; stroke-width: 0px; fill: none}
+rect.line_rect {stroke: orange; stroke-width: 0px; fill: none}
+rect.para_rect {stroke: orange; stroke-width: 0px; fill: none}
+rect.head_rect {stroke: green; stroke-width: 0px; fill: none}
+rect.table_header_rect {stroke: blue; stroke-width: 0px; fill: none}
+rect.text_area_rect {stroke: orange; stroke-width: 0px; fill: none}
+rect.ptitle_rect {stroke: rgb(255,0,0); stroke-width: 0px; fill: rgb(255, 0, 0); fill-opacity: 0.2;}
+rect.pth_rect {stroke: rgb(255,0,255); stroke-width: 0px; fill: rgb(255, 150, 150); fill-opacity: 0.2;}
+rect.ptb_rect {stroke: green; stroke-width: 0px; fill: rgb(255, 150, 150); fill-opacity: 0.2;}
+rect.footer_rect {stroke: green; stroke-width: 0px; fill: none}
+	</style>
+	<line stroke="rgb(0, 0, 0)" stroke-width="1.44" x1="66.6" y1="120.96" x2="292.56" y2="120.96" />
+	<line stroke="rgb(0, 0, 0)" stroke-width="1.44" x1="294" y1="120.96" x2="418.56" y2="120.96" />
+	<line stroke="rgb(0, 0, 0)" stroke-width="1.44" x1="420" y1="120.96" x2="544.56" y2="120.96" />
+	<line stroke="rgb(0, 0, 0)" stroke-width="0.48" x1="66.6" y1="154.2" x2="292.56" y2="154.2" />
+	<line stroke="rgb(0, 0, 0)" stroke-width="0.48" x1="292.56" y1="154.2" x2="293.04" y2="154.2" />
+	<line stroke="rgb(0, 0, 0)" stroke-width="0.48" x1="293.04" y1="154.2" x2="355.56" y2="154.2" />
+	<line stroke="rgb(0, 0, 0)" stroke-width="0.48" x1="355.56" y1="154.2" x2="356.04" y2="154.2" />
+	<line stroke="rgb(0, 0, 0)" stroke-width="0.48" x1="356.04" y1="154.2" x2="418.56" y2="154.2" />
+	<line stroke="rgb(0, 0, 0)" stroke-width="0.48" x1="418.56" y1="154.2" x2="419.04" y2="154.2" />
+	<line stroke="rgb(0, 0, 0)" stroke-width="0.48" x1="419.04" y1="154.2" x2="481.56" y2="154.2" />
+	<line stroke="rgb(0, 0, 0)" stroke-width="0.48" x1="481.56" y1="154.2" x2="482.04" y2="154.2" />
+	<line stroke="rgb(0, 0, 0)" stroke-width="0.48" x1="482.04" y1="154.2" x2="544.56" y2="154.2" />
+	<line stroke="rgb(0, 0, 0)" stroke-width="1.44" x1="66.6" y1="292.2" x2="292.56" y2="292.2" />
+	<line stroke="rgb(0, 0, 0)" stroke-width="1.44" x1="294" y1="292.2" x2="355.56" y2="292.2" />
+	<line stroke="rgb(0, 0, 0)" stroke-width="1.44" x1="357" y1="292.2" x2="418.56" y2="292.2" />
+	<line stroke="rgb(0, 0, 0)" stroke-width="1.44" x1="420" y1="292.2" x2="481.56" y2="292.2" />
+	<line stroke="rgb(0, 0, 0)" stroke-width="1.44" x1="483" y1="292.2" x2="544.56" y2="292.2" />
+	<line stroke="rgb(0, 0, 0)" stroke-width="0.48" x1="66.6" y1="310.08" x2="292.56" y2="310.08" />
+	<line stroke="rgb(0, 0, 0)" stroke-width="0.48" x1="293.04" y1="310.08" x2="355.56" y2="310.08" />
+	<line stroke="rgb(0, 0, 0)" stroke-width="0.48" x1="356.04" y1="310.08" x2="418.56" y2="310.08" />
+	<line stroke="rgb(0, 0, 0)" stroke-width="0.48" x1="419.04" y1="310.08" x2="481.56" y2="310.08" />
+	<line stroke="rgb(0, 0, 0)" stroke-width="0.48" x1="482.04" y1="310.08" x2="544.56" y2="310.08" />
+	<line stroke="rgb(0, 0, 0)" stroke-width="1.44" x1="65.88" y1="358.32" x2="292.56" y2="358.32" />
+	<line stroke="rgb(0, 0, 0)" stroke-width="1.44" x1="293.28" y1="358.32" x2="355.56" y2="358.32" />
+	<line stroke="rgb(0, 0, 0)" stroke-width="1.44" x1="356.28" y1="358.32" x2="418.56" y2="358.32" />
+	<line stroke="rgb(0, 0, 0)" stroke-width="1.44" x1="419.28" y1="358.32" x2="481.56" y2="358.32" />
+	<line stroke="rgb(0, 0, 0)" stroke-width="1.44" x1="482.28" y1="358.32" x2="544.56" y2="358.32" />
+	<line stroke="rgb(0, 0, 0)" stroke-width="1.44" x1="293.28" y1="120.24" x2="293.28" y2="121.68" />
+	<line stroke="rgb(0, 0, 0)" stroke-width="1.44" x1="419.28" y1="120.24" x2="419.28" y2="121.68" />
+	<line stroke="rgb(0, 0, 0)" stroke-width="1.44" x1="293.28" y1="291.48" x2="293.28" y2="292.92" />
+	<line stroke="rgb(0, 0, 0)" stroke-width="1.44" x1="356.28" y1="291.48" x2="356.28" y2="292.92" />
+	<line stroke="rgb(0, 0, 0)" stroke-width="1.44" x1="419.28" y1="291.48" x2="419.28" y2="292.92" />
+	<line stroke="rgb(0, 0, 0)" stroke-width="1.44" x1="482.28" y1="291.48" x2="482.28" y2="292.92" />
+	<line stroke="rgb(0, 0, 0)" stroke-width="0.48" x1="292.8" y1="309.84" x2="292.8" y2="310.32" />
+	<line stroke="rgb(0, 0, 0)" stroke-width="0.48" x1="355.8" y1="309.84" x2="355.8" y2="310.32" />
+	<line stroke="rgb(0, 0, 0)" stroke-width="0.48" x1="418.8" y1="309.84" x2="418.8" y2="310.32" />
+	<line stroke="rgb(0, 0, 0)" stroke-width="0.48" x1="481.8" y1="309.84" x2="481.8" y2="310.32" />
+	<line stroke="rgb(0, 0, 0)" stroke-width="1.44" x1="292.56" y1="357.6" x2="292.56" y2="359.04" />
+	<line stroke="rgb(0, 0, 0)" stroke-width="1.44" x1="355.56" y1="357.6" x2="355.56" y2="359.04" />
+	<line stroke="rgb(0, 0, 0)" stroke-width="1.44" x1="418.56" y1="357.6" x2="418.56" y2="359.04" />
+	<line stroke="rgb(0, 0, 0)" stroke-width="1.44" x1="481.56" y1="357.6" x2="481.56" y2="359.04" />
+	<g class="artifact">
+		<text font-family="TimesNewRomanPSMT" font-size="11.04" x="72" y="754.72" xmlns:xml="http://www.w3.org/XML/1998/namespace" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.96" x="285.24" y="754.72">5</text>
+		<text font-family="ArialMT" font-size="9.96" x="290.76" y="754.72" xmlns:xml="http://www.w3.org/XML/1998/namespace" xml:space="preserve"> </text>
+	</g>
+	<g class="page" xmlns:xml="http://www.w3.org/XML/1998/namespace" xml:space="preserve">
+		<text font-family="Arial-BoldMT" font-size="10.56" font-weight="bold" x="72" y="82.6">OVERVIEW</text>
+		<text font-family="Arial-BoldMT" font-size="10.56" font-weight="bold" x="128.64" y="82.6" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="10.56" x="72" y="94.72" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="10.56" x="72" y="106.72" xml:space="preserve">The following table provides selected financial</text>
+		<text font-family="ArialMT" font-size="10.56" x="285.72" y="106.72" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="10.56" x="288.61" y="106.72" xml:space="preserve">information </text>
+		<text font-family="ArialMT" font-size="10.56" x="343.57" y="106.72" xml:space="preserve">of the </text>
+		<text font-family="ArialMT" font-size="10.56" x="372.61" y="106.72">Company.</text>
+		<text font-family="ArialMT" font-size="10.56" x="420.49" y="106.72" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="10.56" x="72.01" y="118.84" xml:space="preserve"> </text>
+		<text font-family="Arial-BoldMT" font-size="9.48" font-weight="bold" x="72" y="142.12" xml:space="preserve">Results of Operations</text>
+		<text font-family="Arial-BoldMT" font-size="9.48" font-weight="bold" x="170.76" y="142.12" xml:space="preserve"> </text>
+		<text font-family="Arial-BoldMT" font-size="8.52" font-weight="bold" x="329.4" y="130.6" xml:space="preserve">Three months ended</text>
+		<text font-family="Arial-BoldMT" font-size="8.52" font-weight="bold" x="413.04" y="130.6" xml:space="preserve"> </text>
+		<text font-family="Arial-BoldMT" font-size="8.52" font-weight="bold" x="379.08" y="140.32" xml:space="preserve">June </text>
+		<text font-family="Arial-BoldMT" font-size="8.52" font-weight="bold" x="401.16" y="140.32">30,</text>
+		<text font-family="Arial-BoldMT" font-size="8.52" font-weight="bold" x="413.04" y="140.32" xml:space="preserve"> </text>
+		<text font-family="Arial-BoldMT" font-size="8.52" font-weight="bold" x="465.84" y="130.6" xml:space="preserve">Six months ended</text>
+		<text font-family="Arial-BoldMT" font-size="8.52" font-weight="bold" x="539.04" y="130.6" xml:space="preserve"> </text>
+		<text font-family="Arial-BoldMT" font-size="8.52" font-weight="bold" x="505.08" y="140.32" xml:space="preserve">June </text>
+		<text font-family="Arial-BoldMT" font-size="8.52" font-weight="bold" x="527.16" y="140.32">30,</text>
+		<text font-family="Arial-BoldMT" font-size="8.52" font-weight="bold" x="539.04" y="140.32" xml:space="preserve"> </text>
+		<text font-family="Arial-BoldMT" font-size="9" font-weight="bold" x="330" y="151.6">2014</text>
+		<text font-family="Arial-BoldMT" font-size="9" font-weight="bold" x="350.04" y="151.6" xml:space="preserve"> </text>
+		<text font-family="Arial-BoldMT" font-size="9" font-weight="bold" x="393" y="151.6">2013</text>
+		<text font-family="Arial-BoldMT" font-size="9" font-weight="bold" x="413.04" y="151.6" xml:space="preserve"> </text>
+		<text font-family="Arial-BoldMT" font-size="9" font-weight="bold" x="456" y="151.6">2014</text>
+		<text font-family="Arial-BoldMT" font-size="9" font-weight="bold" x="476.04" y="151.6" xml:space="preserve"> </text>
+		<text font-family="Arial-BoldMT" font-size="9" font-weight="bold" x="519" y="151.6">2013</text>
+		<text font-family="Arial-BoldMT" font-size="9" font-weight="bold" x="539.04" y="151.6" xml:space="preserve"> </text>
+		<text font-family="Arial-ItalicMT" font-size="8.04" font-style="italic" x="72" y="162.76" xml:space="preserve">($ million</text>
+		<text font-family="Arial-ItalicMT" font-size="8.04" font-style="italic" x="104.04" y="162.76" xml:space="preserve">s, except per common share</text>
+		<text font-family="Arial-ItalicMT" font-size="8.04" font-style="italic" x="204.96" y="162.76" xml:space="preserve"> </text>
+		<text font-family="Arial-ItalicMT" font-size="8.04" font-style="italic" x="207.24" y="162.76">amount</text>
+		<text font-family="Arial-ItalicMT" font-size="8.04" font-style="italic" x="233.88" y="162.76">s)</text>
+		<text font-family="ArialMT" font-size="8.04" x="240.6" y="162.76" xml:space="preserve"> </text>
+		<text font-family="Arial-BoldMT" font-size="10.56" font-weight="bold" x="350.04" y="165.04" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="10.56" x="413.04" y="165.04" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="10.56" x="476.04" y="165.04" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="10.56" x="539.04" y="165.04" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="72" y="176.44" xml:space="preserve">Consolidated r</text>
+		<text font-family="ArialMT" font-size="9.48" x="133.32" y="176.44">evenues</text>
+		<text font-family="ArialMT" font-size="9.48" x="169.2" y="176.44" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="326.28" y="176.44">552.7</text>
+		<text font-family="ArialMT" font-size="9.48" x="350.04" y="176.44" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="389.28" y="176.44">450.4</text>
+		<text font-family="ArialMT" font-size="9.48" x="413.04" y="176.44" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="444.36" y="176.44">1,045.2</text>
+		<text font-family="ArialMT" font-size="9.48" x="476.04" y="176.44" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="515.2801" y="176.44">879.0</text>
+		<text font-family="ArialMT" font-size="9.48" x="539.04" y="176.44" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="72" y="187.24" xml:space="preserve">Operating EBITDA</text>
+		<text font-family="ArialMT" font-size="6" x="150.6" y="182.68">1</text>
+		<text font-family="ArialMT" font-size="9.48" x="153.96" y="187.24" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="331.56" y="187.24">90.</text>
+		<text font-family="ArialMT" font-size="9.48" x="344.76" y="187.24">7</text>
+		<text font-family="ArialMT" font-size="9.48" x="350.04" y="187.24" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="394.56" y="187.24">81.5</text>
+		<text font-family="ArialMT" font-size="9.48" x="413.04" y="187.24" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="452.28" y="187.24">176.0</text>
+		<text font-family="ArialMT" font-size="9.48" x="476.04" y="187.24" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="515.2801" y="187.24">1</text>
+		<text font-family="ArialMT" font-size="9.48" x="520.56" y="187.24">63.1</text>
+		<text font-family="ArialMT" font-size="9.48" x="539.04" y="187.24" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="72" y="198.04" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="350.04" y="198.04" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="413.04" y="198.04" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="476.04" y="198.04" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="539.04" y="198.04" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="72" y="205.24" xml:space="preserve">Operating earnings</text>
+		<text font-family="ArialMT" font-size="6" x="152.76" y="200.68">1</text>
+		<text font-family="ArialMT" font-size="9.48" x="156.12" y="205.24" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="331.56" y="205.24">5</text>
+		<text font-family="ArialMT" font-size="9.48" x="336.84" y="205.24">1.5</text>
+		<text font-family="ArialMT" font-size="9.48" x="350.04" y="205.24" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="394.56" y="205.24">43.3</text>
+		<text font-family="ArialMT" font-size="9.48" x="413.04" y="205.24" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="452.28" y="205.24">100.</text>
+		<text font-family="ArialMT" font-size="9.48" x="470.76" y="205.24">9</text>
+		<text font-family="ArialMT" font-size="9.48" x="476.04" y="205.24" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="520.56" y="205.24">85.1</text>
+		<text font-family="ArialMT" font-size="9.48" x="539.04" y="205.24" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="72" y="216.04" xml:space="preserve">Operating earnings per share</text>
+		<text font-family="ArialMT" font-size="6" x="195.6" y="211.48">1</text>
+		<text font-family="ArialMT" font-size="9.48" x="198.96" y="216.04" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="331.56" y="216.04">1.4</text>
+		<text font-family="ArialMT" font-size="9.48" x="344.76" y="216.04">3</text>
+		<text font-family="ArialMT" font-size="9.48" x="350.04" y="216.04" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="394.56" y="216.04">1.20</text>
+		<text font-family="ArialMT" font-size="9.48" x="413.04" y="216.04" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="457.56" y="216.04">2.</text>
+		<text font-family="ArialMT" font-size="9.48" x="465.48" y="216.04">80</text>
+		<text font-family="ArialMT" font-size="9.48" x="476.04" y="216.04" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="520.56" y="216.04">2.50</text>
+		<text font-family="ArialMT" font-size="9.48" x="539.04" y="216.04" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="72" y="226.84" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="350.04" y="226.84" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="413.04" y="226.84" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="476.04" y="226.84" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="539.04" y="226.84" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="72" y="234.04" xml:space="preserve">Net earnings</text>
+		<text font-family="ArialMT" font-size="9.48" x="125.88" y="234.04" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="331.56" y="234.04">3</text>
+		<text font-family="ArialMT" font-size="9.48" x="336.84" y="234.04">6.5</text>
+		<text font-family="ArialMT" font-size="9.48" x="350.04" y="234.04" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="394.56" y="234.04">31.1</text>
+		<text font-family="ArialMT" font-size="9.48" x="413.04" y="234.04" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="457.56" y="234.04">6</text>
+		<text font-family="ArialMT" font-size="9.48" x="462.84" y="234.04">1.4</text>
+		<text font-family="ArialMT" font-size="9.48" x="476.04" y="234.04" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="520.56" y="234.04">33.4</text>
+		<text font-family="ArialMT" font-size="9.48" x="539.04" y="234.04" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="72" y="244.84" xml:space="preserve">Net earnings per share, basic and diluted</text>
+		<text font-family="ArialMT" font-size="9.48" x="245.28" y="244.84" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="331.56" y="244.84">1.01</text>
+		<text font-family="ArialMT" font-size="9.48" x="350.04" y="244.84" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="394.56" y="244.84">0.86</text>
+		<text font-family="ArialMT" font-size="9.48" x="413.04" y="244.84" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="457.56" y="244.84">1.</text>
+		<text font-family="ArialMT" font-size="9.48" x="465.48" y="244.84">70</text>
+		<text font-family="ArialMT" font-size="9.48" x="476.04" y="244.84" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="520.56" y="244.84">0.98</text>
+		<text font-family="ArialMT" font-size="9.48" x="539.04" y="244.84" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="72" y="255.64" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="350.04" y="255.64" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="413.04" y="255.64" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="476.04" y="255.64" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="539.04" y="255.64" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="72" y="262.84" xml:space="preserve">Weighted average number of common shares outstanding:</text>
+		<text font-family="ArialMT" font-size="9.48" x="319.2" y="262.84" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="413.04" y="262.84" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="476.04" y="262.84" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="539.04" y="262.84" xml:space="preserve"> </text>
+		<text font-family="Arial-ItalicMT" font-size="8.04" font-style="italic" x="72" y="273.04">(millions</text>
+		<text font-family="Arial-ItalicMT" font-size="8.04" font-style="italic" x="101.4" y="273.04">)</text>
+		<text font-family="ArialMT" font-size="8.04" x="104.04" y="273.04" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="350.04" y="273.76" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="413.04" y="273.76" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="476.04" y="273.76" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="539.04" y="273.76" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="72" y="284.68">Basi</text>
+		<text font-family="ArialMT" font-size="9.48" x="90.6" y="284.68" xml:space="preserve">c and diluted</text>
+		<text font-family="ArialMT" font-size="6" x="144.48" y="280.12">2</text>
+		<text font-family="ArialMT" font-size="9.48" x="147.72" y="284.68" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="331.56" y="284.68">36.1</text>
+		<text font-family="ArialMT" font-size="9.48" x="350.04" y="284.68" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="394.56" y="284.68">36.0</text>
+		<text font-family="ArialMT" font-size="9.48" x="413.04" y="284.68" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="457.56" y="284.68">36.1</text>
+		<text font-family="ArialMT" font-size="9.48" x="476.04" y="284.68" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="520.56" y="284.68">34.1</text>
+		<text font-family="ArialMT" font-size="9.48" x="539.04" y="284.68" xml:space="preserve"> </text>
+		<text font-family="Arial-BoldMT" font-size="9.48" font-weight="bold" x="72" y="305.68" xml:space="preserve">Financial Position</text>
+		<text font-family="Arial-BoldMT" font-size="9.48" font-weight="bold" x="153.24" y="305.68" xml:space="preserve"> </text>
+		<text font-family="Arial-BoldMT" font-size="9.48" font-weight="bold" x="351.24" y="305.68" xml:space="preserve">June 30, 2014</text>
+		<text font-family="Arial-BoldMT" font-size="9.48" font-weight="bold" x="413.04" y="305.68" xml:space="preserve"> </text>
+		<text font-family="Arial-BoldMT" font-size="9.48" font-weight="bold" x="453.48" y="305.68" xml:space="preserve">December 31, 201</text>
+		<text font-family="Arial-BoldMT" font-size="9.48" font-weight="bold" x="533.65" y="305.68">3</text>
+		<text font-family="Arial-BoldMT" font-size="9.48" font-weight="bold" x="539.04" y="305.68" xml:space="preserve"> </text>
+		<text font-family="Arial-ItalicMT" font-size="8.04" font-style="italic" x="72" y="318.76" xml:space="preserve">($ million</text>
+		<text font-family="Arial-ItalicMT" font-size="8.04" font-style="italic" x="104.04" y="318.76">s)</text>
+		<text font-family="ArialMT" font-size="8.04" x="110.64" y="318.76" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.96" x="350.04" y="320.68" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.96" x="413.04" y="320.68" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.96" x="476.04" y="320.68" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.96" x="539.04" y="320.68" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="72" y="331.72" xml:space="preserve">Total assets</text>
+		<text font-family="ArialMT" font-size="9.48" x="123.24" y="331.72" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="350.04" y="331.72" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="381.36" y="331.72">2,528.1</text>
+		<text font-family="ArialMT" font-size="9.48" x="413.04" y="331.72" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="476.04" y="331.72" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="507.36" y="331.72">2,584.2</text>
+		<text font-family="ArialMT" font-size="9.48" x="539.04" y="331.72" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="72" y="342.64" xml:space="preserve">Total long</text>
+		<text font-family="ArialMT" font-size="9.48" x="113.76" y="342.64">-</text>
+		<text font-family="ArialMT" font-size="9.48" x="116.88" y="342.64" xml:space="preserve">term debt</text>
+		<text font-family="ArialMT" font-size="9.48" x="156.96" y="342.64" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="350.04" y="342.64" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="389.28" y="342.64">657.9</text>
+		<text font-family="ArialMT" font-size="9.48" x="413.04" y="342.64" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="476.04" y="342.64" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="515.2801" y="342.64">596.3</text>
+		<text font-family="ArialMT" font-size="9.48" x="539.04" y="342.64" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="72" y="353.56" xml:space="preserve">Shareholders’ equity</text>
+		<text font-family="ArialMT" font-size="9.48" x="158.64" y="353.56" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="350.04" y="353.56" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="389.28" y="353.56">840.3</text>
+		<text font-family="ArialMT" font-size="9.48" x="413.04" y="353.56" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="476.04" y="353.56" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="9.48" x="515.2801" y="353.56">796.1</text>
+		<text font-family="ArialMT" font-size="9.48" x="539.04" y="353.56" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="2.04" x="72" y="361.24" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="5.52" x="72" y="367.36" xml:space="preserve">1 </text>
+		<text font-family="ArialMT" font-size="8.52" x="76.8" y="371.32" xml:space="preserve">This is</text>
+		<text font-family="ArialMT" font-size="8.52" x="101.64" y="371.32" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="8.52" x="104.16" y="371.32" xml:space="preserve">a non</text>
+		<text font-family="ArialMT" font-size="8.52" x="125.39" y="371.32">-</text>
+		<text font-family="ArialMT" font-size="8.52" x="128.28" y="371.32">IFRS</text>
+		<text font-family="ArialMT" font-size="8.52" x="147.6" y="371.32" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="8.52" x="150.11" y="371.32" xml:space="preserve">financial measure. Refer to section “</text>
+		<text font-family="ArialMT" font-size="8.52" x="287.16" y="371.32" xml:space="preserve">Consolidated Results</text>
+		<text font-family="ArialMT" font-size="8.52" x="367.8" y="371.32" xml:space="preserve">” for </text>
+		<text font-family="ArialMT" font-size="8.52" x="385.68" y="371.32" xml:space="preserve">a </text>
+		<text font-family="ArialMT" font-size="8.52" x="392.88" y="371.32" xml:space="preserve">reconciliation </text>
+		<text font-family="ArialMT" font-size="8.52" x="444.85" y="371.32" xml:space="preserve">of operating EBITDA and </text>
+		<text font-family="ArialMT" font-size="8.52" x="77.05" y="381.04" xml:space="preserve">operating earnings to net earnings</text>
+		<text font-family="ArialMT" font-size="8.52" x="206.05" y="381.04">.</text>
+		<text font-family="ArialMT" font-size="8.52" x="208.33" y="381.04" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="5.52" x="72" y="386.92">2</text>
+		<text font-family="ArialMT" font-size="5.52" x="75.12" y="386.92" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="8.52" x="76.92" y="390.88" xml:space="preserve">On March 27, 2013, the Company completed a public offering of 4,145,750 common shares at a price of $6</text>
+		<text font-family="ArialMT" font-size="8.52" x="484.47" y="390.88" xml:space="preserve">9.40 per share </text>
+		<text font-family="ArialMT" font-size="8.52" x="77.04" y="400.6" xml:space="preserve">for gross proceeds of $287.7 million.</text>
+		<text font-family="ArialMT" font-size="8.52" x="214.07" y="400.6" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="10.56" x="72" y="412.24" xml:space="preserve"> </text>
+		<text font-family="Arial-BoldMT" font-size="10.56" font-weight="bold" x="72" y="424.24" xml:space="preserve">Proposed business a</text>
+		<text font-family="Arial-BoldMT" font-size="10.56" font-weight="bold" x="177.73" y="424.24">cquisition</text>
+		<text font-family="Arial-BoldMT" font-size="10.56" font-weight="bold" x="227.16" y="424.24" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="10.56" x="72" y="436.36" xml:space="preserve">Subsequent to June 30, 2014, the Company signed a definitive agreement to acquire </text>
+		<text font-family="ArialMT" font-size="10.56" x="488.57" y="436.36" xml:space="preserve">a business </text>
+		<text font-family="ArialMT" font-size="10.56" x="72" y="448.48" xml:space="preserve">that </text>
+		<text font-family="ArialMT" font-size="10.56" x="92.88" y="448.48" xml:space="preserve">includes radar and other information sensors used for national security </text>
+		<text font-family="ArialMT" font-size="10.56" x="427.59" y="448.48">purposes</text>
+		<text font-family="ArialMT" font-size="10.56" x="470.87" y="448.48">.</text>
+		<text font-family="ArialMT" font-size="10.56" x="473.76" y="448.48" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="10.56" x="477.11" y="448.48" xml:space="preserve">The business </text>
+		<text font-family="ArialMT" font-size="10.56" x="71.99" y="460.48" xml:space="preserve">is expected to significantly strengthen the </text>
+		<text font-family="ArialMT" font-size="10.56" x="284.79" y="460.48" xml:space="preserve">Company’s ability to pursue future surveillance and </text>
+		<text font-family="ArialMT" font-size="10.56" x="71.99" y="472.6" xml:space="preserve">intelligence programs in the United States</text>
+		<text font-family="ArialMT" font-size="10.56" x="281.51" y="472.6" xml:space="preserve">. </text>
+		<text font-family="ArialMT" font-size="10.56" x="290.03" y="472.6" xml:space="preserve">With about 170 employees and generating annual </text>
+		<text font-family="ArialMT" font-size="10.56" x="71.99" y="484.6" xml:space="preserve">revenues of approximately US$40 </text>
+		<text font-family="ArialMT" font-size="10.56" x="246.49" y="484.6" xml:space="preserve">million, the b</text>
+		<text font-family="ArialMT" font-size="10.56" x="312.11" y="484.6" xml:space="preserve">usiness will become part of MDA Information </text>
+		<text font-family="ArialMT" font-size="10.56" x="71.99" y="496.72">S</text>
+		<text font-family="ArialMT" font-size="10.56" x="79.06" y="496.72">y</text>
+		<text font-family="ArialMT" font-size="10.56" x="84.23" y="496.72" xml:space="preserve">stems LLC</text>
+		<text font-family="ArialMT" font-size="10.56" x="136.55" y="496.72">.</text>
+		<text font-family="ArialMT" font-size="10.56" x="139.44" y="496.72" xml:space="preserve"> </text>
+		<text font-family="ArialMT" font-size="10.56" x="144.36" y="496.72" xml:space="preserve">The transaction </text>
+		<text font-family="ArialMT" font-size="10.56" x="223.81" y="496.72" xml:space="preserve">is subject to certain closing conditions customary for this type of </text>
+		<text font-family="ArialMT" font-size="10.56" x="72" y="508.84" xml:space="preserve">
+      <tspan x="72" y="508.84">t</tspan>
+      <tspan x="76" y="508.84">r</tspan>
+      <tspan x="80" y="508.84">a</tspan>
+      <tspan x="84" y="508.84">n</tspan>
+      <tspan x="88" y="508.84">s</tspan>
+      <tspan x="92" y="508.84">a</tspan>
+      <tspan x="96" y="508.84">c</tspan>
+      <tspan x="100" y="508.84">t</tspan>
+      <tspan x="104" y="508.84">i</tspan>
+      <tspan x="108" y="508.84">o</tspan>
+      <tspan x="112" y="508.84">n</tspan>
+      <tspan x="116" y="508.84">,</tspan>
+      <tspan x="120" y="508.84"> </tspan>
+      <tspan x="124" y="508.84">a</tspan>
+      <tspan x="128" y="508.84">s</tspan>
+      <tspan x="132" y="508.84"> </tspan>
+      <tspan x="136" y="508.84">w</tspan>
+      <tspan x="140" y="508.84">e</tspan>
+      <tspan x="144" y="508.84">l</tspan>
+      <tspan x="148" y="508.84">l</tspan>
+      <tspan x="152" y="508.84"> </tspan>
+      <tspan x="156" y="508.84">a</tspan>
+      <tspan x="160" y="508.84">s</tspan>
+      <tspan x="164" y="508.84"> </tspan>
+      <tspan x="168" y="508.84">a</tspan>
+      <tspan x="172" y="508.84">p</tspan>
+      <tspan x="176" y="508.84">p</tspan>
+      <tspan x="180" y="508.84">r</tspan>
+      <tspan x="184" y="508.84">o</tspan>
+      <tspan x="188" y="508.84">v</tspan>
+      <tspan x="192" y="508.84">a</tspan>
+      <tspan x="196" y="508.84">l</tspan>
+      <tspan x="200" y="508.84"> </tspan>
+      <tspan x="204" y="508.84">b</tspan>
+	  </text>
+		<text font-family="ArialMT" font-size="10.56" x="227.44" y="508.84" xml:space="preserve">y the Committee on Foreign Inve</text>
+		<text font-family="ArialMT" font-size="10.56" x="379.75" y="508.84" xml:space="preserve">stment in the United States.</text>
+		<text font-family="ArialMT" font-size="10.56" x="508.68" y="508.84" xml:space="preserve"> </text>
+		<text font-family="Arial-BoldMT" font-size="10.56" font-weight="bold" x="72" y="520.8401" xml:space="preserve"> </text>
+		<text font-family="Arial-BoldMT" font-size="10.56" font-weight="bold" x="216" y="520.8401" xml:space="preserve"> </text>
+
+	</g>
+</svg>
