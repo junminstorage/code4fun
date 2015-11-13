@@ -13,6 +13,39 @@ import java.util.Stack;
 public class ArrayQ {
 	
 	/*
+	 * maximum gap algorithm using pigoen hole principle
+	 * without losing generality, assume the numbers are between 4-byte Integer range
+	 */
+	public int maxGap(int[] nums){
+		int min = nums[0], max = nums[0];
+		for(int k : nums){
+			min = Math.min(min, k);
+			max = Math.max(max, k);
+		}
+		
+		int size = nums.length;
+		int interval = (max-min)/(size-1);
+		
+		Integer[] mins = new Integer[size-1];
+		Integer[] maxs = new Integer[size-1];
+		mins[0] = min; maxs[size-2] = max;
+		
+		for(int k : nums){
+			int index = Math.min(size-2, (k-min)/interval);
+			mins[index] = mins[index] == null ? k : (Math.min(k, mins[index]));
+			maxs[index] = maxs[index] == null ? k : (Math.max(k, maxs[index]));
+		}
+		
+		int maxGap = maxs[0] - mins[0];
+		for(int i = 1; i<size-1 && mins[i]!=null; i++){
+			maxGap = Math.max(mins[i] - maxs[i-1], maxGap);
+			maxGap = Math.max(maxs[i]-mins[i], maxGap);
+		}
+		
+		return maxGap;
+	}
+	
+	/*
 	Suppose you have a long flowerbed in which some of the plots are planted and 
 	some are not. However, flowers cannot be planted in adjacent plots - 
 	they would compete for water and both would die. Given a flowerbed 
