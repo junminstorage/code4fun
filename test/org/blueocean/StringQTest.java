@@ -9,6 +9,22 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 public class StringQTest extends TestCase {
+	
+	public void testlongestPalindromeStartingLeft(){
+		System.out.println(StringQ.longestPalindromeStartingLeft("aaabaaaaa"));
+		System.out.println(StringQ.longestPalindromeStartingLeft("abaeab"));
+		System.out.println(StringQ.longestPalindromeStartingLeft("abcbaef"));
+		System.out.println(StringQ.longestPalindromeStartingLeft("abcaaba"));
+	}
+	
+	
+	public void testlongestPalindromeFromLeft(){
+		System.out.println(StringQ.longestPalindromeFromLeft("aaabaaaaa"));
+		System.out.println(StringQ.longestPalindromeFromLeft("abaeeaba"));
+		System.out.println(StringQ.longestPalindromeFromLeft("abaeab"));
+		System.out.println(StringQ.longestPalindromeFromLeft("abcbaef"));
+		System.out.println(StringQ.longestPalindromeFromLeft("abcaaba"));
+	}
 	public void testreversePrint(){
 		//StringQ.reversePrint2("afdsf");
 		

@@ -20,6 +20,24 @@ import static java.lang.System.out;
 public class NumberQ {
 	
 	/*
+	 * n > 0
+	 */
+	public static int power(int a, int n){
+		int result = 1;
+		while(n>0){
+			//test the last bit
+			if((n&1)>0){
+				result *=a;
+			}
+			a *=a;
+			//shift the second bit to the last
+			n=n>>>1;
+		}
+		
+		return result;
+	}
+	
+	/*
 	 * Given digit[] D, and a number A. Find the smallest number which is larger than A, 
 	 * and is consisted by the digit in D.
 

@@ -41,8 +41,8 @@ public class KMPStringMatch {
 	 
    /*
     * p    :  a   b   c   a   b   d   a   b   c
-p[i] :  0   1   2   3   4   5   6   7   8
-b[i] : -1   0   0   0   1   2   0   1   2   3
+      p[i] :  0   1   2   3   4   5   6   7   8
+      b[i] : -1   0   0   0   1   2   0   1   2   3
     */
     public static int[] preProcessPattern(char[] pattern) {
         int i = 0, j = -1;

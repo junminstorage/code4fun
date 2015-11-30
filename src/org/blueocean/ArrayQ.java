@@ -13,10 +13,207 @@ import java.util.Stack;
 public class ArrayQ {
 	
 	/*
-	 * maximum gap algorithm using pigoen hole principle
-	 * without losing generality, assume the numbers are between 4-byte Integer range
+	 * Given a array consisted of only 0 or 1, and a number N.
+We have N times to flip 0 to 1 in array. Find the longest continuous 1 after we flipped the N zero elements. Rotation is allowed.
+
+For example, 100100111000, n=2, the best flip is 100111111000, return 6
+10001101101, n=2, the best flip is 10001111111, return 8(rotation is allowed)
 	 */
-	public int maxGap(int[] nums){
+	/**
+	 * we first concatenate string to itself
+	 * 
+	 * then use a sliding window, keep track of number of 0s in the window
+	 * grow the right side of window if not exceed max 0s allowed
+	 * otherwise shrink the left side to reduce the 0s
+	 * 
+	 * the algorithm stops when left side reach the length of original string
+	 * 
+	 * @param s
+	 * @param maxFlips
+	 * @return
+	 */
+	public static int maxContinuous1sWithRotation(String s, int maxFlips){
+		int p1=0, p2=0, len = s.length(), num0=0, max=0;
+		while(p1<len && p2-p1<len){
+			if(s.charAt(p2%len) == '0'){ 
+				num0++;
+			}
+			
+			/*
+			 * if num0 reaches maxFlips+1
+			 * we need to shrink the sliding window from left
+			 * until we reaches a 0 and reduce the counter
+			 */
+			if(num0 > maxFlips){				
+				while(p1<len && s.charAt(p1)=='1')
+					p1++;
+				p1++; num0--; 
+			}
+			
+			/*
+			 * we keep on growing the sliding window
+			 * to the right and update the max 
+			 */
+			p2++;
+			max = Math.max(max, p2-p1);		
+		}
+		return max;
+	}
+	
+	public static int maxContinuous1s(String s, int maxFlips){
+		int p1=0, p2=0, len = s.length(), num0=0, max=0;
+		while(p2<len){
+			//keep on growing the sliding window
+			if(s.charAt(p2) == '0'){ 
+				num0++;
+			}
+				
+			if(num0 > maxFlips){				
+				while(s.charAt(p1)=='1')
+					p1++;
+				p1++; num0--; 
+			}
+			
+			p2++;
+			max = Math.max(max, p2-p1);		
+		}
+		return max;
+	}
+	
+	
+	public static int findContinuous1s(String s, int maxFlips){
+		int[] max = new int[1];
+		findContinuous1sRec(s, 0, 0, maxFlips, 0, max);
+		return max[0];
+	}
+	
+	public static void findContinuous1sRec(String s, int start, int current, int maxFlips, int flips, int[] max){		
+		//keep on eating up 1s if we can
+		while(current<s.length() && s.charAt(current) == '1')
+			current++;
+		
+		if(current == s.length()){
+			//rotation
+			int left = 0;
+			while(s.charAt(left) == '1' || flips++<maxFlips)
+				left++;
+			max[0] = Math.max(max[0], current-start + left);
+			return;
+		}
+		
+		//current char is 0 
+		//we can flip and we decide to flip
+		if(flips<maxFlips)
+			findContinuous1sRec(s, start, current+1, maxFlips, flips+1, max);
+		
+		//if we can't flip or we decide to not flip
+		max[0] = Math.max(max[0], current-start);
+		//set start = current+1 and continue search
+		findContinuous1sRec(s, current+1, current+1, maxFlips, flips, max);
+		
+	}
+	
+	public static void findContinuous1sRecToRight(String s, int start, int current, int maxFlips, int flips, int[] max){		
+		//keep on eating up 1s to the left if we can
+		while(current>-1 && s.charAt(current) == '1')
+			current--;
+		
+		if(current == -1){
+			max[0] = Math.max(max[0], start - current);
+			return;
+		}
+		
+		//current char is 0 
+		//we can flip and we decide to flip
+		if(flips<maxFlips)
+			findContinuous1sRec(s, start, current-1, maxFlips, flips+1, max);
+		
+		//if we can't flip or we decide to not flip
+		max[0] = Math.max(max[0], start - current);
+		//set start = current-1 and continue to right
+		int star = current-1==-1?s.length()-1:current-1;
+		findContinuous1sRec(s, star, star, maxFlips, flips, max);
+	}
+	
+	public static int findInsertPos(int[] sorted, int target){
+		int left = 0, right = sorted.length -1 ;
+		while(right - left > 1){
+			int mid = (right + left) >>> 1;
+			if(sorted[mid]<target)
+				left = mid + 1 ;
+			else 
+				right = mid;
+		}
+		
+		if(sorted[left] == target)
+			return left;
+		if(sorted[right] == target)
+			return right;
+		if(sorted[left] > target)
+			return left;
+		return sorted[right]>target?right:right+1;
+	}
+	
+	public static int findInsertPos2(int[] sorted, int target){
+		int left = 0, right = sorted.length ;
+		while(right > left){
+			int mid = (right + left) >>> 1;
+			if(sorted[mid] == target)
+				return mid;
+			if(sorted[mid]<target)
+				left = mid + 1 ;
+			else 
+				right = mid;
+		}
+		if(left == sorted.length || sorted[left] >= target)
+			return left;
+		return left+1;
+	}
+	
+	/*
+	 * find left-most number which is larger or equal to target
+	 */
+	public static int leftOpen(int[] sorted, int target){
+		int left = 0, right = sorted.length -1 ;
+		while(right - left > 1){
+			int mid = (right + left) >>> 1;
+			if(sorted[mid]<target)
+				left = mid + 1 ;
+			else 
+				right = mid;
+		}
+		
+		return sorted[left]>=target?left:right;
+	}
+
+	/*
+	 * find left-most number which is larger than target
+	 */
+	public static int leftClose(int[] sorted, int target){
+		int left = 0, right = sorted.length -1 ;
+		while(right - left > 1){
+			int mid = (right + left) >>> 1;
+			if(sorted[mid]<=target)
+				left = mid + 1;
+			else 
+				right = mid;
+		}
+		
+		return sorted[left]>target?left:right;
+	}
+
+	
+	/*
+	 * maximum gap algorithm using pigeon hole principle
+	 * without losing generality, assume the numbers are integers
+	 * 
+	 * note the interval is left inclusive and right exclusive
+	 * 	
+		if the numbers can not be evenly divided up between min and max
+		 then we may need one extra interval. 
+		 and pigeon hole principle still holds
+	*/
+	public static int maxGap(int[] nums){
 		int min = nums[0], max = nums[0];
 		for(int k : nums){
 			min = Math.min(min, k);
@@ -25,21 +222,31 @@ public class ArrayQ {
 		
 		int size = nums.length;
 		int interval = (max-min)/(size-1);
+		/*
+		 * we will create either n-1 or n pigeon holes
+		 */
+		int count = size-1;
+		if(interval*count+ min <=max)
+			count++;
 		
-		Integer[] mins = new Integer[size-1];
-		Integer[] maxs = new Integer[size-1];
-		mins[0] = min; maxs[size-2] = max;
+		Integer[] mins = new Integer[count];
+		Integer[] maxs = new Integer[count];
+		mins[0] = min; maxs[count-1] = max;
 		
 		for(int k : nums){
-			int index = Math.min(size-2, (k-min)/interval);
+			int index = (k-min)/interval;
 			mins[index] = mins[index] == null ? k : (Math.min(k, mins[index]));
 			maxs[index] = maxs[index] == null ? k : (Math.max(k, maxs[index]));
 		}
 		
 		int maxGap = maxs[0] - mins[0];
-		for(int i = 1; i<size-1 && mins[i]!=null; i++){
-			maxGap = Math.max(mins[i] - maxs[i-1], maxGap);
+		int pre = maxs[0];
+		for(int i = 1; i<count; i++){
+			if(mins[i]==null)
+				continue;
+			maxGap = Math.max(mins[i] - pre, maxGap);
 			maxGap = Math.max(maxs[i]-mins[i], maxGap);
+			pre = maxs[i];
 		}
 		
 		return maxGap;

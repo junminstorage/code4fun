@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.junit.Test;
+
 import junit.framework.TestCase;
 
 public class ArrayQTest extends TestCase {
@@ -17,6 +19,39 @@ public class ArrayQTest extends TestCase {
 		test = Arrays.asList(input);
 	}*/
 	
+	
+	public void testmaxContinuous1sWithRotation(){
+		assertEquals(6,ArrayQ.maxContinuous1sWithRotation("100100111000", 2));
+		assertEquals(8,ArrayQ.maxContinuous1sWithRotation("10001101101", 2));
+		assertEquals(5,ArrayQ.maxContinuous1sWithRotation("11111", 1));
+		assertEquals(5,ArrayQ.maxContinuous1sWithRotation("11011", 2));
+	}
+	public void testfindContinuous1s(){
+		assertEquals(6,ArrayQ.findContinuous1s("100100111000", 2));
+		assertEquals(8,ArrayQ.findContinuous1s("10001101101", 2));
+		
+	}
+	
+	public void testFindInsertPos(){
+		assertEquals(2, ArrayQ.findInsertPos2(new int[]{1, 3, 5, 6}, 5));
+		assertEquals(1, ArrayQ.findInsertPos2(new int[]{1, 3, 5, 6}, 2));
+		assertEquals(4, ArrayQ.findInsertPos2(new int[]{1, 3, 5, 6}, 7));
+		assertEquals(0, ArrayQ.findInsertPos2(new int[]{1, 3, 5, 6}, 0));
+		
+	}
+	
+	public void testleftopen(){
+		assertEquals(3, ArrayQ.leftOpen(new int[]{1, 2, 3, 4, 4, 4, 5, 5, 6}, 4));
+		
+		assertEquals(6, ArrayQ.leftClose(new int[]{1, 2, 3, 4, 4, 4, 5, 5, 6}, 4));
+	}
+	
+	public void testmaxGaptest(){
+		assertEquals(11, ArrayQ.maxGap(new int[]{9, 19, 13, 12, 33, 41, 22}));
+		assertEquals(11, ArrayQ.maxGap(new int[]{9, 19, 13, 12, 33, 39, 22}));
+		
+		assertEquals(67, ArrayQ.maxGap(new int[]{9, 19, 13, 12, 33, 100, 22}));
+	}
 	
 	public void testTest2(){
 		List<Integer> list = new ArrayList<Integer>();

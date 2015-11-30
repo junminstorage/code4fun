@@ -20,6 +20,97 @@ import java.util.Map.Entry;
 
 public class StringQ {
 	
+	/**
+	 * Longest palindrome starting from left side 
+	 * @param text
+	 * @param pattern
+	 * @return
+	 */
+	public static String longestPalindromeFromLeft(String s){
+		char[] pattern = s.toCharArray();
+		char[] text = new StringBuilder(s).reverse().toString().toCharArray();
+		
+		int[] table = buildTable(pattern);
+		
+		int j = 0, i = 0;
+		while(i<text.length){
+			while(j>=0  && text[i]!=pattern[j])
+				j = table[j];
+			i++;
+			j++;
+		}
+		
+		return s.substring(0, j);
+	}
+	
+	public static List<Integer> kmp(char[] text, char[] pattern){
+		int[] table = buildTable(pattern);
+		List<Integer> result = new ArrayList<Integer>();
+		int j = 0, i = 0;
+		while(i<text.length){
+			while(j>=0  && text[i]!=pattern[j])
+				j = table[j];
+			i++;
+			j++;
+			if(j == pattern.length){
+				result.add(i-j);
+				System.out.println("found "+ (i - j));
+				j=table[j];
+			}
+		}
+		
+		return result;
+	}
+	
+	public static int[] buildTable(char[] digits){
+		int[] table = new int[digits.length+1];
+		table[0] = -1;
+		int i = 1, j = -1;
+		while(i<digits.length){
+			while(j>=0 && digits[i]!=digits[j])
+				j = table[j];
+			i++;
+			j++;
+			table[i] = j;		
+		}
+		return table;
+	}
+	
+	
+	
+	/**
+	 * Longest palindrome starting from left side
+	 * @author junminliu
+	 *
+	 */
+	
+
+	public static int longestPalindromeStartingLeft(String str) {
+        int left=0, right=str.length()-1;
+        while(right>=0) {
+            if(str.charAt(left)==str.charAt(right)) {
+                left++;
+                right--;
+            }
+            else if(left==0) {
+                right--;
+            }
+            else {
+                left = 0;
+            }
+        }
+        return left;
+    }
+
+	    public static void main(String[] args) {
+//	        String str = "abbaaba";
+//	        String str = "abbaabba";
+	        String str = "cabbacabba";
+	        System.out.println(longestPalindromeStartingLeft(str));
+	        System.out.println(longestPalindromeStartingLeft("abcaaba"));
+	    }
+	
+	
 	static class DescendComparator implements Comparator<Entry<Character, Integer>> {
 	    public int compare(Entry<Character, Integer> entry1,
 	            Entry<Character, Integer> entry2) {

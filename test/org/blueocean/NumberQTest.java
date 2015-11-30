@@ -13,10 +13,14 @@ import junit.framework.TestCase;
 
 public class NumberQTest extends TestCase {
 	
+	public void testpower2(){
+		assertEquals(2, NumberQ.power(2, 1));
+		assertEquals(4, NumberQ.power(2, 2));
+	}
 	
 	public void testFindInInfiniteArray(){
-		System.out.println(1>>>1);
-		System.out.println(1>>1);
+		System.out.println(-2>>>1);
+		System.out.println(-2>>1);
 		
 		System.out.println(1<<1);
 		System.out.println(1<<27);
@@ -626,7 +630,7 @@ public class NumberQTest extends TestCase {
 		
 	}
 	
-	public void testTest(){
+	public void testTest() throws CloneNotSupportedException{
 		// int[] data = { 1, 3, 4, 5, 6, 2, 7, 8, 9, 10, 11, 13, 14, 15 };
 
 		//new NumberQ().test(data, 15);
