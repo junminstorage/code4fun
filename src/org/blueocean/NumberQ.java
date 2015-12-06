@@ -18,9 +18,22 @@ import java.util.TreeSet;
 import static java.lang.System.out;
 
 public class NumberQ {
+		
+	public static int powerRec(int a, int n) {
+		   if(n==0)
+		      return 1;
+		    if(n==1)
+		       return a;
+		 
+		    int l = power(a, n/2);
+		    int result = l*l;
+		    if(n%2==1)
+		        result *=a;
+		    return result;
+	} 
 	
 	/*
-	 * n > 0
+	 * n>0
 	 */
 	public static int power(int a, int n){
 		int result = 1;
@@ -33,7 +46,6 @@ public class NumberQ {
 			//shift the second bit to the last
 			n=n>>>1;
 		}
-		
 		return result;
 	}
 	

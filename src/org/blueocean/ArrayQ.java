@@ -12,6 +12,37 @@ import java.util.Stack;
 
 public class ArrayQ {
 	
+	
+	public static int[] nextPermutation(int[] nums){
+		int len = nums.length;
+		int p = len-1;
+		//find the turning point
+		while(p>=1 && nums[p]<nums[p-1])
+			p--;
+		
+		if(p>=1){
+			//p-1 is the turning point
+			//scan from right again to find the number which is larger than p-1
+			int k = len -1;
+			while(nums[k]<nums[p-1])
+				k--;
+			//swap k and p-1
+			swap(nums, k, p-1);
+		}		
+		
+		//reverse the nums between p and len -1
+		for(int i=p,j=len-1; i<j; i++,j--)
+			swap(nums,i, j);
+		
+		return nums;
+	}
+	
+	public static void swap(int[] nums, int i, int j){
+		nums[i] = nums[i] ^ nums[j];
+		nums[j] = nums[i] ^ nums[j];
+		nums[i] = nums[i] ^ nums[j];
+	}
+	
 	/*
 	 * Given a array consisted of only 0 or 1, and a number N.
 We have N times to flip 0 to 1 in array. Find the longest continuous 1 after we flipped the N zero elements. Rotation is allowed.

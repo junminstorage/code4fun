@@ -16,6 +16,9 @@ public class NumberQTest extends TestCase {
 	public void testpower2(){
 		assertEquals(2, NumberQ.power(2, 1));
 		assertEquals(4, NumberQ.power(2, 2));
+		
+		assertEquals(2, NumberQ.powerRec(2, 1));
+		assertEquals(4, NumberQ.powerRec(2, 2));
 	}
 	
 	public void testFindInInfiniteArray(){

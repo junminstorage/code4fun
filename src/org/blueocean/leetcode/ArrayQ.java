@@ -10,6 +10,63 @@ import java.util.Set;
 
 public class ArrayQ {
 	
+	public static boolean wordBreak(String[] dict, String str) {
+		int len = str.length();
+		/*
+		 * a boolean array, hasWord[i] indicates if there is a word in the dictionary
+		 * starts somewhere in the string and ends at position i
+		 * e.g. hasWord[len-1] mean the string is breakable
+		 */
+        boolean[] hasWord = new boolean[len];
+        /*
+         * we starts from the beginning of string, check if there is any word which starts 
+         * at the index i and ends at i+word_length-1, if yes, mark the i+word_length-1 to true
+         */
+        for(int i=0; i<len; i++) {
+        	//we skip the i if there is no word ends at i-1
+            if(i-1>=0 && !hasWord[i-1])
+                continue;
+            for(String word:dict) {
+            	int wLen = word.length();
+                if(wLen+i<=len && str.substring(i, i+wLen).equals(word))
+                    hasWord[i+wLen-1] = true;
+            }
+        }
+        return hasWord[len-1];
+    }
+
+    public static void main(String[] args) {
+        String[] dict = {"cat", "dog", "san"};
+        String str = "catsanddog";
+        System.out.println(wordBreak(dict, str));
+    }
+	
+	/*
+	 * http://www.programcreek.com/2014/05/leetcode-minimum-size-subarray-sum-java/
+	 *
+	Given an array of n positive integers and a positive integer s, find the minimal length of a subarray of which the sum ≥ s. If there isn't one, return 0 instead.
+
+	For example, given the array [2,3,1,2,4,9] and s = 7, the subarray [4,3] has the minimal length of 2 under the problem constraint.
+	*/
+	public static int minimumSizeArray(int[] nums, int s){
+		int min = Integer.MAX_VALUE, sum = 0;
+		int p1=0,p2=0,len=nums.length;
+		while(p2<len && p1<len){
+			sum += nums[p2];
+
+			while(p1<len && sum >=s){
+				min = Math.min(p2-p1+1, min);
+				sum -= nums[p1];
+				p1++;
+			}
+			
+			p2++;	
+		}
+		
+		return min == Integer.MAX_VALUE?0 :min;
+		
+	}
+	
 	/**
 	 * 3 1 2 2 1
 	 * 5/3 = 2

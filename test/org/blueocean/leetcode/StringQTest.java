@@ -9,6 +9,15 @@ import java.util.Set;
 import org.junit.Test;
 
 public class StringQTest {
+	
+	@Test
+	public void simplifyPath(){
+		assertEquals(StringQ.simplifyPath("/home/"), "/home");
+		assertEquals(StringQ.simplifyPath("/home//foo/"), "/home/foo");
+		assertEquals(StringQ.simplifyPath("/../"), "/");
+		assertEquals(StringQ.simplifyPath("/a/./b/../../c/"), "/c");
+	}
+	
 	@Test
 	public void isMatch(){
 		assertTrue(StringQ.isMatch("aa", "aa"));

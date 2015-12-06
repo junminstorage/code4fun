@@ -8,8 +8,65 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 
 public class StringQ {
+	
+	public static boolean strStr(String s, String t){
+		int[] table = kmp(t);
+		int i=0, j=0;
+		while(i<s.length()){
+			while(j>=0 && s.charAt(i)!=s.charAt(j))
+				j = table[j];
+			i++;
+			j++;
+			if(j==t.length())
+				return true;
+		}
+		return false;
+	}
+	
+/*	
+	ababcd
+   -1001200
+*/  
+	public static int[] kmp(String t){
+		int len = t.length();
+		int[] table = new int[len+1];
+		int i = 0, p = -1;
+		table[i] = p;
+		while(i<len){
+			while(p>=0 && t.charAt(i)!=t.charAt(p))
+				p = table[p];
+			i++;
+			p++;
+			table[i] = p;
+		}
+		return table;
+	}
+	
+	public static String simplifyPath(String path){
+		String[] temps = path.split("/");
+		Stack<String> s = new Stack<String>();
+		for(String st : temps){
+			if(st.isEmpty())
+				continue;
+			if(st.equals(".") || (st.equals("..") && s.isEmpty()))
+				continue;
+			if(st.equals("..") && !s.isEmpty())
+				s.pop();
+			else
+				s.push(st);
+		}
+		
+		if(s.isEmpty())
+			return "/";
+		String result = "";
+		while(!s.isEmpty()){
+			result = "/" + s.pop() + result;
+		}
+		return result;
+	}
 	
 	/*
 	 * Given a random string S and another string T with unique elements,. 
