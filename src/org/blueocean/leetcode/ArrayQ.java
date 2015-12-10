@@ -10,6 +10,51 @@ import java.util.Set;
 
 public class ArrayQ {
 	
+	public static class ArrayQueue<T> {
+		int capacity;
+		int head;
+		int tail;
+		int size;
+		T[] data;
+		
+		public ArrayQueue(int c){
+			this.capacity = c;
+			data = (T[]) new Object[c];
+		}
+		
+		private boolean isFull(){
+			return size==capacity;
+		}
+		
+		public boolean isEmpty(){
+			return size==0;
+		}
+		
+		public boolean offer(T num){
+			if(isFull())
+				return false;
+			data[tail] = num;
+			tail = (tail+1)%capacity;
+			size++;
+			return true;
+		}
+		
+		/*
+		 * return min_value if empty
+		 */
+		public T poll(){
+			if(isEmpty())
+				return null;
+			
+			T ret = data[head];
+			data[head] = null;
+			head = (head+1)%capacity;
+			size--;
+			return ret;
+		}
+		
+	}
+	
 	public static boolean wordBreak(String[] dict, String str) {
 		int len = str.length();
 		/*
