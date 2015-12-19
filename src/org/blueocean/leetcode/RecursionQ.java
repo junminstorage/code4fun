@@ -5,6 +5,74 @@ import java.util.List;
 
 public class RecursionQ {
 	
+	 public static boolean isMatch2(String str, String reg) {
+	        assert str!=null && reg!=null;
+	        return matchHelper(str, reg, 0, 0);
+	    }
+
+	    public static boolean matchHelper(String str, String reg, int i, int j) {
+	        if(i==str.length() && j==reg.length())
+	            return true;
+	        if((i>=str.length() && str.length()>0) || j>=reg.length())
+	            return false;
+	        if(j<reg.length() -1 && reg.charAt(j + 1)=='*') // because char after j is *, so we should decide where to skip * in reg
+	            if (matchHelper(str, reg, i, j + 2)) {  // consider * is 0 times
+	                return true;
+	            } else    // consider * happens from 1, 2 and more times
+	                for (; i < str.length() && (str.charAt(i) == reg.charAt(j) || reg.charAt(j) == '.'); i++)
+	                    if (matchHelper(str, reg, i + 1, j + 2))
+	                        return true;
+	        return (str.charAt(i)==reg.charAt(j) || reg.charAt(j)=='.') && matchHelper(str, reg, i+1, j+1);
+	    }
+	
+	/*
+	 * isMatch(".*", "abc")
+	 * isMatch("a*ab", "aaab") 
+	 * isMatch("abc", "abc")
+	 * isMatch("a*b", "b")
+	 */
+	public static boolean isMatch(String str, String reg){
+		return isMatchRec(str, reg, 0, 0);
+	}
+	
+	private static boolean isMatchRec(String str, String reg, int i, int j){
+		int lenS = str.length(), lenR = reg.length();
+		//if reach the end of both strings
+		if(i==lenS && j==lenR)
+			return true;
+		/*
+		 * a*aa -> aaab
+		 * .*aa -> aaasd
+		 */
+		if(j<lenR && reg.charAt(j)=='*'){
+			char pre = '\0';
+			if(j-1>=0){
+				pre = reg.charAt(j-1);
+				//eating all of a after a* in reg
+				while(j+1<lenR && reg.charAt(j+1) == pre)
+					j++;
+				//eating all of a or any chars in str
+				while(i<lenS && (pre=='.' || str.charAt(i) == pre))
+					i++;
+				return isMatchRec(str, reg, i, j+1);
+			}	
+		}	
+		//if reach one of string's end but not both
+		if(i==lenS || j==lenR)
+			return false;
+		
+		//if both not finished
+		if(str.charAt(i)==reg.charAt(j) || reg.charAt(j)=='.')
+			return isMatchRec(str, reg, i+1, j+1);
+		//a*b -> b
+		if(str.charAt(i)!=reg.charAt(j) && j+1<lenR && reg.charAt(j+1)=='*')
+			return isMatchRec(str, reg, i, j+2);
+		
+		return false;
+		
+	}
+	
+	
 	public static boolean matchReg(String str, String reg) {
 	    return matchRegUtil(str, 0, reg, 0);
 	}

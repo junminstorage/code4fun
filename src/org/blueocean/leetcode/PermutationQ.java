@@ -2,10 +2,50 @@ package org.blueocean.leetcode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class PermutationQ {
 
+	public static void combination(int[] nums){
+		int total = (int) Math.pow(2, nums.length);
+		Set<Set<Integer>> result = new HashSet<>();
+		for(int i = 0; i< total; i++){
+			Set<Integer> comb = new HashSet<>();
+			for(int bit=0; bit< nums.length; bit++){
+				if((total & 1<<bit) > 0){
+					comb.add(nums[bit]);
+				}
+			}
+			result.add(comb);
+		}		
+		System.out.println(result);
+	}
+	
+	public static void permuOfNumbers(int[] nums){
+		int len = nums.length;
+		List<int[]> result = new ArrayList<>();
+		List<int[]> temp = null;
+		result.add(nums);
+		for(int i = 0; i< len; i++ ){
+			temp = new ArrayList<>(result);
+			for(int j=i+1; j<len; j++){
+				for(int[] item : result){
+					//swap i and j
+					int[] copy = Arrays.copyOf(item, len);
+					int tem = copy[i];
+					copy[i] = copy[j];
+					copy[j] = tem;
+					//add into temp list
+					temp.add(copy);
+				}
+			}
+			result = temp;
+		}
+	}
+	
+	
 	/*
 	 * assume k is valid between 1 and n!
 	 * 

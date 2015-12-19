@@ -17,5 +17,23 @@ public class RecursionQTest {
 		
 		System.out.println(RecursionQ.palindromePartitioning("aab"));
 	}
+	
+	@Test
+	public void isMatch(){
+		
+		assertTrue(RecursionQ.isMatch("ab", ".c*b"));
+		assertTrue(RecursionQ.isMatch("abc", "abc"));
+		assertFalse(RecursionQ.isMatch("abc", "ab"));
+		
+		assertFalse(RecursionQ.isMatch("abc", "abcdfdf"));
+		
+		assertTrue(RecursionQ.isMatch("abc", ".*fgfdg"));
+		
+		assertTrue(RecursionQ.isMatch("abc", "a*bc"));
+		
+		assertTrue(RecursionQ.isMatch("abc", "d*abc"));
+		
+		assertTrue(RecursionQ.isMatch("abc", "a*abc"));
+	}
 
 }
